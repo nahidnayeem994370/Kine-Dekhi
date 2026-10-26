@@ -5,6 +5,7 @@ create or replace function public.create_order_secure(
   p_customer_name text,
   p_phone text,
   p_address text,
+  p_division_name text,
   p_payment_method text,
   p_items jsonb
 )
@@ -33,6 +34,9 @@ begin
   end if;
   if length(trim(coalesce(p_address, ''))) < 8 or length(trim(p_address)) > 500 then
     raise exception 'Invalid delivery address';
+  end if;
+  if trim(coalesce(p_division_name, '')) not in ('ঢাকা','চট্টগ্রাম','রাজশাহী','খুলনা','বরিশাল','সিলেট','রংপুর','ময়মনসিংহ') then
+    raise exception 'Invalid division';
   end if;
   if p_payment_method not in ('cod', 'bkash', 'nagad') then
     raise exception 'Invalid payment method';
@@ -104,4 +108,5 @@ end;
 $$;
 
 revoke all on function public.create_order_secure(text, text, text, text, jsonb) from public, anon, authenticated;
-grant execute on function public.create_order_secure(text, text, text, text, jsonb) to service_role;
+revoke all on function public.create_order_secure(text, text, text, text, text, jsonb) from public, anon, authenticated;
+grant execute on function public.create_order_secure(text, text, text, text, text, jsonb) to service_role;
