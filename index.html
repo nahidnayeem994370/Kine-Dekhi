@@ -304,13 +304,8 @@ document.getElementById("checkoutForm").addEventListener("submit", async (event)
     orderSubmitting = false; submit.disabled = false; submit.textContent = "অর্ডার নিশ্চিত করুন";
   }
 });
-render();
-refreshSizeFilters();
-loadDeliveryFee();
-loadDivisionFees();
-loadProductsFromSupabase();
-
-// Expose storefront actions explicitly for inline HTML handlers and diagnostics.
+// Expose storefront actions before first render so cart buttons remain connected
+// even if a rendering or data-loading operation fails during startup.
 window.kineDekhi = {
   render: () => render(),
   addFromCard: id => addFromCard(id),
@@ -328,6 +323,11 @@ window.kineDekhi = {
   },
   getState: () => ({ productCount: products.length, cartCount: cart.reduce((n, item) => n + item.qty, 0), supabaseProductsLoaded })
 };
+render();
+refreshSizeFilters();
+loadDeliveryFee();
+loadDivisionFees();
+loadProductsFromSupabase();
 // Explicit global bridges: product-card inline handlers must work even when storefront logic is scoped.
 window.addFromCard = function(id){ if(window.kineDekhi && typeof window.kineDekhi.addFromCard === "function") return window.kineDekhi.addFromCard(id); console.error("Kine dekhi: cart handler is not initialized"); alert("কার্ট চালু হয়নি। পেজটি রিফ্রেশ করে আবার চেষ্টা করুন।"); };
 window.addFromDetail = function(id, goCheckout){ if(window.kineDekhi && typeof window.kineDekhi.addFromDetail === "function") return window.kineDekhi.addFromDetail(id, goCheckout); console.error("Kine dekhi: detail cart handler is not initialized"); alert("কার্ট চালু হয়নি। পেজটি রিফ্রেশ করে আবার চেষ্টা করুন।"); };
