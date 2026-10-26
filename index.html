@@ -471,11 +471,8 @@ apply();
         return;
       }
       if(productId && (!window.kineDekhi || typeof window.kineDekhi.addFromCard!=='function')){
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        console.error("Kine dekhi: storefront initialization failed; window.kineDekhi is unavailable");
-        alert("দোকানের কার্ট স্ক্রিপ্ট চালু হয়নি। GitHub Pages-এর আপডেট/JavaScript সমস্যা শনাক্ত হয়েছে।");
-        return;
+        // Do not cancel the button's inline fallback: the global bridge may still be available.
+        console.warn("Kine dekhi: storefront bridge unavailable; allowing the native button handler.");
       }
     }
     var detailAdd=target.closest('.detail-add');
@@ -486,7 +483,11 @@ apply();
     var order=target.closest('.order-now');
     if(order){
       var orderInline=(order.getAttribute('onclick')||'').match(/(?:orderFromCard|orderNow)\((\d+)\)/);
-      if(orderInline && window.kineDekhi){e.preventDefault();window.kineDekhi.orderFromCard(Number(orderInline[1]));}
+      if(orderInline && window.kineDekhi && typeof window.kineDekhi.orderFromCard==='function'){
+        e.preventDefault();
+        window.kineDekhi.orderFromCard(Number(orderInline[1]));
+      }
+      // If the storefront bridge is absent, let the inline global handler try rather than swallowing the click.
       window.setTimeout(function(){
         var drawer=document.getElementById('cartDrawer');
         if(drawer && !drawer.classList.contains('open')) openCart();
