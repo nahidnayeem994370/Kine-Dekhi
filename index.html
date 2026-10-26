@@ -206,13 +206,30 @@ body{background:var(--bg);color:var(--ink)}
  .spark-one{left:0;top:1px}.spark-two{right:0;bottom:0}
 }
 
+
+/* Live product suggestions under the search box */
+.search{position:relative}
+.search-suggestions{position:absolute;top:calc(100% + 7px);left:0;right:0;z-index:80;background:#fff;border:1px solid #eadde8;border-radius:14px;box-shadow:0 16px 40px #28152b24;overflow:hidden;max-height:min(65vh,430px);overflow-y:auto}
+.search-suggestions[hidden]{display:none}
+.suggestion-item{display:flex;align-items:center;gap:10px;width:100%;padding:9px 11px;border:0;border-bottom:1px solid #f0eaf1;background:#fff;text-align:left;cursor:pointer;color:#282044}
+.suggestion-item:last-child{border-bottom:0}
+.suggestion-item:hover,.suggestion-item:focus{background:#fff1f5;outline:none}
+.suggestion-thumb{width:46px;height:46px;flex:0 0 46px;border-radius:9px;background:#f8edf5;display:grid;place-items:center;overflow:hidden;font-size:22px}
+.suggestion-thumb img{width:100%;height:100%;object-fit:cover}
+.suggestion-copy{display:flex;flex:1;min-width:0;flex-direction:column;gap:3px}
+.suggestion-copy strong{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.suggestion-copy small{font-size:11px;color:#7b7280}
+.suggestion-price{font-size:12px;color:#c1121f;white-space:nowrap}
+.suggestion-empty{padding:14px;color:#716477;font-size:13px}
+@media(max-width:640px){.search-suggestions{top:calc(100% + 4px);max-height:55vh;border-radius:10px}.suggestion-item{padding:7px 8px;gap:8px}.suggestion-thumb{width:38px;height:38px;flex-basis:38px}.suggestion-copy strong{font-size:12px}.suggestion-price{font-size:11px}}
+
 </style>
 </head>
 <body>
 <div class="announcement">🎉 Kine Dekhi-তে স্বাগতম — পছন্দের পণ্য অর্ডার করুন ঘরে বসেই</div>
 <header class="header"><div class="wrap head">
 <a class="logo" href="#" aria-label="Kine Dekhi হোম">🛍️ Kine <span>Dekhi</span></a>
-<form class="search" id="searchForm"><input id="searchInput" type="search" placeholder="আপনার পছন্দের পণ্য খুঁজুন..." aria-label="পণ্য খুঁজুন"><button type="submit">খুঁজুন</button></form>
+<form class="search" id="searchForm" autocomplete="off"><input id="searchInput" type="search" placeholder="পণ্যের নাম লিখুন..." aria-label="পণ্য খুঁজুন" aria-autocomplete="list" aria-controls="searchSuggestions"><button type="submit">খুঁজুন</button><div class="search-suggestions" id="searchSuggestions" role="listbox" hidden></div></form>
 <div class="head-actions"><a class="pillbtn" href="track-order.html">📦 অর্ডার ট্র্যাক</a><button class="pillbtn" type="button" id="cartJump">🛒 কার্ট <strong id="cartCount">0</strong></button><a class="pillbtn account-link" href="account.html" aria-label="ক্রেতা লগইন বা অ্যাকাউন্ট">👤 লগইন</a></div>
 </div></header>
 <main class="wrap">
@@ -265,7 +282,11 @@ function fillSelect(el,items,placeholder){el.innerHTML='<option value="">'+place
 async function loadGeoData(){const div=$("divisionSelect"),dist=$("districtSelect"),upa=$("upazilaSelect");try{const response=await fetch(GEO_URL,{cache:"force-cache"});if(!response.ok)throw new Error("অবস্থান তালিকা লোড হয়নি");geoData=await response.json();if(!Array.isArray(geoData)||!geoData.length)throw new Error("অবস্থান তালিকা খালি");div.dataset.ready="true";div.addEventListener("change",()=>{clearSelect(dist,"জেলা নির্বাচন করুন");clearSelect(upa,"আগে জেলা নির্বাচন করুন");const selected=geoData.find(d=>normalizeBn(d.bn_name)===normalizeBn(div.value));if(selected)fillSelect(dist,selected.districts||[],"জেলা নির্বাচন করুন");renderCart()});dist.addEventListener("change",()=>{clearSelect(upa,"উপজেলা / থানা নির্বাচন করুন");const selectedDiv=geoData.find(d=>normalizeBn(d.bn_name)===normalizeBn(div.value));const selectedDistrict=(selectedDiv?.districts||[]).find(d=>normalizeBn(d.bn_name)===normalizeBn(dist.value));if(selectedDistrict)fillSelect(upa,selectedDistrict.upazilas||[],"উপজেলা / থানা নির্বাচন করুন")})}catch(err){console.error("Bangladesh location data error",err);div.dataset.ready="false";status("বিভাগ–জেলা–উপজেলার তালিকা লোড হয়নি। ইন্টারনেট সংযোগ পরীক্ষা করে পেজ রিফ্রেশ করুন।","error")}}
 async function loadFees(){try{const h={"apikey":SUPABASE_PUBLISHABLE_KEY};const [s,d]=await Promise.all([fetch(SUPABASE_URL+"/rest/v1/store_settings?select=delivery_fee&id=eq.1",{headers:h}),fetch(SUPABASE_URL+"/rest/v1/division_delivery_fees?select=division_name,delivery_fee",{headers:h})]);if(s.ok){const rows=await s.json();if(rows[0])deliveryFee=Number(rows[0].delivery_fee)||0}if(d.ok){const rows=await d.json();divisionFees=Object.fromEntries(rows.map(x=>[x.division_name,Number(x.delivery_fee)||0]))}renderCart()}catch(e){console.warn("Delivery settings not loaded",e)}}
 $("searchForm").addEventListener("submit",e=>{e.preventDefault();query=$("searchInput").value.trim();renderProducts();$("products").scrollIntoView({behavior:"smooth"})});
-$("searchInput").addEventListener("input",()=>{query=$("searchInput").value.trim();renderProducts()});
+function renderSearchSuggestions(){const input=$("searchInput"),panel=$("searchSuggestions"),term=input.value.trim().toLocaleLowerCase("bn");if(term.length<2||!productsLoaded){panel.hidden=true;panel.innerHTML="";return}const matches=products.filter(p=>String(p.name||"").toLocaleLowerCase("bn").includes(term)||categoryName(p).toLocaleLowerCase("bn").includes(term)).slice(0,8);panel.innerHTML=matches.length?matches.map(p=>'<button type="button" class="suggestion-item" role="option" data-suggestion="'+escapeHtml(p.id)+'"><span class="suggestion-thumb">'+(p.image_url?'<img src="'+escapeHtml(p.image_url)+'" alt="">':'🛍️')+'</span><span class="suggestion-copy"><strong>'+escapeHtml(p.name)+'</strong><small>'+escapeHtml(categoryName(p))+'</small></span><strong class="suggestion-price">'+money(p.price)+'</strong></button>').join(""):'<div class="suggestion-empty">মিলে যাওয়া কোনো পণ্য পাওয়া যায়নি।</div>';panel.hidden=false}
+$("searchInput").addEventListener("input",()=>{query=$("searchInput").value.trim();renderProducts();renderSearchSuggestions()});
+$("searchSuggestions").addEventListener("click",e=>{const b=e.target.closest("[data-suggestion]");if(!b)return;const p=products.find(x=>String(x.id)===b.dataset.suggestion);if(!p)return;$("searchInput").value=p.name;query=p.name;$("searchSuggestions").hidden=true;renderProducts();showProductDetail(p)});
+document.addEventListener("click",e=>{if(!e.target.closest("#searchForm"))$("searchSuggestions").hidden=true});
+$("searchInput").addEventListener("focus",renderSearchSuggestions);
 $("categories").addEventListener("click",e=>{const b=e.target.closest("[data-category]");if(!b)return;activeCategory=b.dataset.category;renderCategories();renderProducts()});
 $("categoryProductGroups").addEventListener("click",e=>{const b=e.target.closest("[data-show-category]");if(!b)return;activeCategory=b.dataset.showCategory;renderCategories();renderProducts();$("products").scrollIntoView({behavior:"smooth"})});
 function handleProductClick(e){const b=e.target.closest("button,[data-detail]");if(!b)return;const id=b.dataset.buy||b.dataset.add||b.dataset.detail;if(!id)return;const p=products.find(p=>String(p.id)===String(id));if(!p)return;if(b.hasAttribute("data-detail")){showProductDetail(p);return}chooseOptions(p,b.hasAttribute("data-buy"))}["productGrid","bestSellingGrid","bestDiscountGrid","categoryProductGroups"].forEach(id=>$(id).addEventListener("click",handleProductClick));
