@@ -76,9 +76,7 @@ document.querySelectorAll('#cartItems button').forEach(b=>b.textContent=t.remove
 }
 window.__kineBnNames=Array.from(document.querySelectorAll('.product h3')).map(x=>x.textContent);
 document.getElementById('langToggle').addEventListener('click',()=>{language=language==='bn'?'en':'bn';apply()});
-const obs=new MutationObserver(()=>{window.__kineBnNames=window.__kineBnNames||[];if(language==='en'){document.querySelectorAll('.product').forEach((card,i)=>{if(enNames[i])card.querySelector('h3').textContent=enNames[i];const b=card.querySelector('.add');if(b)b.textContent=translations.en.add});document.querySelectorAll('#cartItems button').forEach(b=>b.textContent=translations.en.remove)}});
-obs.observe(document.getElementById('productGrid'),{childList:true,subtree:true});
-obs.observe(document.getElementById('cartItems'),{childList:true,subtree:true});
+
 })();
 </script>
 </body></html>
