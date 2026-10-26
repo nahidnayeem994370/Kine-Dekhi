@@ -1,0 +1,71 @@
+// Kine dekhi secure order Edge Function.
+// Configure SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY as Supabase Edge Function secrets.
+// Never expose the service-role key in frontend code.
+
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+};
+
+Deno.serve(async (req: Request) => {
+  if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
+  if (req.method !== "POST") {
+    return new Response(JSON.stringify({ error: "Method not allowed" }), {
+      status: 405, headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+
+  try {
+    const body = await req.json();
+    const customer_name = typeof body.customer_name === "string" ? body.customer_name.trim() : "";
+    const phone = typeof body.phone === "string" ? body.phone.trim() : "";
+    const address = typeof body.address === "string" ? body.address.trim() : "";
+    const payment_method = body.payment_method;
+    const items = body.items;
+
+    if (customer_name.length < 2 || customer_name.length > 120 ||
+        phone.length < 8 || phone.length > 20 ||
+        address.length < 8 || address.length > 500 ||
+        !["cod", "bkash", "nagad"].includes(payment_method) ||
+        !Array.isArray(items) || items.length < 1 || items.length > 30) {
+      return new Response(JSON.stringify({ error: "তথ্যগুলো যাচাই করে আবার চেষ্টা করুন।" }), {
+        status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    const url = Deno.env.get("SUPABASE_URL");
+    const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+    if (!url || !serviceKey) throw new Error("Server configuration missing");
+
+    const supabase = createClient(url, serviceKey, {
+      auth: { persistSession: false, autoRefreshToken: false },
+    });
+    const { data, error } = await supabase.rpc("create_order_secure", {
+      p_customer_name: customer_name,
+      p_phone: phone,
+      p_address: address,
+      p_payment_method: payment_method,
+      p_items: items,
+    });
+
+    if (error) {
+      const safeMessage = /unavailable|stock|quantity|product|duplicate/i.test(error.message)
+        ? "কোনো পণ্য পাওয়া যাচ্ছে না বা পর্যাপ্ত স্টক নেই। কার্ট যাচাই করুন।"
+        : "অর্ডার নেওয়া যায়নি। তথ্য যাচাই করে আবার চেষ্টা করুন।";
+      return new Response(JSON.stringify({ error: safeMessage }), {
+        status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    return new Response(JSON.stringify(data), {
+      status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  } catch (_error) {
+    return new Response(JSON.stringify({ error: "সার্ভারে সমস্যা হয়েছে। পরে আবার চেষ্টা করুন।" }), {
+      status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+});
