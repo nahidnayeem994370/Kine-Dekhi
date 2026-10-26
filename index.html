@@ -354,4 +354,39 @@ apply();
 
 })();
 </script>
+
+<script>
+/* Independent safety net for cart/checkout controls */
+(function(){
+  function openCart(){
+    var drawer=document.getElementById('cartDrawer');
+    if(!drawer)return;
+    drawer.style.display='block';
+    drawer.classList.add('open');
+    drawer.setAttribute('aria-hidden','false');
+    var form=document.getElementById('checkoutForm');
+    if(form) form.style.display='grid';
+  }
+  function closeCart(){
+    var drawer=document.getElementById('cartDrawer');
+    if(!drawer)return;
+    drawer.classList.remove('open');
+    drawer.style.display='none';
+    drawer.setAttribute('aria-hidden','true');
+  }
+  document.addEventListener('click',function(e){
+    var cart=e.target.closest('#cartToggle');
+    if(cart){e.preventDefault();openCart();return;}
+    var close=e.target.closest('.cart-close');
+    if(close){e.preventDefault();closeCart();return;}
+    var order=e.target.closest('.order-now');
+    if(order){
+      window.setTimeout(function(){
+        var drawer=document.getElementById('cartDrawer');
+        if(drawer && !drawer.classList.contains('open')) openCart();
+      },0);
+    }
+  },true);
+})();
+</script>
 </body></html>
