@@ -22,6 +22,7 @@ Deno.serve(async (req: Request) => {
     const body = await req.json();
     const customer_name = typeof body.customer_name === "string" ? body.customer_name.trim() : "";
     const phone = typeof body.phone === "string" ? body.phone.trim() : "";
+    const customer_email = typeof body.customer_email === "string" ? body.customer_email.trim().toLowerCase() : "";
     const address = typeof body.address === "string" ? body.address.trim() : "";
     const payment_method = body.payment_method;
     const division_name = typeof body.division_name === "string" ? body.division_name.trim() : "";
@@ -29,6 +30,7 @@ Deno.serve(async (req: Request) => {
 
     if (customer_name.length < 2 || customer_name.length > 120 ||
         phone.length < 8 || phone.length > 20 ||
+        customer_email.length > 254 || !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(customer_email) ||
         address.length < 8 || address.length > 500 ||
         !["ঢাকা","চট্টগ্রাম","রাজশাহী","খুলনা","বরিশাল","সিলেট","রংপুর","ময়মনসিংহ"].includes(division_name) ||
         !["cod", "bkash", "nagad"].includes(payment_method) ||
@@ -52,6 +54,8 @@ Deno.serve(async (req: Request) => {
       p_division_name: division_name,
       p_payment_method: payment_method,
       p_items: items,
+      p_customer_email: customer_email,
+      p_tracking_token: crypto.randomUUID(),
     });
 
     if (error) {
@@ -71,7 +75,10 @@ Deno.serve(async (req: Request) => {
       });
     }
 
-    return new Response(JSON.stringify(data), {
+    const result = data && typeof data === "object" ? data : {};
+    const trackingToken = (await supabase.from("orders").select("tracking_token").eq("order_number", result.order_number).maybeSingle()).data?.tracking_token;
+    const trackingUrl = trackingToken ? `https://nahidnayeem994370.github.io/Kine-Dekhi/track-order.html?token=${encodeURIComponent(trackingToken)}` : null;
+    return new Response(JSON.stringify({ ...result, tracking_url: trackingUrl }), {
       status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (_error) {
