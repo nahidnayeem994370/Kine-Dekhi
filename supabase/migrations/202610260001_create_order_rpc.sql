@@ -107,6 +107,5 @@ begin
 end;
 $$;
 
-revoke all on function public.create_order_secure(text, text, text, text, jsonb) from public, anon, authenticated;
 revoke all on function public.create_order_secure(text, text, text, text, text, jsonb) from public, anon, authenticated;
 grant execute on function public.create_order_secure(text, text, text, text, text, jsonb) to service_role;
