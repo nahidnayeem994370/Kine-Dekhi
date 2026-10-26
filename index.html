@@ -400,13 +400,17 @@ apply();
     if(close){e.preventDefault();if(window.kineDekhi)window.kineDekhi.closeCartDrawer();else closeCart();return;}
     var add=target.closest('.product .add');
     if(add && window.kineDekhi){
-      var card=add.closest('.product');
-      var inline=(add.getAttribute('onclick')||'').match(/addFromCard\\((\\d+)\\)/);
+      var inline=(add.getAttribute('onclick')||'').match(/addFromCard\((\d+)\)/);
       if(inline){e.preventDefault();window.kineDekhi.addFromCard(Number(inline[1]));return;}
+    }
+    var detailAdd=target.closest('.detail-add');
+    if(detailAdd && window.kineDekhi){
+      var detailInline=(detailAdd.getAttribute('onclick')||'').match(/addFromDetail\((\d+)\s*,\s*(false|true)\)/);
+      if(detailInline){e.preventDefault();window.kineDekhi.addToCart(Number(detailInline[1]),document.getElementById('detailSize')?.value||'',document.getElementById('detailColor')?.value||'');return;}
     }
     var order=target.closest('.order-now');
     if(order){
-      var orderInline=(order.getAttribute('onclick')||'').match(/(?:orderFromCard|orderNow)\\((\\d+)\\)/);
+      var orderInline=(order.getAttribute('onclick')||'').match(/(?:orderFromCard|orderNow)\((\d+)\)/);
       if(orderInline && window.kineDekhi){e.preventDefault();window.kineDekhi.orderFromCard(Number(orderInline[1]));}
       window.setTimeout(function(){
         var drawer=document.getElementById('cartDrawer');
