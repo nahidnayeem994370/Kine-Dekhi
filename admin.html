@@ -31,7 +31,8 @@ $('createProductBtn').onclick=async()=>{
  if(photos.length>12||photos.some(f=>!['image/jpeg','image/png','image/webp'].includes(f.type)||f.size>10*1024*1024)){s.textContent='সর্বোচ্চ ১২টি JPG/PNG/WEBP ছবি দিন; প্রতিটি ১০MB-এর মধ্যে হতে হবে।';return}
  btn.disabled=true;s.textContent='পণ্য যোগ হচ্ছে…';
  try{
-  const slugBase=name.normalize('NFKC').toLowerCase().trim().replace(/[^\\p{L}\\p{N}]+/gu,'-').replace(/^-|-$/g,'')||'product';const slug=slugBase+'-'+Date.now();\n  const {data:p,error}=await db.from('products').insert({name,slug,description,price,stock,delivery_fee,is_active:true,image_url:''}).select('id').single();if(error)throw error;
+  const slugBase=name.normalize('NFKC').toLowerCase().trim().replace(/[^\\p{L}\\p{N}]+/gu,'-').replace(/^-|-$/g,'')||'product';const slug=slugBase+'-'+Date.now();
+  const {data:p,error}=await db.from('products').insert({name,slug,description,price,stock,delivery_fee,is_active:true,image_url:''}).select('id').single();if(error)throw error;
   const imageUrls=[];
   for(const f of photos){const path=p.id+'/'+Date.now()+'-'+crypto.randomUUID()+'-'+f.name.replace(/[^a-zA-Z0-9._-]/g,'_');const {error:upErr}=await db.storage.from('product-media').upload(path,f,{upsert:false,contentType:f.type});if(upErr)throw upErr;const {data}=db.storage.from('product-media').getPublicUrl(path);imageUrls.push(data.publicUrl);}
   if(imageUrls.length){const {error:upErr}=await db.from('products').update({image_url:imageUrls[0],image_urls:imageUrls}).eq('id',p.id);if(upErr)throw upErr;}
