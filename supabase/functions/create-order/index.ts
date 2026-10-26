@@ -49,6 +49,7 @@ Deno.serve(async (req: Request) => {
       p_customer_name: customer_name,
       p_phone: phone,
       p_address: address,
+      p_division_name: division_name,
       p_payment_method: payment_method,
       p_items: items,
     });
