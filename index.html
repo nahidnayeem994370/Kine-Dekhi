@@ -280,7 +280,7 @@ document.getElementById("checkoutForm").addEventListener("submit", async (event)
     try {
       response = await fetch(CREATE_ORDER_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json", "apikey": SUPABASE_PUBLISHABLE_KEY, "Authorization": "Bearer " + SUPABASE_PUBLISHABLE_KEY },
+        headers: { "Content-Type": "application/json", "apikey": SUPABASE_PUBLISHABLE_KEY },
         body: JSON.stringify(payload),
         signal: orderController.signal
       });
