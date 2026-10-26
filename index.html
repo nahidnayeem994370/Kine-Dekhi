@@ -2,562 +2,76 @@
 <html lang="bn">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Kine dekhi — নিত্যপ্রয়োজনীয়, ফ্যাশন, ইলেকট্রনিক্স ও আরও অনেক পণ্য এক জায়গায়।">
-<meta name="theme-color" content="#0f766e">
-<title>Kine dekhi — অনলাইন শপ</title>
+<meta name="theme-color" content="#b91c1c">
+<meta name="description" content="Kine Dekhi — সহজ, নিরাপদ অনলাইন কেনাকাটা। পছন্দের পণ্য অর্ডার করুন ঘরে বসেই।">
+<title>Kine Dekhi — অনলাইন শপ</title>
 <style>
-:root{--green:#0d9488;--dark:#102a43;--muted:#64748b;--bg:#f3f6fb;--line:#dbe4f0;--accent:#7c3aed;--surface:#ffffff;--shadow:0 12px 32px rgba(16,42,67,.08)}body{background:radial-gradient(ellipse at top left,#e6fffb 0,transparent 38%),var(--bg);color:#152238} .header{background:rgba(255,255,255,.94);backdrop-filter:blur(14px);box-shadow:0 5px 22px rgba(16,42,67,.05)}.logo{color:var(--green)}.hero{background:linear-gradient(125deg,#ccfbf1 0%,#e0e7ff 58%,#f5f3ff 100%);box-shadow:var(--shadow);border:1px solid #d6e6f5}.pill{color:#0f766e;box-shadow:0 3px 12px #0f766e12}.btn,.search button{background:linear-gradient(135deg,#0f766e,#0d9488);box-shadow:0 5px 14px #0f766e26;transition:transform .18s,box-shadow .18s}.btn:hover,.search button:hover{transform:translateY(-1px);box-shadow:0 8px 20px #0f766e35}.cat,.product,.detail-card,.drawer,.feature{box-shadow:var(--shadow);border-color:#e0e8f2;transition:transform .18s,box-shadow .18s}.cat:hover,.product:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(16,42,67,.12)}.prodimg{background:linear-gradient(145deg,#eefcf8,#eef2ff)}.product{border-radius:18px}.detail-card,.drawer{border:1px solid #e0e8f2}.notice{border:1px solid #c7d2fe;background:linear-gradient(120deg,#eef2ff,#f0fdfa);border-radius:14px;padding:16px}.feature{border-radius:15px;background:#fff}.footer{background:#102a43;color:#e2e8f0}.footer p{color:#cbd5e1}#langToggle{border-color:#b9dcd5!important;color:#0f766e!important;background:#ecfdf5!important}*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Noto Sans Bengali",sans-serif;color:#172b29;background:var(--bg)}a{color:inherit;text-decoration:none}.top{background:var(--dark);color:#fff;text-align:center;padding:9px 12px;font-size:13px}.wrap{max-width:1120px;margin:auto;padding:0 18px}.header{background:white;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}.headrow{display:flex;align-items:center;gap:14px;padding:15px 0;flex-wrap:wrap}.logo{font-size:23px;font-weight:900;color:var(--green);letter-spacing:-.6px}.search{flex:1;min-width:180px;display:flex;position:relative;gap:0}.search #filterToggle{border-radius:0;padding:9px 10px;white-space:nowrap;font-size:13px}.search #searchForm button{white-space:nowrap}.search #productFilters[hidden]{display:none}.search #productFilters:not([hidden]){display:block}.search-suggestions{position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:1200;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 30px rgba(15,23,42,.16);overflow:hidden;max-height:320px;overflow-y:auto}.search-suggestions[hidden]{display:none}.search-suggestion{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;border:0;border-bottom:1px solid #eef2f7;background:#fff;text-align:left;font:inherit;cursor:pointer}.search-suggestion:hover,.search-suggestion:focus{background:#f0fdfa}.search-suggestion img{width:42px;height:42px;object-fit:cover;border-radius:8px;background:#f1f5f9}.search-suggestion .suggest-emoji{width:42px;height:42px;display:grid;place-items:center;background:#f1f5f9;border-radius:8px;font-size:22px}.search-suggestion span:last-child{font-size:14px;font-weight:650}.search input{width:100%;border:1px solid var(--line);border-radius:12px 0 0 12px;padding:12px;font:inherit;min-width:0}.search button,.btn{border:0;background:var(--green);color:white;border-radius:0 12px 12px 0;padding:11px 15px;font:inherit;font-weight:700;cursor:pointer}.cartbtn{border:1px solid var(--line);background:#fff;border-radius:12px;padding:11px;font:inherit;font-weight:700;cursor:pointer}.hero{margin:22px auto;background:linear-gradient(120deg,#d9f4ec,#f4fbf8);border-radius:22px;padding:30px 24px;display:grid;grid-template-columns:1.4fr .6fr;gap:16px;align-items:center}.hero h1{font-size:clamp(27px,5vw,44px);line-height:1.2;margin:8px 0 12px;color:var(--dark)}.hero p{color:#42615c;line-height:1.7;margin:0 0 18px}.pill{display:inline-block;background:#fff;color:var(--green);padding:6px 11px;border-radius:99px;font-size:13px;font-weight:800}.heroart{font-size:94px;text-align:center}.btn{display:inline-block;border-radius:11px;padding:12px 17px}.sectionhead{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:28px 0 14px}.sectionhead h2{margin:0;font-size:23px}.sectionhead p{margin:5px 0 0;color:var(--muted);font-size:14px}.cats{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.cat{background:white;border:1px solid var(--line);border-radius:14px;padding:15px 8px;text-align:center;font-weight:700}.cat span{display:block;font-size:28px;margin-bottom:7px}.products{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.sale-sections{margin:22px 0}.sale-badge{position:absolute;top:9px;left:9px;background:linear-gradient(135deg,#ff2448,#d90429);color:#fff;border-radius:999px;padding:7px 10px;font-size:12px;font-weight:900;box-shadow:0 3px 10px #d9042944;z-index:2}.best-badge{position:absolute;top:9px;right:9px;background:#ffb000;color:#fff;border-radius:7px;padding:5px 8px;font-size:11px;font-weight:800}.old-price{color:#7b8b96;text-decoration:line-through;font-size:12px;margin-left:7px}.sale-price{color:#e11d48;font-weight:900}.product{background:white;border:1px solid var(--line);border-radius:16px;overflow:hidden}.prodimg{height:145px;display:grid;place-items:center;background:#eef5f2;font-size:58px;position:relative;overflow:hidden}.prodimg img{width:100%;height:100%;object-fit:cover}.free-delivery-badge{position:absolute;top:9px;left:8px;background:#0f766e;color:#fff;padding:5px 9px;border-radius:7px;font-size:12px;font-weight:900;box-shadow:0 2px 6px #0002}.product-open{cursor:pointer}.product-open:focus-visible{outline:3px solid #0f766e;outline-offset:2px}.product-detail{display:none;position:fixed;inset:0;z-index:20;background:#0008;padding:18px;overflow:auto;align-items:center;justify-content:center}.product-detail.open{display:flex}.detail-card{position:relative;width:min(760px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:18px;padding:20px;box-shadow:0 20px 60px #0003}.detail-close{position:absolute;right:12px;top:12px;border:0;border-radius:50%;width:38px;height:38px;background:#eef5f2;font-size:22px;cursor:pointer;z-index:2}.detail-layout{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start}.detail-image{position:relative;min-height:260px;border-radius:14px;background:#eef5f2;display:grid;place-items:center;font-size:90px;overflow:hidden}.detail-image img{width:100%;height:100%;max-height:380px;object-fit:contain}.detail-gallery{display:grid;gap:9px}.detail-thumbs{display:none!important}.detail-counter{font-size:13px;text-align:center;color:#64748b;margin-top:7px}.detail-nav{display:flex;justify-content:space-between;gap:10px;margin-top:8px}.detail-nav button{border:1px solid #dbe5e2;background:#fff;border-radius:9px;padding:8px 14px;font:inherit;cursor:pointer}.detail-thumbs button{border:2px solid transparent;background:#eef5f2;padding:0;border-radius:8px;min-width:56px;width:56px;height:56px;overflow:hidden;cursor:pointer}.detail-thumbs button.active{border-color:#0f766e}.detail-thumbs img{width:100%;height:100%;object-fit:cover}.detail-video{width:100%;max-height:340px;border-radius:12px;background:#000}.detail-info h2{margin:12px 0;font-size:25px}.detail-desc{color:#64748b;line-height:1.8;white-space:pre-wrap}.detail-actions{display:grid;gap:9px;margin-top:20px}.detail-actions button{border-radius:10px;padding:12px;font:inherit;font-weight:800;cursor:pointer}.detail-add{border:1px solid #b7ddd4;background:#f0faf7;color:#0f766e}.detail-order{border:0;background:#0f766e;color:white}@media(max-width:560px){.detail-layout{grid-template-columns:1fr;gap:12px}.detail-image{min-height:210px}.detail-card{padding:14px}.detail-info h2{font-size:21px}}.prodinfo{padding:13px}.prodinfo h3{font-size:15px;margin:0 0 7px}.price{font-size:18px;color:var(--green);font-weight:900}.old{font-size:12px;color:#94a3b8;text-decoration:line-through;margin-left:5px}.prodinfo p{font-size:12px;color:var(--muted);margin:7px 0 12px}.add{width:100%;border:1px solid #b7ddd4;color:var(--green);background:#f0faf7;padding:9px;border-radius:10px;font:inherit;font-weight:800;cursor:pointer}.notice{margin:24px 0;background:#fff8e6;border:1px solid #f5dfaa;padding:13px 15px;border-radius:12px;color:#77591b;font-size:13px;line-height:1.6}.features{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:22px 0}.feature{background:#fff;border:1px solid var(--line);border-radius:14px;padding:17px}.feature b{display:block;margin-bottom:5px}.feature small{color:var(--muted);line-height:1.6}.footer{margin-top:34px;background:var(--dark);color:#e5f5f1;padding:28px 0}.footrow{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}.footer p{font-size:13px;color:#b8d2cc}.drawer{display:none;background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;margin:0;position:fixed;z-index:1000;top:76px;right:16px;width:min(440px,calc(100vw - 24px));max-height:calc(100dvh - 92px);overflow-y:auto;box-shadow:0 20px 60px rgba(15,23,42,.25)}.drawer.open{display:block;animation:cartPop .18s ease-out}@keyframes cartPop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}@media(max-width:520px){.drawer{top:auto;bottom:10px;right:8px;width:calc(100vw - 16px);max-height:82dvh;border-radius:20px}}.cart-drawer-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}.cart-drawer-head h3{margin:0}.cart-close{width:36px;height:36px;flex:0 0 36px;border:0;border-radius:50%;background:#f1f5f9;color:#334155;font-size:28px;line-height:1;display:grid;place-items:center;cursor:pointer}.cart-close:hover{background:#fee2e2;color:#b91c1c}.drawer button{cursor:pointer}.cart-item-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.cart-item-thumb{width:58px;height:58px;flex:0 0 58px;border-radius:10px;overflow:hidden;background:#f1f5f9;display:grid;place-items:center}.cart-item-thumb img{width:100%;height:100%;object-fit:cover;display:block}.cart-item-thumb span{font-size:26px}.cart-item-info{min-width:0;flex:1;display:grid;gap:4px}.cart-item-info strong{font-size:14px;line-height:1.35}.cart-item-info small{font-size:12px;color:var(--muted)}.cart-item-info b{font-size:14px;color:var(--green)}.cart-item-row>button{font:inherit;font-size:12px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:#fff;white-space:nowrap}.empty{color:var(--muted);font-size:14px}@media(max-width:720px){.hero{grid-template-columns:1fr;padding:24px 19px}.heroart{display:none}.cats{grid-template-columns:repeat(3,1fr)}.products{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.prodimg{height:120px}.features{grid-template-columns:1fr}.headrow{gap:10px}.logo{font-size:21px}.search{order:3;flex-basis:100%}.wrap{padding:0 13px}}
-.add{font-size:12px!important;padding:8px 3px!important;line-height:1.35;min-width:0;flex:1 1 0;border-radius:9px;background:linear-gradient(180deg,#f0faf7,#e2f5ef);border-color:#b8ded4;white-space:normal;overflow-wrap:anywhere}.order-now{font-size:15px!important;padding:9px 4px!important;line-height:1.35;min-width:0;flex:1 1 0;border-radius:9px;background:linear-gradient(135deg,#0f766e,#0d9488)!important;box-shadow:0 3px 8px #0f766e25;white-space:normal;overflow-wrap:anywhere}@media(max-width:560px){.add{font-size:10px!important;padding:7px 2px!important;letter-spacing:-.35px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.prodinfo{padding:10px}.prodinfo>div[style*="display:grid"],.prodinfo>div[style*="display:flex"]{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px!important}.add{font-size:11px!important;padding:9px 3px!important;letter-spacing:-.2px}.order-now{font-size:14px!important;padding:9px 3px!important;font-weight:900!important}.product{border-radius:14px}.prodinfo h3{line-height:1.4}}
-/* Kine Dekhi red shopping theme */
-:root{--green:#e50920;--dark:#8f0010;--muted:#78656a;--bg:#fff7f7;--line:#f5d9dc;--shadow:0 8px 26px rgba(143,0,16,.08)}
-body{background:linear-gradient(180deg,#fff8f8 0%,#fff 48%,#fff5f5 100%);color:#3a1820}
-.top{background:#8f0010;color:#fff}
-.header{background:rgba(255,255,255,.97);border-bottom:1px solid #f5d9dc;box-shadow:0 5px 20px #8f00100d}
-.logo{color:#c90019!important}
-.search input{background:#fff8f8;border-color:#f0d4d8}
-.search button{background:linear-gradient(135deg,#b00016,#ff172c)}
-.cartbtn{color:#a50015;border-color:#f1d5d9}
-.hero{background:linear-gradient(112deg,#ffe4e5 0%,#fff6f5 46%,#ffd9dc 100%);border-color:#ffc5cb;box-shadow:0 14px 36px #d8001d12}
-.hero:before{background:radial-gradient(circle,#ffc5cb 0%,#ffe0e2 54%,transparent 70%)}
-.hero:after{background:#ffb6bf66}
-.hero h1{color:#6f0010}
-.hero p{color:#6e3940}
-.pill{color:#c90019;border-color:#ffd0d4}
-.hero .btn{background:linear-gradient(135deg,#ff172c,#c90019);box-shadow:0 7px 18px #c9001930}
-.heroart{filter:drop-shadow(0 12px 12px #8f001018)}
-.sectionhead h2{color:#8f0010}
-.cat{border-color:#f5d9dc;background:linear-gradient(180deg,#fff,#fff8f8);color:#7d1020}
-.cat:hover{border-color:#ff9da8;background:#fff0f1}
-.product{border-color:#f5d9dc;box-shadow:0 5px 18px #8f001008}
-.product:hover{border-color:#ffb8c0;box-shadow:0 13px 26px #8f001013}
-.prodimg{background:linear-gradient(145deg,#fff6f6,#fcebed)}
-.price,.logo{color:#c90019}
-.sale-badge{background:linear-gradient(135deg,#ff3549,#c90019);box-shadow:0 4px 10px #c9001933}
-.best-badge{background:#ffbd33;color:#65101a}
-.add{background:linear-gradient(180deg,#fff0f1,#ffe2e5)!important;color:#b00016!important;border-color:#ffc5cc!important}
-.order-now{background:linear-gradient(135deg,#ff172c,#c90019)!important;box-shadow:0 4px 10px #c9001924}
-.notice{background:linear-gradient(110deg,#fff1f2,#fffafa);border-color:#f5d0d5;color:#6e3940}
-.feature{border-color:#f5d9dc;background:linear-gradient(150deg,#fff,#fff6f6)}
-.feature b{color:#8f0010}
-.footer{background:linear-gradient(120deg,#78000c,#a90015 60%,#d5001b);color:#fff8f8}
-.footer p{color:#ffdadd}
-@media(max-width:720px){.hero{background:linear-gradient(135deg,#ffe4e5,#fff5f5 65%,#ffd9dc)}}
-</style></head>
-<body><div class="top">Kine dekhi-তে স্বাগতম · নতুন দোকান, নতুন অভিজ্ঞতা</div>
-<header class="header"><div class="wrap headrow"><a class="logo" href="#"><span aria-hidden="true">🛍️</span> Kine Dekhi</a><form class="search" id="searchForm"><input id="searchInput" placeholder="পণ্য খুঁজুন..." aria-label="পণ্য খুঁজুন"><button type="button" id="filterToggle" aria-expanded="false">☷ ফিল্টার</button><button type="submit">খুঁজুন</button><div id="productFilters" hidden style="position:absolute;top:calc(100% + 8px);left:0;right:0;z-index:1300;background:#fff;border:1px solid #f5d9dc;border-radius:14px;padding:12px;box-shadow:0 12px 30px #0f172a22;max-height:65vh;overflow:auto"><div style="display:flex;gap:7px;align-items:center;flex-wrap:wrap"><label for="sortProducts" style="font-weight:800;font-size:13px">সাজান:</label><select id="sortProducts" style="padding:7px;border:1px solid #f0d4d8;border-radius:8px;font:inherit;font-size:13px;max-width:100%"><option value="default">ডিফল্ট</option><option value="name-asc">নাম A to Z</option><option value="name-desc">নাম Z to A</option><option value="price-asc">কম দাম থেকে বেশি</option><option value="price-desc">বেশি দাম থেকে কম</option><option value="size-asc">ছোট সাইজ থেকে বড়</option><option value="size-desc">বড় সাইজ থেকে ছোট</option></select><button type="button" id="clearFilters" style="padding:7px 9px;border:1px solid #f0d4d8;border-radius:8px;background:#fff7f7;color:#a50015;font:inherit;font-size:12px;font-weight:700;cursor:pointer">মুছুন</button></div><div style="margin-top:10px"><b style="font-size:13px">দামসীমা (৳)</b><div style="display:flex;gap:7px;margin-top:6px"><input id="minPriceFilter" type="number" min="1" max="100000" placeholder="সর্বনিম্ন 1 টাকা" aria-label="সর্বনিম্ন দাম" style="width:50%;min-width:0;padding:8px;border:1px solid #f0d4d8;border-radius:8px;font:inherit;font-size:13px"><input id="maxPriceFilter" type="number" min="1" max="100000" placeholder="সর্বোচ্চ 100000 টাকা" aria-label="সর্বোচ্চ দাম" style="width:50%;min-width:0;padding:8px;border:1px solid #f0d4d8;border-radius:8px;font:inherit;font-size:13px"></div></div><div style="margin-top:10px"><b style="font-size:13px">সাইজ</b><div id="sizeFilterOptions" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px"></div></div><p id="filterResultCount" style="margin:8px 0 0;color:#78656a;font-size:12px"></p></div></form><div id="searchSuggestions" class="search-suggestions" hidden></div><button class="cartbtn" id="langToggle" type="button" style="border:1px solid #e2e8f0;background:#fff;border-radius:10px;padding:10px;font:inherit;font-weight:800;cursor:pointer">EN</button><button class="cartbtn" id="cartToggle" type="button" onclick="toggleCartDrawer()">🛒 কার্ট (<span id="cartCount">0</span>)</button></div></header>
-<section id="products"><div class="sectionhead"><div><h2>সব পণ্য</h2><p>ডেটাবেসে সক্রিয় থাকা পণ্য</p></div></div><div class="products" id="productGrid"></div></section>
-<div class="product-detail" id="productDetail" role="dialog" aria-modal="true" aria-label="পণ্যের বিবরণ" onclick="if(event.target===this)closeProductDetail()"><div class="detail-card"><button class="detail-close" onclick="closeProductDetail()" aria-label="বন্ধ করুন">×</button><div id="productDetailContent"></div></div></div><div class="drawer" id="cartDrawer"><div class="cart-drawer-head"><h3>আপনার কার্ট</h3><button type="button" class="cart-close" onclick="closeCartDrawer()" aria-label="কার্ট বন্ধ করুন" title="ফিরে যান">×</button></div><div id="cartItems" class="empty">কার্টে এখনো কোনো পণ্য নেই।</div><p id="cartTotal"></p><button id="checkoutToggle" type="button" class="btn" style="display:none;width:100%;border:0;margin-top:12px" onclick="showCheckout()">চেকআউট করুন</button>
-<form id="checkoutForm" class="checkout" style="display:none;gap:10px;margin-top:16px">
-<h3 style="margin:0">চেকআউট / অর্ডার করুন</h3>
-<p id="checkoutStatus" class="empty" role="status" aria-live="polite" style="display:block;white-space:pre-wrap;padding:12px;border:1px solid var(--line);border-radius:10px;background:#f8fafc;color:#334155;margin:0">অর্ডার দিতে নাম, ফোন ও ঠিকানা লিখুন।</p>
-<label>আপনার নাম<input name="customer_name" required minlength="2" maxlength="120" autocomplete="name" style="display:block;width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;font:inherit"></label>
-<label>ইমেইল ঠিকানা<input name="customer_email" type="email" required maxlength="254" autocomplete="email" placeholder="আপনার Gmail" style="display:block;width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;font:inherit"></label>
-<label>মোবাইল নম্বর<input name="phone" required minlength="8" maxlength="20" autocomplete="tel" inputmode="tel" style="display:block;width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;font:inherit"></label>
-<fieldset style="border:1px solid var(--line);border-radius:10px;padding:12px;display:grid;gap:10px"><legend style="padding:0 6px;font-weight:700">ডেলিভারির ঠিকানা</legend>
-<label>বিভাগ নির্বাচন করুন<select id="divisionSelect" required style="display:block;width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;font:inherit"><option value="">বিভাগ লোড হচ্ছে...</option></select></label>
-<label>জেলা নির্বাচন করুন<select id="districtSelect" required disabled style="display:block;width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;font:inherit"><option value="">আগে বিভাগ নির্বাচন করুন</option></select></label>
-<label>উপজেলা নির্বাচন করুন<select id="upazilaSelect" required disabled style="display:block;width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;font:inherit"><option value="">আগে জেলা নির্বাচন করুন</option></select></label>
-<label>বিস্তারিত ঠিকানা (বাড়ি/রোড/এলাকা)<textarea id="addressDetails" required minlength="4" maxlength="350" autocomplete="street-address" rows="2" placeholder="বাড়ি নম্বর, রোড, এলাকা লিখুন" style="display:block;width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;font:inherit"></textarea></label>
-<p id="locationStatus" class="empty" role="status" style="margin:0">বাংলাদেশের বিভাগ, জেলা ও উপজেলার তালিকা লোড হচ্ছে…</p>
-</fieldset>
-<label>পেমেন্ট পদ্ধতি<select name="payment_method" required style="display:block;width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;font:inherit"><option value="cod">Cash on Delivery (COD)</option><option value="bkash">bKash (পেমেন্ট এখনো স্বয়ংক্রিয়ভাবে নেওয়া হবে না)</option><option value="nagad">Nagad (পেমেন্ট এখনো স্বয়ংক্রিয়ভাবে নেওয়া হবে না)</option></select></label>
-<button class="btn" id="submitOrder" type="submit" style="width:100%;border:0">অর্ডার নিশ্চিত করুন</button>
-<p class="empty" style="margin:0">দাম ও স্টক সার্ভার থেকে যাচাই হবে। bKash/Nagad পেমেন্ট গেটওয়ে এখনো যুক্ত হয়নি।</p>
-</form></div>
-<div class="notice"><b>দোকানের অবস্থা:</b> পণ্য ও ডেলিভারি চার্জ ডেটাবেসের সঙ্গে সংযুক্ত। অর্ডার জমা ও স্টক আপডেট সম্পূর্ণভাবে পরীক্ষা করা বাকি। অনলাইন পেমেন্ট এখনো চালু নয়; আপাতত অর্ডার করার আগে তথ্য যাচাই করুন।</div>
-<div class="features"><div class="feature"><b>🚚 ডেলিভারি</b><small>ডেলিভারি চার্জ ও এলাকা পরবর্তীতে নির্ধারণ করা হবে।</small></div><div class="feature"><b>💵 Cash on Delivery</b><small>অর্ডার ব্যবস্থা তৈরি হলে COD চালু হবে।</small></div><div class="feature"><b>🔒 নিরাপদ পেমেন্ট</b><small>bKash/Nagad অনুমোদিত গেটওয়ে সংযুক্ত করার পর চালু হবে।</small></div></div>
-</main><footer class="footer"><div class="wrap footrow"><div><b>🛍️ Kine dekhi</b><p>আপনার অনলাইন কেনাকাটার নতুন ঠিকানা।</p></div><div><b>সহায়তা</b><p>যোগাযোগ ও নীতিমালার পেজ পরে যুক্ত হবে।</p></div><div><small>© <span id="year"></span> Kine dekhi</small></div></div></footer>
+:root{--red:#c1121f;--red2:#ef233c;--ink:#171923;--muted:#697386;--bg:#f7f8fb;--line:#e7e9ef;--white:#fff;--green:#087f5b;--shadow:0 12px 36px #20263b0c}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Noto Sans Bengali",sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}.wrap{width:min(1160px,calc(100% - 32px));margin:auto}
+.announcement{background:#7f101b;color:#fff;text-align:center;padding:9px 12px;font-size:13px}.header{position:sticky;top:0;z-index:30;background:#ffffffed;backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}.head{min-height:76px;display:flex;align-items:center;gap:20px}.logo{font-size:24px;font-weight:950;letter-spacing:-1px;color:var(--red);white-space:nowrap}.logo span{color:#ff7b00}.search{display:flex;flex:1;max-width:620px;position:relative}.search input{width:100%;min-width:0;border:1px solid var(--line);border-right:0;border-radius:12px 0 0 12px;padding:12px 14px;background:#f9fafc;outline:none}.search input:focus{border-color:#e88d95;background:#fff}.search button,.primary{border:0;background:var(--red);color:white;font-weight:800;padding:12px 17px;border-radius:0 12px 12px 0}.head-actions{display:flex;gap:9px;margin-left:auto}.pillbtn{border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 13px;font-weight:800;white-space:nowrap}.pillbtn strong{background:var(--red);color:#fff;border-radius:99px;padding:2px 7px;margin-left:3px;font-size:12px}
+.hero{margin:24px auto 28px;display:grid;grid-template-columns:1.2fr .8fr;align-items:center;gap:20px;overflow:hidden;border-radius:26px;background:linear-gradient(120deg,#fff0f1,#fff 55%,#ffe0e4);border:1px solid #f7d7da;padding:clamp(24px,5vw,56px);position:relative}.hero:after{content:"";position:absolute;width:330px;height:330px;border-radius:50%;background:#ffccd2;right:4%;top:-95px;opacity:.55}.hero-copy{position:relative;z-index:1}.eyebrow{display:inline-flex;background:#fff;border:1px solid #f5cdd1;color:var(--red);border-radius:99px;padding:7px 12px;font-size:12px;font-weight:900}.hero h1{font-size:clamp(30px,5vw,52px);letter-spacing:-1.6px;line-height:1.16;margin:16px 0 12px}.hero p{color:#626b7b;line-height:1.8;max-width:520px;margin:0 0 22px}.hero .primary{border-radius:12px;display:inline-block;padding:13px 20px;box-shadow:0 8px 18px #c1121f25}.hero-art{position:relative;z-index:1;text-align:center;font-size:clamp(100px,17vw,180px);filter:drop-shadow(0 20px 20px #9d102026)}
+.benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 auto 30px}.benefit{display:flex;gap:12px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}.benefit .ico{display:grid;place-items:center;width:44px;height:44px;flex:0 0 44px;border-radius:13px;background:#fff0f1;font-size:22px}.benefit b{display:block;font-size:14px}.benefit small{display:block;color:var(--muted);font-size:12px;margin-top:3px}
+.section{margin:30px auto}.section-title{display:flex;align-items:end;justify-content:space-between;gap:15px;margin-bottom:16px}.section-title h2{font-size:25px;letter-spacing:-.6px;margin:0}.section-title p{font-size:13px;color:var(--muted);margin:5px 0 0}.category-row{display:flex;gap:9px;overflow:auto;padding:2px 0 8px}.category{flex:0 0 auto;border:1px solid var(--line);background:#fff;border-radius:99px;padding:9px 15px;font-weight:750;font-size:13px;color:#434b5a}.category.active,.category:hover{background:var(--red);border-color:var(--red);color:#fff}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}.product{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;min-width:0;transition:transform .16s,box-shadow .16s}.product:hover{transform:translateY(-3px);box-shadow:0 15px 34px #20263b14}.product-image{height:190px;display:grid;place-items:center;position:relative;background:linear-gradient(145deg,#fff5f5,#f4f6fa);overflow:hidden;cursor:pointer}.product-image img{width:100%;height:100%;object-fit:cover}.product-image .emoji{font-size:68px}.discount{position:absolute;top:10px;left:10px;background:var(--red);color:#fff;font-size:11px;font-weight:900;padding:6px 9px;border-radius:8px}.product-info{padding:14px;display:flex;flex-direction:column;flex:1}.category-label{color:var(--muted);font-size:11px;font-weight:750}.product h3{font-size:15px;line-height:1.5;margin:6px 0 8px;cursor:pointer}.description{font-size:12px;line-height:1.65;color:var(--muted);margin:0 0 12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.price-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:auto;margin-bottom:13px}.price{font-size:20px;font-weight:950;color:var(--red)}.old-price{font-size:12px;color:#9299a6;text-decoration:line-through}.product-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.secondary,.buy{border-radius:10px;padding:10px 7px;font-size:12px;font-weight:850}.secondary{background:#fff;border:1px solid #efc5c9;color:var(--red)}.buy{background:var(--red);border:1px solid var(--red);color:#fff}.secondary:hover{background:#fff0f1}.buy:hover,.primary:hover{background:#9f1020}
+.empty-state{grid-column:1/-1;text-align:center;padding:45px 18px;background:#fff;border:1px dashed #d7dbe4;border-radius:18px;color:var(--muted)}
+.cart-section{background:#fff;border:1px solid var(--line);border-radius:22px;padding:clamp(16px,3vw,28px);box-shadow:var(--shadow)}.cart-layout{display:grid;grid-template-columns:1fr .85fr;gap:28px}.cart-list{display:grid;gap:12px;align-content:start}.cart-row{display:grid;grid-template-columns:68px minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:14px}.cart-thumb{width:68px;height:68px;border-radius:11px;background:#fff3f4;display:grid;place-items:center;overflow:hidden;font-size:28px}.cart-thumb img{width:100%;height:100%;object-fit:cover}.cart-name{font-weight:850;font-size:14px}.cart-meta{font-size:12px;color:var(--muted);margin-top:4px}.qty{display:flex;align-items:center;gap:8px;margin-top:8px}.qty button{border:1px solid var(--line);background:#fff;border-radius:7px;width:28px;height:28px}.remove{border:0;background:transparent;color:var(--red);font-size:12px;font-weight:800;margin-top:5px}.summary{background:#f9fafc;border:1px solid var(--line);border-radius:16px;padding:18px;align-self:start}.summary h3{margin:0 0 14px}.sumline{display:flex;justify-content:space-between;gap:10px;padding:9px 0;color:#505a6a;font-size:14px}.sumline.total{border-top:1px solid var(--line);margin-top:6px;padding-top:15px;font-size:18px;color:var(--ink);font-weight:950}.checkout-form{display:grid;gap:12px;margin-top:18px}.checkout-form h3{margin:0 0 3px}.field{display:grid;gap:6px;font-size:13px;font-weight:750}.field input,.field select,.field textarea{width:100%;min-width:0;border:1px solid #dfe3eb;border-radius:10px;background:#fff;padding:12px;outline:none}.field input:focus,.field select:focus,.field textarea:focus{border-color:#df7d86;box-shadow:0 0 0 3px #c1121f10}.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px}.submit{width:100%;border:0;background:var(--red);color:#fff;border-radius:12px;padding:14px;font-weight:900}.submit:disabled{opacity:.65;cursor:wait}.status{display:none;padding:12px;border-radius:10px;white-space:pre-wrap;font-size:13px;line-height:1.6}.status.success{display:block;background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46}.status.error{display:block;background:#fff1f2;border:1px solid #fecdd3;color:#9f1239}.status.info{display:block;background:#eff6ff;border:1px solid #bfdbfe;color:#1d4ed8}
+.footer{margin-top:44px;background:#201a20;color:#fff;padding:34px 0}.foot{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}.foot p,.foot small{color:#c9c3c8;font-size:13px;line-height:1.7}.foot a{color:#fff;text-decoration:underline;text-underline-offset:3px}.loading{grid-column:1/-1;text-align:center;padding:44px;color:var(--muted)}
+@media(max-width:900px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.product-image{height:165px}.cart-layout{grid-template-columns:1fr}.summary{max-width:none}.hero-art{font-size:130px}}
+@media(max-width:640px){.wrap{width:calc(100% - 24px)}.head{padding:12px 0;gap:10px;flex-wrap:wrap}.logo{font-size:21px}.head-actions{margin-left:auto}.pillbtn{padding:9px 10px;font-size:12px}.search{order:3;flex-basis:100%;max-width:none}.hero{grid-template-columns:1fr;padding:25px 21px;margin-top:15px;gap:0}.hero h1{font-size:33px}.hero-art{display:none}.benefits{grid-template-columns:1fr;gap:8px}.benefit{padding:12px}.section-title h2{font-size:22px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.product-image{height:145px}.product-info{padding:11px}.product h3{font-size:13px}.price{font-size:18px}.product-actions{gap:6px}.secondary,.buy{font-size:11px;padding:10px 4px}.description{font-size:11px}.cart-row{grid-template-columns:52px minmax(0,1fr) auto;gap:9px;padding:9px}.cart-thumb{width:52px;height:52px}.two-col{grid-template-columns:1fr}.cart-section{padding:14px}.announcement{font-size:11px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="announcement">🎉 Kine Dekhi-তে স্বাগতম — পছন্দের পণ্য অর্ডার করুন ঘরে বসেই</div>
+<header class="header"><div class="wrap head">
+<a class="logo" href="#" aria-label="Kine Dekhi হোম">🛍️ Kine <span>Dekhi</span></a>
+<form class="search" id="searchForm"><input id="searchInput" type="search" placeholder="আপনার পছন্দের পণ্য খুঁজুন..." aria-label="পণ্য খুঁজুন"><button type="submit">খুঁজুন</button></form>
+<div class="head-actions"><a class="pillbtn" href="track-order.html">📦 অর্ডার ট্র্যাক</a><button class="pillbtn" type="button" id="cartJump">🛒 কার্ট <strong id="cartCount">0</strong></button></div>
+</div></header>
+<main class="wrap">
+<section class="hero"><div class="hero-copy"><span class="eyebrow">আপনার অনলাইন শপিং সঙ্গী</span><h1>পছন্দের সবকিছু,<br>এক ক্লিকেই আপনার ঘরে</h1><p>দারুণ সব পণ্য, স্বচ্ছ দাম এবং সহজ অর্ডার — আপনার কেনাকাটাকে করি আরও সুবিধাজনক।</p><a class="primary" href="#products">পণ্য দেখুন &nbsp; ↓</a></div><div class="hero-art" aria-hidden="true">🛍️</div></section>
+<section class="benefits" aria-label="আমাদের সুবিধা"><div class="benefit"><span class="ico">🚚</span><div><b>সুবিধাজনক ডেলিভারি</b><small>আপনার ঠিকানায় পণ্য পৌঁছে দেওয়ার ব্যবস্থা</small></div></div><div class="benefit"><span class="ico">💵</span><div><b>ক্যাশ অন ডেলিভারি</b><small>পণ্য পাওয়ার সময় টাকা দেওয়ার সুযোগ</small></div></div><div class="benefit"><span class="ico">🔒</span><div><b>নিরাপদ অর্ডার</b><small>সার্ভার থেকে পণ্য ও স্টক যাচাই</small></div></div></section>
+<section class="section" id="products"><div class="section-title"><div><h2>আমাদের পণ্য</h2><p id="productCaption">আপনার জন্য বাছাই করা পণ্য</p></div><span id="productCount" style="font-size:13px;color:var(--muted)"></span></div><div class="category-row" id="categories"><button class="category active" data-category="">সব পণ্য</button></div><div class="grid" id="productGrid"><div class="loading">পণ্য লোড হচ্ছে…</div></div></section>
+<section class="section" id="cartSection"><div class="section-title"><div><h2>আপনার কার্ট ও চেকআউট</h2><p>অর্ডার সম্পন্ন করতে নিচের তথ্য পূরণ করুন</p></div></div><div class="cart-section"><div class="cart-layout"><div><div id="cartList" class="cart-list"><div class="empty-state">এখনো কার্টে কোনো পণ্য যোগ করা হয়নি। পছন্দের পণ্যে “অর্ডার করুন” চাপুন।</div></div></div><div class="summary"><h3>অর্ডারের সারাংশ</h3><div class="sumline"><span>পণ্যের দাম</span><b id="subtotal">৳০</b></div><div class="sumline"><span>ডেলিভারি চার্জ</span><b id="delivery">৳০</b></div><div class="sumline total"><span>সর্বমোট</span><b id="total">৳০</b></div>
+<form id="checkoutForm" class="checkout-form">
+<h3>ডেলিভারি তথ্য</h3><div id="checkoutStatus" class="status" role="status" aria-live="polite"></div>
+<label class="field">আপনার পূর্ণ নাম<input name="customer_name" required minlength="2" maxlength="120" autocomplete="name" placeholder="নাম লিখুন"></label>
+<div class="two-col"><label class="field">মোবাইল নম্বর<input name="phone" type="tel" required minlength="8" maxlength="20" autocomplete="tel" placeholder="01XXXXXXXXX"></label><label class="field">ইমেইল ঠিকানা<input name="customer_email" type="email" required maxlength="254" autocomplete="email" placeholder="you@example.com"></label></div>
+<div class="two-col"><label class="field">বিভাগ<select id="divisionSelect" name="division_name" required><option value="">বিভাগ নির্বাচন করুন</option><option>ঢাকা</option><option>চট্টগ্রাম</option><option>রাজশাহী</option><option>খুলনা</option><option>বরিশাল</option><option>সিলেট</option><option>রংপুর</option><option>ময়মনসিংহ</option></select></label><label class="field">পেমেন্ট পদ্ধতি<select name="payment_method" required><option value="cod">ক্যাশ অন ডেলিভারি (COD)</option><option value="bkash">bKash (অনলাইন পেমেন্ট চালু নেই)</option><option value="nagad">Nagad (অনলাইন পেমেন্ট চালু নেই)</option></select></label></div>
+<label class="field">সম্পূর্ণ ঠিকানা<textarea name="address_details" id="addressDetails" required minlength="5" maxlength="350" rows="3" autocomplete="street-address" placeholder="জেলা, উপজেলা, এলাকা, রোড/বাড়ি নম্বর লিখুন"></textarea></label>
+<button class="submit" id="submitOrder" type="submit">অর্ডার নিশ্চিত করুন</button><small style="color:var(--muted);line-height:1.6">bKash/Nagad-এর স্বয়ংক্রিয় পেমেন্ট এখনো সংযুক্ত নয়। আপাতত COD বেছে নেওয়াই ভালো।</small>
+</form></div></div></div></section>
+</main>
+<footer class="footer"><div class="wrap foot"><div><a class="logo" style="color:#fff" href="#">🛍️ Kine Dekhi</a><p>সহজ ও সুবিধাজনক অনলাইন কেনাকাটা।</p></div><div><b>গ্রাহক সহায়তা</b><p><a href="track-order.html">অর্ডার ট্র্যাক করুন</a><br><a href="admin.html">অ্যাডমিন প্যানেল</a></p></div><div><small>© <span id="year"></span> Kine Dekhi. সর্বস্বত্ব সংরক্ষিত।</small></div></div></footer>
 <script>
-let products=[
-{id:1,name:"ক্যাজুয়াল টি-শার্ট",cat:"ফ্যাশন",price:450,emoji:"👕",desc:"নমুনা পণ্য · সাইজ ও রং পরে যোগ হবে",delivery_fee:null},
-{id:2,name:"ওয়্যারলেস ইয়ারবাড",cat:"ইলেকট্রনিক্স",price:1250,emoji:"🎧",desc:"নমুনা পণ্য · স্পেসিফিকেশন পরে যোগ হবে"},
-{id:3,name:"ডেকোরেটিভ টেবিল ল্যাম্প",cat:"ঘর-গৃহস্থালি",price:890,emoji:"💡",desc:"নমুনা পণ্য · বিবরণ পরে যোগ হবে"},
-{id:4,name:"স্কিন কেয়ার সেট",cat:"সৌন্দর্য",price:650,emoji:"🧴",desc:"নমুনা পণ্য · উপাদান পরে যোগ হবে"},
-{id:5,name:"দৈনন্দিন ব্যাকপ্যাক",cat:"ফ্যাশন",price:980,emoji:"🎒",desc:"নমুনা পণ্য · রং পরে যোগ হবে"},
-{id:6,name:"স্মার্ট ওয়াচ",cat:"ইলেকট্রনিক্স",price:1790,emoji:"⌚",desc:"নমুনা পণ্য · ফিচার পরে যোগ হবে"},
-{id:7,name:"কফি মগ",cat:"ঘর-গৃহস্থালি",price:280,emoji:"☕",desc:"নমুনা পণ্য · ডিজাইন পরে যোগ হবে"},
-{id:8,name:"স্টোরেজ অর্গানাইজার",cat:"দৈনন্দিন",price:390,emoji:"🧺",desc:"নমুনা পণ্য · মাপ পরে যোগ হবে"}];
-let cart=[];let category="";let search="";let supabaseProductsLoaded=false;let orderSubmitting=false;let deliveryFee=0;let selectedSizes=[];let sortMode="default";
-const money=n=>"৳"+n.toLocaleString("en-US");
-// Expose storefront actions before first render so cart buttons remain connected
-// even if a rendering or data-loading operation fails during startup.
-window.kineDekhi = {
-  render: () => render(),
-  addFromCard: id => addFromCard(id),
-  orderFromCard: id => orderFromCard(id),
-  addToCart: (id, size, color) => addToCart(id, size || "", color || ""),
-  addFromDetail: (id, goCheckout) => addFromDetail(id, Boolean(goCheckout)),
-  openProductDetail: id => openProductDetail(id),
-  closeProductDetail: () => closeProductDetail(),
-  toggleCartDrawer: () => toggleCartDrawer(),
-  closeCartDrawer: () => closeCartDrawer(),
-  showCheckout: () => showCheckout(),
-  search: value => {
-    search = String(value || "").trim();
-    category = "";
-    render();
-    searchSuggestions.hidden = true;
-  },
-  getState: () => ({ productCount: products.length, cartCount: cart.reduce((n, item) => n + item.qty, 0), supabaseProductsLoaded })
-};
-function render(){const minPrice=Number(document.getElementById("minPriceFilter")?.value||1),maxPrice=Number(document.getElementById("maxPriceFilter")?.value||100000);let list=products.filter(p=>(!category||p.cat===category)&&p.name.toLowerCase().includes(search.toLowerCase())&&Number(p.price||0)>=minPrice&&Number(p.price||0)<=maxPrice&&(!selectedSizes.length||selectedSizes.some(s=>(p.size_options||[]).some(v=>String(v).toUpperCase()===s))));if(sortMode==="name-asc")list.sort((a,b)=>a.name.localeCompare(b.name,"en",{sensitivity:"base"}));else if(sortMode==="name-desc")list.sort((a,b)=>b.name.localeCompare(a.name,"en",{sensitivity:"base"}));else if(sortMode==="price-asc")list.sort((a,b)=>Number(a.price||0)-Number(b.price||0));else if(sortMode==="price-desc")list.sort((a,b)=>Number(b.price||0)-Number(a.price||0));else if(sortMode==="size-asc"||sortMode==="size-desc"){const rank=v=>{const s=String(v||"").toUpperCase().trim();const known={"XXS":1,"XS":2,"S":3,"SMALL":3,"M":4,"MEDIUM":4,"L":5,"LARGE":5,"XL":6,"XXL":7,"XXXL":8,"3XL":8,"4XL":9};return known[s]||(/^\d+$/.test(s)?Number(s)+100:50)};list.sort((a,b)=>{const av=(a.size_options||[]).map(rank),bv=(b.size_options||[]).map(rank);const aa=av.length?(sortMode==="size-asc"?Math.min(...av):Math.max(...av)):999,bb=bv.length?(sortMode==="size-asc"?Math.min(...bv):Math.max(...bv)):999;return sortMode==="size-asc"?aa-bb:bb-aa})}const filterCount=document.getElementById("filterResultCount");if(filterCount)filterCount.textContent=(window.__kineLanguage==="en"?"Showing ":"দেখানো হচ্ছে ")+list.length+(window.__kineLanguage==="en"?" products":"টি পণ্য");document.getElementById("productGrid").innerHTML=list.map(p=>{const freeDelivery=p.delivery_fee===0;const productImage=p.image_url?`<img src="${String(p.image_url).replace(/&/g,"&amp;").replace(/"/g,"&quot;")}" alt="${String(p.name).replace(/&/g,"&amp;").replace(/"/g,"&quot;")}" loading="lazy">`:p.emoji;return `<article class="product"><div class="prodimg product-open" role="button" tabindex="0" onclick="openProductDetail(${p.id})" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();openProductDetail(${p.id})}">${productImage}${p.discount_percent>0?`<span class="sale-badge">${p.discount_percent}% ${window.__kineLanguage==="en"?"off":"ছাড়"}</span>`:""}${freeDelivery?`<span class="free-delivery-badge">🚚 ${window.__kineLanguage==="en"?"Free delivery":"ফ্রি ডেলিভারি"}</span>`:""}</div><div class="prodinfo"><h3 class="product-open" role="button" tabindex="0" onclick="openProductDetail(${p.id})" onkeydown="if(event.key===\'Enter\')openProductDetail(${p.id})">${p.name}</h3><span class="price">${p.discount_percent>0?`<span class="sale-price">${money(p.price)}</span><span class="old-price">${money(p.original_price)}</span>`:money(p.price)}</span><p>${p.desc}</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:7px"><button class="add" data-product-id="${p.id}" onclick="addFromCard(${p.id})">${window.__kineLanguage==="en"?"＋ Add to cart":"🛒 কার্টে যোগ"}</button><button class="order-now" onclick="orderFromCard(${p.id})" style="width:100%;border:0;color:white;background:var(--green);padding:9px 6px;border-radius:10px;font:inherit;font-weight:800;cursor:pointer">${window.__kineLanguage==="en"?"Order now":"অর্ডার করুন"}</button></div></div></article>`}).join("")||'<p>কোনো পণ্য পাওয়া যায়নি।</p>';const cardHtml=(p,tag)=>{const img=p.image_url?'<img src="'+String(p.image_url).replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'" alt="'+String(p.name).replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'" loading="lazy">':p.emoji;return '<article class="product"><div class="prodimg product-open" role="button" tabindex="0" onclick="openProductDetail('+p.id+')">'+img+(p.discount_percent>0?'<span class="sale-badge">'+p.discount_percent+'% ছাড়</span>':'')+(tag?'<span class="best-badge">'+tag+'</span>':'')+'</div><div class="prodinfo"><h3>'+p.name+'</h3><span class="price">'+(p.discount_percent>0?'<span class="sale-price">'+money(p.price)+'</span><span class="old-price">'+money(p.original_price)+'</span>':money(p.price))+'</span><div style="display:flex;gap:6px;margin-top:8px"><button class="add" data-product-id="'+p.id+'" onclick="addFromCard('+p.id+')">${window.__kineLanguage==="en"?"＋ Add to cart":"🛒 কার্টে যোগ"}</button><button class="order-now" onclick="orderFromCard('+p.id+')" style="flex:1;border:0;color:white;background:var(--green);padding:9px 6px;border-radius:10px;font:inherit;font-weight:800;cursor:pointer">${window.__kineLanguage==="en"?"Order now":"অর্ডার করুন"}</button></div></div></article>'};const best=products.slice().sort((a,b)=>(b.sales_count||0)-(a.sales_count||0)).slice(0,8);const deals=products.filter(p=>p.discount_percent>0).sort((a,b)=>b.discount_percent-a.discount_percent).slice(0,8);document.getElementById('bestSellGrid').innerHTML=best.length?best.map(p=>cardHtml(p,'Best Seller')).join(''):'<p>এখনো পণ্য পাওয়া যায়নি।</p>';document.getElementById('discountGrid').innerHTML=deals.length?deals.map(p=>cardHtml(p,'')).join(''):'<p>এখনো কোনো ডিসকাউন্ট দেওয়া পণ্য নেই।</p>';document.getElementById("cartCount").textContent=cart.reduce((n,i)=>n+i.qty,0);const checkoutToggle=document.getElementById("checkoutToggle");if(checkoutToggle)checkoutToggle.style.display=cart.length?"block":"none";const checkoutForm=document.getElementById("checkoutForm");if(checkoutForm&&!cart.length)checkoutForm.style.display="none";document.getElementById("cartItems").innerHTML=cart.length?cart.map(i=>{let p=products.find(p=>String(p.id)===String(i.id));const thumb=p.image_url?`<img src="${String(p.image_url).replace(/&/g,"&amp;").replace(/"/g,"&quot;")}" alt="${String(p.name).replace(/&/g,"&amp;").replace(/"/g,"&quot;")}" loading="lazy">`:`<span>${p.emoji||"🛍️"}</span>`;return `<div class="cart-item-row"><div class="cart-item-thumb">${thumb}</div><div class="cart-item-info"><strong>${p.name}</strong><small>${i.size?`সাইজ: ${i.size} · `:""}${i.color?(window.__kineLanguage==="en"?`Color: ${i.color} · `:`রং: ${i.color} · `):""}${window.__kineLanguage==="en"?"Qty: ":"পরিমাণ: "}${i.qty}</small><b>${money(p.price*i.qty)}</b></div><button type="button" onclick="removeItem('${String(i.key).replace(/'/g,"\\'")}')">বাদ দিন</button></div>`}).join(""):'কার্টে এখনো কোনো পণ্য নেই।';const subtotal=cart.reduce((n,i)=>n+products.find(p=>String(p.id)===String(i.id)).price*i.qty,0);const selectedDivision=(document.getElementById("divisionSelect")?.selectedOptions[0]?.textContent||"").replace(/\s*বিভাগ\s*$/u,"").trim();const configuredDivisionFee=Object.prototype.hasOwnProperty.call(divisionFees,selectedDivision)?divisionFees[selectedDivision]:null;const defaultFee=configuredDivisionFee===null||configuredDivisionFee===undefined?deliveryFee:Number(configuredDivisionFee);const chargeableItems=cart.filter(i=>products.find(p=>String(p.id)===String(i.id)).delivery_fee!==0);const orderDeliveryFee=chargeableItems.length?defaultFee:0;document.getElementById("cartTotal").innerHTML=cart.length?(window.__kineLanguage==="en"?"Subtotal: ":"পণ্যের দাম: ")+money(subtotal)+"<br>"+(window.__kineLanguage==="en"?"Delivery fee (charged once): ":"ডেলিভারি চার্জ (সর্বোচ্চ একবার): ")+money(orderDeliveryFee)+"<br><strong>"+(window.__kineLanguage==="en"?"Total: ":"সর্বমোট: ")+money(subtotal+orderDeliveryFee)+"</strong>":"";}
-function openProductDetail(id){const p=products.find(x=>String(x.id)===String(id));if(!p)return;const freeDelivery=p.delivery_fee===0;const colorImages=p.color_images&&typeof p.color_images==='object'?p.color_images:{};const normalImages=Array.from(new Set([...(Array.isArray(p.image_urls)?p.image_urls:[]),p.image_url].filter(Boolean)));const videos=Array.isArray(p.video_urls)?p.video_urls:[];const images=Array.from(new Set([...normalImages,...Object.values(colorImages).filter(Boolean)]));const allMedia=[...images.map((url,i)=>({type:'image',url,label:'ছবি '+(i+1)})),...videos.map((url,i)=>({type:'video',url,label:'ভিডিও '+(i+1)}))];const first=allMedia[0];const media=allMedia.length?'<div class="detail-gallery"><div class="detail-image" id="detailMainMedia">'+(first.type==='image'?'<img src="'+first.url+'" alt="'+p.name+'">':'<video class="detail-video" controls playsinline src="'+first.url+'"></video>')+(freeDelivery?'<span class="free-delivery-badge">🚚 ফ্রি ডেলিভারি</span>':'')+'</div>'+(allMedia.length>1?'<div class="detail-nav"><button type="button" onclick="moveDetailMedia(-1)">‹ আগেরটি</button><span class="detail-counter" id="detailMediaCounter">1 / '+allMedia.length+'</span><button type="button" onclick="moveDetailMedia(1)">পরেরটি ›</button></div>':'')+'</div>':'<div class="detail-image">'+p.emoji+'</div>';const sizeOptions=Array.isArray(p.size_options)?p.size_options:[],colorOptions=Array.isArray(p.color_options)?p.color_options:[];const choiceHtml=(opts,id,label)=>opts.length?'<label style="display:block;margin:12px 0;font-weight:700">' +label+'<select id="'+id+'" style="display:block;width:100%;padding:11px;border:1px solid #dce5e2;border-radius:9px;font:inherit;margin-top:6px"><option value="">নির্বাচন করুন</option>'+opts.map(v=>'<option value="'+String(v).replace(/&/g,"&amp;").replace(/"/g,"&quot;")+'">'+v+'</option>').join('')+'</select></label>':'';const html='<div class="detail-layout"><div>'+media+'</div><div class="detail-info"><small>'+String(p.cat||"পণ্য")+'</small><h2>'+p.name+'</h2><div class="price">'+money(p.price)+'</div><p class="detail-desc">'+String(p.desc||"এই পণ্যের বিস্তারিত তথ্য শিগগিরই যোগ করা হবে。").replace(/</g,"&lt;")+'</p>'+choiceHtml(sizeOptions,"detailSize","সাইজ")+choiceHtml(colorOptions,"detailColor","কালার")+(freeDelivery?'<p style="color:#087443;font-weight:800">🚚 এই পণ্যে ফ্রি ডেলিভারি</p>':'')+'<div class="detail-actions"><button class="detail-add" onclick="addFromDetail('+p.id+',false)">🛒 কার্টে যোগ</button><button class="detail-order" onclick="addFromDetail('+p.id+',true)">এখনই অর্ডার করুন</button></div></div></div>';document.getElementById("productDetailContent").innerHTML=html;document.getElementById("productDetail").classList.add("open");document.body.style.overflow="hidden";window.currentDetailMedia={id,allMedia,index:0};const box=document.getElementById("detailMainMedia");if(box){let sx=0;box.ontouchstart=e=>{sx=e.changedTouches[0].screenX};box.ontouchend=e=>{const dx=e.changedTouches[0].screenX-sx;if(Math.abs(dx)>45)moveDetailMedia(dx<0?1:-1)};}const colorSelect=document.getElementById('detailColor');if(colorSelect)colorSelect.addEventListener('change',()=>{const chosen=colorImages[colorSelect.value];const rest=allMedia.filter(m=>!Object.values(colorImages).includes(m.url));const next=chosen?[{type:'image',url:chosen,label:'নির্বাচিত রঙের ছবি'},...rest]:rest;window.currentDetailMedia={id,allMedia:next,index:0};if(next.length)showDetailMedia(id,0);});}
-function moveDetailMedia(step){const state=window.currentDetailMedia;if(!state||!state.allMedia.length)return;state.index=(state.index+step+state.allMedia.length)%state.allMedia.length;showDetailMedia(state.id,state.index);}
-function showDetailMedia(id,idx){const state=window.currentDetailMedia;if(!state||state.id!==id)return;const m=state.allMedia[idx];if(!m)return;state.index=idx;const main=document.getElementById("detailMainMedia");if(!main)return;main.querySelectorAll("img,video").forEach(el=>el.remove());const el=m.type==="image"?document.createElement("img"):document.createElement("video");el.src=m.url;if(m.type==="image"){el.alt=m.label}else{el.controls=true;el.playsInline=true;el.className="detail-video"}main.prepend(el);main.querySelectorAll(".free-delivery-badge").forEach(x=>x.remove());const p=products.find(x=>x.id===id);if(p&&p.delivery_fee===0){const badge=document.createElement("span");badge.className="free-delivery-badge";badge.textContent="🚚 ফ্রি ডেলিভারি";main.append(badge)}const counter=document.getElementById("detailMediaCounter");if(counter)counter.textContent=(idx+1)+" / "+state.allMedia.length;}
-function closeProductDetail(){document.getElementById("productDetail").classList.remove("open");document.body.style.overflow=""}document.addEventListener("keydown",e=>{if(e.key==="Escape")closeProductDetail()});function addToCart(id,size="",color=""){const p=products.find(x=>String(x.id)===String(id));if(!p){console.error("Kine dekhi: product not found for cart",id);alert("পণ্যটি পাওয়া যায়নি। পেজটি রিফ্রেশ করে আবার চেষ্টা করুন।");return}id=p.id;const key=String(id)+"|"+size+"|"+color;let item=cart.find(i=>i.key===key);item?item.qty++:cart.push({id,key,size,color,qty:1});render()}
-function showCartAfterAdd(){const drawer=document.getElementById("cartDrawer");if(!drawer)return;drawer.style.display="block";drawer.classList.add("open");drawer.setAttribute("aria-hidden","false")}function showCheckout(){if(!cart.length){alert("আগে কার্টে পণ্য যোগ করুন।");return}const form=document.getElementById("checkoutForm");if(!form)return;form.style.display="grid";form.scrollIntoView({behavior:"smooth",block:"start"})}function addFromCard(id){const p=products.find(x=>String(x.id)===String(id));if(!p){console.error("Kine dekhi: product not found for cart button",id);alert("পণ্যটি পাওয়া যায়নি। পেজটি রিফ্রেশ করে আবার চেষ্টা করুন।");return}if(((p.size_options||[]).length||(p.color_options||[]).length)){openProductDetail(p.id);return}addToCart(p.id);showCartAfterAdd()}
-function orderFromCard(id){const p=products.find(x=>String(x.id)===String(id));if(p&&((p.size_options||[]).length||(p.color_options||[]).length)){openProductDetail(id);return}orderNow(id)}
-function addFromDetail(id,goCheckout){const p=products.find(x=>String(x.id)===String(id));if(!p){alert("পণ্যটি পাওয়া যায়নি। পেজটি রিফ্রেশ করে আবার চেষ্টা করুন।");return}const sizeOptions=p.size_options||[],colorOptions=p.color_options||[];const size=document.getElementById("detailSize")?.value||"",color=document.getElementById("detailColor")?.value||"";if(sizeOptions.length&&!size){alert("সাইজ নির্বাচন করুন।");return}if(colorOptions.length&&!color){alert("কালার নির্বাচন করুন।");return}addToCart(p.id,size,color);closeProductDetail();showCartAfterAdd();if(goCheckout){const drawer=document.getElementById("cartDrawer"),form=document.getElementById("checkoutForm");if(drawer){drawer.style.display="block";drawer.classList.add("open");drawer.setAttribute("aria-hidden","false")}if(form){form.style.display="grid";form.scrollIntoView({behavior:"smooth",block:"start"})}}}
-function orderNow(id){const p=products.find(x=>String(x.id)===String(id));if(!p){console.error("Kine dekhi: product not found for Order now",id);alert("পণ্যটি পাওয়া যায়নি। পেজটি রিফ্রেশ করে আবার চেষ্টা করুন।");return}addToCart(p.id);const drawer=document.getElementById("cartDrawer");const form=document.getElementById("checkoutForm");if(!drawer||!form)return;drawer.classList.add("open");drawer.style.display="block";drawer.setAttribute("aria-hidden","false");form.style.display="grid";drawer.scrollIntoView({behavior:"smooth",block:"start"});form.scrollIntoView({behavior:"smooth",block:"start"});}
-function removeItem(key){cart=cart.filter(i=>i.key!==key);render()}
-const searchInput=document.getElementById("searchInput");const searchSuggestions=document.getElementById("searchSuggestions");function showSearchSuggestions(){const q=searchInput.value.trim().toLocaleLowerCase();if(q.length<2){searchSuggestions.hidden=true;searchSuggestions.innerHTML="";return}const matches=products.filter(p=>p.name.toLocaleLowerCase().includes(q)).slice(0,7);searchSuggestions.innerHTML=matches.map(p=>{const image=p.image_url?`<img src="${String(p.image_url).replace(/&/g,"&amp;").replace(/"/g,"&quot;")}" alt="">`:`<span class="suggest-emoji">${p.emoji||"🛍️"}</span>`;return `<button type="button" class="search-suggestion" data-suggest-id="${p.id}">${image}<span>${p.name}</span></button>`}).join("");searchSuggestions.hidden=!matches.length}searchInput.addEventListener("input",showSearchSuggestions);searchSuggestions.addEventListener("click",e=>{const b=e.target.closest("[data-suggest-id]");if(!b)return;const p=products.find(x=>String(x.id)===b.dataset.suggestId);if(!p)return;searchInput.value=p.name;search=p.name;category="";searchSuggestions.hidden=true;render();document.getElementById("products").scrollIntoView({behavior:"smooth",block:"start"})});document.addEventListener("click",e=>{if(!e.target.closest("#searchForm")&&!e.target.closest("#searchSuggestions"))searchSuggestions.hidden=true});document.getElementById("searchForm").addEventListener("submit",e=>{e.preventDefault();search=searchInput.value.trim();category="";searchSuggestions.hidden=true;render();document.getElementById("products").scrollIntoView({behavior:"smooth",block:"start"})});
-function toggleCartDrawer(){const drawer=document.getElementById("cartDrawer");if(!drawer)return;const opening=!drawer.classList.contains("open");drawer.classList.toggle("open",opening);drawer.style.display=opening?"block":"none";if(opening){drawer.setAttribute("aria-hidden","false");}}
-function closeCartDrawer(){const drawer=document.getElementById("cartDrawer");if(drawer){drawer.classList.remove("open");drawer.style.display="none";drawer.setAttribute("aria-hidden","true");}}
-// Cart drawer is opened by the inline click handler on #cartToggle.
-document.querySelectorAll("[data-cat]").forEach(a=>a.addEventListener("click",()=>{category=a.dataset.cat;render()}));
-const sortEl=document.getElementById("sortProducts");if(sortEl)sortEl.addEventListener("change",()=>{sortMode=sortEl.value;render()});
-function refreshSizeFilters(){const host=document.getElementById("sizeFilterOptions");if(!host)return;const sizes=[...new Set(products.flatMap(p=>Array.isArray(p.size_options)?p.size_options:[]).map(s=>String(s).trim()).filter(Boolean))].sort((a,b)=>{const rank=v=>({"XXS":1,"XS":2,"S":3,"SMALL":3,"M":4,"MEDIUM":4,"L":5,"LARGE":5,"XL":6,"XXL":7,"XXXL":8,"3XL":8,"4XL":9}[v.toUpperCase()]||(/^\d+$/.test(v)?Number(v)+100:50));return rank(a)-rank(b)||a.localeCompare(b)});host.innerHTML=sizes.length?sizes.map((s,i)=>'<label style="display:inline-flex;align-items:center;gap:5px;border:1px solid #f0d4d8;border-radius:8px;padding:7px 9px;font-weight:650;cursor:pointer"><input type="checkbox" data-size-filter="' +String(s).replace(/&/g,"&amp;").replace(/"/g,"&quot;")+'" style="width:17px;height:17px;accent-color:#c90019" ' +(selectedSizes.includes(s.toUpperCase())?"checked":"")+'><span>'+s+'</span></label>').join(""):'<small style="color:#78656a">এখনো কোনো পণ্যে সাইজ দেওয়া নেই। অ্যাডমিন থেকে পণ্যের সাইজ যোগ করলে এখানে দেখা যাবে।</small>';host.querySelectorAll("[data-size-filter]").forEach(el=>el.addEventListener("change",()=>{const v=el.dataset.sizeFilter.toUpperCase();selectedSizes=el.checked?[...selectedSizes.filter(x=>x!==v),v]:selectedSizes.filter(x=>x!==v);render()}))}
-document.getElementById("clearFilters")?.addEventListener("click",()=>{selectedSizes=[];sortMode="default";if(sortEl)sortEl.value="default";const minEl=document.getElementById("minPriceFilter"),maxEl=document.getElementById("maxPriceFilter");if(minEl)minEl.value="";if(maxEl)maxEl.value="";document.querySelectorAll("[data-size-filter]").forEach(el=>el.checked=false);render()});document.getElementById("minPriceFilter")?.addEventListener("input",render);document.getElementById("maxPriceFilter")?.addEventListener("input",render);const filterToggle=document.getElementById("filterToggle"),filterPanel=document.getElementById("productFilters");filterToggle?.addEventListener("click",()=>{filterPanel.hidden=!filterPanel.hidden;filterToggle.setAttribute("aria-expanded",String(!filterPanel.hidden))});document.addEventListener("click",e=>{if(filterPanel&&!e.target.closest("#searchForm")){filterPanel.hidden=true;filterToggle?.setAttribute("aria-expanded","false")}});
-
-document.getElementById("year").textContent=new Date().getFullYear();
-
-// Bangladesh address selector: division -> district -> upazila.
-(async function initBangladeshAddress(){
- const divisionEl=document.getElementById("divisionSelect");
- const districtEl=document.getElementById("districtSelect");
- const upazilaEl=document.getElementById("upazilaSelect");
- const statusEl=document.getElementById("locationStatus");
- let geo=[];
- const setOptions=(el,items,placeholder)=>{el.innerHTML='<option value="">'+placeholder+'</option>'+items.map((x,i)=>'<option value="'+i+'">'+(x.bn_name||x.name)+'</option>').join('');};
- try{
-   const res=await fetch("https://iqbalhasandev.github.io/bangladesh-geo-json/bangladesh-geo.json");
-   if(!res.ok) throw new Error("Location list unavailable");
-   geo=await res.json();
-   if(!Array.isArray(geo)||!geo.length) throw new Error("Invalid location list");
-   setOptions(divisionEl,geo,"বিভাগ নির্বাচন করুন");
-   statusEl.textContent="প্রথমে বিভাগ, এরপর জেলা ও উপজেলা নির্বাচন করুন।";
-   divisionEl.addEventListener("change",()=>{
-     const division=geo[Number(divisionEl.value)];
-     render();
-     setOptions(districtEl,division?.districts||[],"জেলা নির্বাচন করুন");
-     districtEl.disabled=!division;
-     setOptions(upazilaEl,[],"আগে জেলা নির্বাচন করুন");upazilaEl.disabled=true;
-   });
-   districtEl.addEventListener("change",()=>{
-     const division=geo[Number(divisionEl.value)];
-     const district=division?.districts?.[Number(districtEl.value)];
-     setOptions(upazilaEl,district?.upazilas||[],"উপজেলা নির্বাচন করুন");
-     upazilaEl.disabled=!district;
-   });
- }catch(err){
-   divisionEl.innerHTML='<option value="">বিভাগের তালিকা লোড হয়নি</option>';
-   statusEl.textContent="অবস্থান তালিকা লোড হয়নি। ইন্টারনেট সংযোগ পরীক্ষা করে পেজ রিফ্রেশ করুন।";
-   console.error("Bangladesh address data:",err);
- }
-})();
-
-
-// Supabase connection for Kine dekhi.
-// Replace the placeholder below with the project's Publishable key (sb_publishable_...).
-const SUPABASE_URL = "https://jyrzdtitmdsxzxtxhecu.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_saBTFA1ddc3ICx3t_sPjiw_BKjGLl5o";
-const CREATE_ORDER_URL = SUPABASE_URL + "/functions/v1/create-order";
-let divisionFees = {};
-async function loadDivisionFees(){try{const response=await fetch(SUPABASE_URL+"/rest/v1/division_delivery_fees?select=division_name,delivery_fee",{headers:{"apikey":SUPABASE_PUBLISHABLE_KEY}});if(!response.ok)throw new Error("Division fees unavailable");const rows=await response.json();divisionFees=Object.fromEntries(rows.map(r=>[r.division_name,r.delivery_fee]));render()}catch(error){console.error("Kine dekhi division fees:",error)}}
-async function loadDeliveryFee(){
-  try{
-    const response=await fetch(SUPABASE_URL+"/rest/v1/store_settings?select=delivery_fee&id=eq.1",{headers:{"apikey":SUPABASE_PUBLISHABLE_KEY}});
-    if(!response.ok) throw new Error("Delivery fee request failed: "+response.status);
-    const rows=await response.json();
-    if(rows.length) deliveryFee=Number(rows[0].delivery_fee)||0;
-    render();
-  }catch(error){console.error("Kine dekhi delivery fee:",error);}
-}
-async function loadProductsFromSupabase(){
-  if(!SUPABASE_PUBLISHABLE_KEY || SUPABASE_PUBLISHABLE_KEY.includes("PASTE_YOUR_")){
-    console.error("Kine dekhi: Supabase publishable key is not configured.");
-    return;
-  }
-  try{
-    const productHeaders = {
-      "apikey": SUPABASE_PUBLISHABLE_KEY,
-      
-    };
-    const productFields = "id,name,description,price,original_price,stock,image_url,image_urls,video_urls,size_options,color_options,color_images,delivery_fee";
-    let response = await fetch(SUPABASE_URL + "/rest/v1/products?select=" + productFields + ",categories(name)&is_active=eq.true&order=id.asc", {
-      cache: "no-store",
-      headers: productHeaders
-    });
-    // If the categories relationship is missing/ambiguous in PostgREST, retry without the join
-    // so valid products still appear on the storefront.
-    let includesCategory = true;
-    if(!response.ok) {
-      const firstError = await response.text().catch(()=> "");
-      console.warn("Product query with category join failed; retrying without categories:", response.status, firstError.slice(0,250));
-      includesCategory = false;
-      response = await fetch(SUPABASE_URL + "/rest/v1/products?select=" + productFields + "&is_active=eq.true&order=id.asc", {
-        cache: "no-store",
-        headers: productHeaders
-      });
-      if(!response.ok) {
-        const detail = await response.text().catch(()=> "");
-        console.warn("Extended product fields failed; retrying with core fields:", response.status, detail.slice(0,250));
-        // A missing optional column should not hide every product from the storefront.
-        const coreFields = "id,name,description,price,original_price,stock,image_url";
-        response = await fetch(SUPABASE_URL + "/rest/v1/products?select=" + coreFields + "&is_active=eq.true&order=id.asc", {
-          cache: "no-store",
-          headers: productHeaders
-        });
-        includesCategory = false;
-        if(!response.ok) {
-          const coreDetail = await response.text().catch(()=> "");
-          throw new Error("Supabase product request failed: " + response.status + (coreDetail ? " " + coreDetail.slice(0,250) : ""));
-        }
-      }
-    }
-    const rows = await response.json();
-    const emojiByCategory = {"ফ্যাশন":"👕","ইলেকট্রনিক্স":"🎧","ঘর-গৃহস্থালি":"🏠","সৌন্দর্য":"🧴","দৈনন্দিন পণ্য":"🧺"};
-    products = rows.map(p=>({
-      id: p.id,
-      name: p.name,
-      cat: (includesCategory && p.categories?.name) || "দৈনন্দিন",
-      price: Number(p.price), original_price:Number(p.original_price||0), discount_percent:Number(p.original_price)>Number(p.price)?Math.round((Number(p.original_price)-Number(p.price))/Number(p.original_price)*100):0, sales_count:0,
-      emoji: emojiByCategory[(includesCategory && p.categories?.name) || ""] || "📦",
-      desc: p.description || "বিস্তারিত শিগগিরই যোগ করা হবে",
-      image_url: p.image_url || (Array.isArray(p.image_urls) ? p.image_urls[0] || "" : ""),
-      image_urls: Array.isArray(p.image_urls) ? p.image_urls : [],
-      video_urls: Array.isArray(p.video_urls) ? p.video_urls : [],
-      size_options: Array.isArray(p.size_options) ? p.size_options : [],
-      color_options: Array.isArray(p.color_options) ? p.color_options : [],
-      color_images: p.color_images && typeof p.color_images === 'object' ? p.color_images : {},
-      delivery_fee: p.delivery_fee===null||p.delivery_fee===undefined?null:Number(p.delivery_fee)
-    }));
-    supabaseProductsLoaded = true;
-    category = "";
-    try {
-      const salesResponse=await fetch(SUPABASE_URL+"/rest/v1/rpc/public_product_sales",{
-        method:"POST",
-        cache:"no-store",
-        headers:{"apikey":SUPABASE_PUBLISHABLE_KEY,"Content-Type":"application/json"},
-        body:"{}"
-      });
-      if(salesResponse.ok){
-        const salesRows=await salesResponse.json();
-        const salesMap=new Map(salesRows.map(x=>[String(x.product_id),Number(x.sales_count||0)]));
-        products=products.map(p=>({...p,sales_count:salesMap.get(String(p.id))||0}));
-      }
-    } catch(e){console.warn("Sales summary unavailable",e);}
-    refreshSizeFilters();
-    render();
-    if(!rows.length) console.info("Kine dekhi: no active products returned from Supabase.");
-  }catch(error){
-    console.error("Kine dekhi Supabase connection:", error);
-    supabaseProductsLoaded = false;
-    // Keep the built-in sample catalog available when Supabase is temporarily unreachable.
-    // Clearing products here makes every cart/order button fail with "product not found".
-    if(!Array.isArray(products) || products.length===0){
-      products = [
-        {id:1,name:"ক্যাজুয়াল টি-শার্ট",cat:"ফ্যাশন",price:450,emoji:"👕",desc:"নমুনা পণ্য"},
-        {id:2,name:"ওয়্যারলেস ইয়ারবাড",cat:"ইলেকট্রনিক্স",price:1250,emoji:"🎧",desc:"নমুনা পণ্য"},
-        {id:3,name:"ডেকোরেটিভ টেবিল ল্যাম্প",cat:"ঘর-গৃহস্থালি",price:890,emoji:"💡",desc:"নমুনা পণ্য"},
-        {id:4,name:"স্কিন কেয়ার সেট",cat:"সৌন্দর্য",price:650,emoji:"🧴",desc:"নমুনা পণ্য"}
-      ];
-    }
-    refreshSizeFilters();
-    render();
-  }
-}
-const checkoutForm = document.getElementById("checkoutForm");
-function showCheckoutStatus(message, type = "info") {
-  const status = document.getElementById("checkoutStatus");
-  status.textContent = message;
-  status.style.display = "block";
-  status.style.padding = "12px";
-  status.style.borderRadius = "10px";
-  status.style.whiteSpace = "pre-wrap";
-  status.style.fontWeight = "600";
-  status.style.background = type === "success" ? "#ecfdf5" : type === "error" ? "#fef2f2" : "#eff6ff";
-  status.style.color = type === "success" ? "#065f46" : type === "error" ? "#991b1b" : "#1e40af";
-  status.style.border = "1px solid " + (type === "success" ? "#a7f3d0" : type === "error" ? "#fecaca" : "#bfdbfe");
-}
-checkoutForm.addEventListener("invalid", (event) => {
-  showCheckoutStatus("অর্ডার দেওয়ার আগে এই ঘরটি ঠিকভাবে পূরণ করুন: " + (event.target.labels?.[0]?.textContent || event.target.name || "প্রয়োজনীয় তথ্য"), "error");
-}, true);
-document.getElementById("checkoutForm").addEventListener("submit", async (event) => {
-  event.preventDefault();
-  const status = document.getElementById("checkoutStatus");
-  const submit = document.getElementById("submitOrder");
-  if (orderSubmitting) return;
-  if (!cart.length) { showCheckoutStatus("আপনার কার্টে আগে পণ্য যোগ করুন।", "error"); return; }
-  if (!supabaseProductsLoaded) { showCheckoutStatus("এখন অর্ডার নেওয়া যাচ্ছে না: সক্রিয় ডেটাবেস পণ্য লোড হয়নি। পরে আবার চেষ্টা করুন।", "error"); return; }
-  const form = event.currentTarget;
-  const fd = new FormData(form);
-  const payload = {
-    customer_name: String(fd.get("customer_name") || "").trim(),
-    customer_email: String(fd.get("customer_email") || "").trim().toLowerCase(),
-    phone: String(fd.get("phone") || "").trim(),
-    address: [document.getElementById("divisionSelect").selectedOptions[0]?.textContent, document.getElementById("districtSelect").selectedOptions[0]?.textContent, document.getElementById("upazilaSelect").selectedOptions[0]?.textContent, document.getElementById("addressDetails").value.trim()].filter(Boolean).join(", "),
-    payment_method: String(fd.get("payment_method") || "cod"),
-    division_name: (document.getElementById("divisionSelect").selectedOptions[0]?.textContent || "").replace(/\s*বিভাগ\s*$/u,"").trim(),
-    items: cart.map(item => ({ product_id: item.id, quantity: item.qty, size: item.size || null, color: item.color || null }))
-  };
-  orderSubmitting = true; submit.disabled = true; submit.textContent = "অর্ডার পাঠানো হচ্ছে…";
-  showCheckoutStatus("অর্ডার যাচাই করা হচ্ছে…", "info");
-  try {
-    const orderController = new AbortController();
-    const orderTimeout = setTimeout(() => orderController.abort(), 20000);
-    let response;
-    try {
-      response = await fetch(CREATE_ORDER_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "apikey": SUPABASE_PUBLISHABLE_KEY },
-        body: JSON.stringify(payload),
-        signal: orderController.signal
-      });
-    } catch (networkError) {
-      if (networkError && networkError.name === "AbortError") {
-        throw new Error("২০ সেকেন্ডেও সার্ভার উত্তর দেয়নি। Supabase Edge Function-এর Logs দেখুন; ফাংশন deploy বা database RPC-তে সমস্যা থাকতে পারে।");
-      }
-      throw new Error("সার্ভারের সঙ্গে সংযোগ হয়নি। ইন্টারনেট, Supabase URL এবং Edge Function পরীক্ষা করুন।");
-    } finally {
-      clearTimeout(orderTimeout);
-    }
-    const result = await response.json().catch(() => ({}));
-    if (!response.ok) throw new Error(result.error || "অর্ডার নেওয়া যায়নি। আবার চেষ্টা করুন।");
-    cart = []; render(); form.reset();
-    const orderNo = result.order_number || result.order_id || result.id || "";
-    const trackingUrl = result.tracking_url || "";
-    showCheckoutStatus("অর্ডার সফলভাবে জমা হয়েছে!" + (orderNo ? " অর্ডার নম্বর: " + orderNo : "") + (trackingUrl ? " নিরাপদ ট্র্যাকিং: " + trackingUrl : "") + (payload.payment_method === "cod" ? "। COD অর্ডারটি নিশ্চিত করতে দোকান থেকে যোগাযোগ করা হতে পারে।" : "। মনে রাখুন, bKash/Nagad-এর টাকা এই সাইটে এখনো স্বয়ংক্রিয়ভাবে নেওয়া হয় না।"), "success");
-  } catch (error) {
-    showCheckoutStatus(error instanceof Error ? "অর্ডার নেওয়া যায়নি: " + error.message : "অর্ডার নেওয়া যায়নি। পরে আবার চেষ্টা করুন।", "error");
-  } finally {
-    orderSubmitting = false; submit.disabled = false; submit.textContent = "অর্ডার নিশ্চিত করুন";
-  }
-});
-render();
-refreshSizeFilters();
-loadDeliveryFee();
-loadDivisionFees();
-loadProductsFromSupabase();
-// Explicit global bridges: keep every inline storefront action connected on mobile and desktop.
-window.addFromCard = function(id){ if(window.kineDekhi && typeof window.kineDekhi.addFromCard === "function") return window.kineDekhi.addFromCard(id); console.error("Kine dekhi: cart handler is not initialized"); alert("কার্ট চালু হয়নি। পেজটি রিফ্রেশ করে আবার চেষ্টা করুন।"); };
-window.orderFromCard = function(id){ if(window.kineDekhi && typeof window.kineDekhi.orderFromCard === "function") return window.kineDekhi.orderFromCard(id); console.error("Kine dekhi: order handler is not initialized"); alert("অর্ডার বাটন চালু হয়নি। পেজটি রিফ্রেশ করে আবার চেষ্টা করুন।"); };
-window.addFromDetail = function(id, goCheckout){ if(window.kineDekhi && typeof window.kineDekhi.addFromDetail === "function") return window.kineDekhi.addFromDetail(id, goCheckout); console.error("Kine dekhi: detail cart handler is not initialized"); alert("কার্ট চালু হয়নি। পেজটি রিফ্রেশ করে আবার চেষ্টা করুন।"); };
-window.toggleCartDrawer = function(){ if(window.kineDekhi && typeof window.kineDekhi.toggleCartDrawer === "function") return window.kineDekhi.toggleCartDrawer(); console.error("Kine dekhi: cart drawer handler is not initialized"); alert("কার্ট চালু হয়নি। পেজটি রিফ্রেশ করে আবার চেষ্টা করুন।"); };
-window.closeCartDrawer = function(){ if(window.kineDekhi && typeof window.kineDekhi.closeCartDrawer === "function") return window.kineDekhi.closeCartDrawer(); };
-window.showCheckout = function(){ if(window.kineDekhi && typeof window.kineDekhi.showCheckout === "function") return window.kineDekhi.showCheckout(); };
-window.openProductDetail = function(id){ if(window.kineDekhi && typeof window.kineDekhi.openProductDetail === "function") return window.kineDekhi.openProductDetail(id); };
-window.closeProductDetail = function(){ if(window.kineDekhi && typeof window.kineDekhi.closeProductDetail === "function") return window.kineDekhi.closeProductDetail(); };
-</script>
-<script>
-(function(){
-let language=localStorage.getItem('kineLanguage')==='en'?'en':'bn';
-const enNames=['Casual T-shirt','Wireless earbuds','Decorative table lamp','Skincare set','Everyday backpack','Smartwatch','Coffee mug','Storage organizer'];
-const enCats=['Fashion','Electronics','Home & Living','Beauty','Daily essentials'];
-const translations={
-en:{
-top:'Welcome to Kine dekhi · A new shop, a fresh experience',search:'Search products...',searchBtn:'Search',cart:'🛒 Cart',pill:'Everything you love, in one place',hero:'Shop around,<br>find what you love!',heroText:'Fashion, gadgets, home essentials and everyday products—all in one store.',view:'Explore products ↓',cats:'Categories',catsSub:'Choose a category you love',popular:'Popular products',popularSub:'Products currently active in the database',cartTitle:'Your cart',empty:'Your cart is empty.',noticeTitle:'Store status:',notice:'Products and delivery fees are connected to the database. End-to-end order submission and stock updates still need testing. Online payments are not enabled yet; please verify details before ordering.',delivery:'🚚 Delivery',deliveryText:'Delivery areas and fees will be set later.',cod:'💵 Cash on Delivery',codText:'COD will be enabled when ordering is ready.',payment:'🔒 Secure payments',paymentText:'Available after an approved bKash/Nagad gateway is connected.',help:'Help',helpText:'Contact and policy pages will be added later.',footer:'A new destination for your online shopping.',add:'＋ Add to cart',orderNow:'Order now',remove:'Remove',noProducts:'No products found.'
-},
-bn:{
-top:'Kine dekhi-তে স্বাগতম · নতুন দোকান, নতুন অভিজ্ঞতা',search:'পণ্য খুঁজুন...',searchBtn:'খুঁজুন',cart:'🛒 কার্ট',pill:'আপনার পছন্দ, এক জায়গায়',hero:'কিনে দেখি,<br>পছন্দ হলে রাখি!',heroText:'ফ্যাশন, গ্যাজেট, ঘর-গৃহস্থালি ও দৈনন্দিন প্রয়োজনের পণ্য—সব এক দোকানে।',view:'পণ্য দেখুন ↓',cats:'ক্যাটাগরি',catsSub:'আপনার পছন্দের বিভাগ বেছে নিন',popular:'জনপ্রিয় পণ্য',popularSub:'ডেটাবেসে সক্রিয় থাকা পণ্য',cartTitle:'আপনার কার্ট',empty:'কার্টে এখনো কোনো পণ্য নেই।',noticeTitle:'প্রিভিউ সংস্করণ:',notice:'এই সাইটের পণ্যগুলো শুধু ডিজাইনের নমুনা। এখনো আসল অর্ডার, স্টক, কাস্টমারের তথ্য বা পেমেন্ট সংরক্ষণ হয় না। চালু করার আগে ডেটাবেস, অ্যাডমিন লগইন ও নিরাপদ চেকআউট তৈরি করতে হবে।',delivery:'🚚 ডেলিভারি',deliveryText:'ডেলিভারি চার্জ ও এলাকা পরবর্তীতে নির্ধারণ করা হবে।',cod:'💵 Cash on Delivery',codText:'অর্ডার ব্যবস্থা তৈরি হলে COD চালু হবে।',payment:'🔒 নিরাপদ পেমেন্ট',paymentText:'bKash/Nagad অনুমোদিত গেটওয়ে সংযুক্ত করার পর চালু হবে।',help:'সহায়তা',helpText:'যোগাযোগ ও নীতিমালার পেজ পরে যুক্ত হবে।',footer:'আপনার অনলাইন কেনাকাটার নতুন ঠিকানা।',add:'🛒 কার্টে যোগ',orderNow:'অর্ডার করুন',remove:'বাদ দিন',noProducts:'কোনো পণ্য পাওয়া যায়নি।'
-}};
-function apply(){
-const t=translations[language], isEn=language==='en';
-window.__kineLanguage=language;
-document.documentElement.lang=language;
-document.getElementById('langToggle').textContent=isEn?'বাংলা':'EN';
-document.querySelector('.top').textContent=t.top;
-const si=document.getElementById('searchInput');si.placeholder=t.search;si.setAttribute('aria-label',t.search);
-document.querySelector('#searchForm button[type="submit"]').textContent=t.searchBtn;
-const filterButton=document.getElementById('filterToggle');if(filterButton)filterButton.textContent=isEn?'☷ Filter':'☷ ফিল্টার';
-const cart=document.getElementById('cartToggle');cart.innerHTML=t.cart+' (<span id="cartCount">'+(document.getElementById('cartCount')?.textContent||'0')+'</span>)';
-document.querySelector('.pill').textContent=t.pill;
-document.querySelector('.hero h1').innerHTML=t.hero;
-document.querySelector('.hero p').textContent=t.heroText;
-document.querySelector('.hero .btn').textContent=t.view;
-const heads=document.querySelectorAll('.sectionhead');
-heads[0].querySelector('h2').textContent=t.cats;heads[0].querySelector('p').textContent=t.catsSub;
-heads[1].querySelector('h2').textContent=t.popular;heads[1].querySelector('p').textContent=t.popularSub;
-document.querySelectorAll('[data-cat]').forEach((a,i)=>{a.dataset.langIndex=i;a.childNodes[a.childNodes.length-1].textContent=isEn?enCats[i]:['ফ্যাশন','ইলেকট্রনিক্স','ঘর-গৃহস্থালি','সৌন্দর্য','দৈনন্দিন'][i]});
-document.querySelector('#cartDrawer h3').textContent=t.cartTitle;
-document.querySelectorAll('.notice').forEach(n=>n.innerHTML='<b>'+t.noticeTitle+'</b> '+t.notice);
-const fs=document.querySelectorAll('.feature');
-[[t.delivery,t.deliveryText],[t.cod,t.codText],[t.payment,t.paymentText]].forEach((v,i)=>{fs[i].querySelector('b').textContent=v[0];fs[i].querySelector('small').textContent=v[1]});
-document.querySelector('.footer p').textContent=t.footer;
-const foot=document.querySelectorAll('.footrow>div');foot[1].querySelector('b').textContent=t.help;foot[1].querySelector('p').textContent=t.helpText;
-document.querySelectorAll('.product').forEach((card,i)=>{const orderBtn=card.querySelector('.order-now');if(orderBtn)orderBtn.textContent=t.orderNow;if(isEn&&enNames[i])card.querySelector('h3').textContent=enNames[i];else if(!isEn){const original=window.__kineBnNames||[];if(original[i])card.querySelector('h3').textContent=original[i]}const b=card.querySelector('.add');if(b)b.textContent=t.add});
-
-const checkoutLabels = isEn ? {
- checkout:'Checkout / Place an order', status:'Enter your name, phone number and address to order.',
- name:'Your name', phone:'Mobile number', address:'Delivery address', division:'Select division', district:'Select district', upazila:'Select upazila',
- details:'Detailed address (house/road/area)', detailsPlaceholder:'Enter house number, road and area',
- locationLoading:'Loading Bangladesh divisions, districts and upazilas…', locationHelp:'First select a division, then district and upazila.',
- payment:'Payment method', confirm:'Confirm order', verify:'Prices and stock will be verified by the server. The bKash/Nagad payment gateway is not connected yet.',
- paymentBkash:'bKash (payment will not be collected automatically yet)', paymentNagad:'Nagad (payment will not be collected automatically yet)',
- noDivision:'Division list failed to load', noLocation:'Location list failed to load. Check your internet connection and refresh the page.',
- beforeDivision:'Select a division first', beforeDistrict:'Select a district first', chooseDivision:'Select division', chooseDistrict:'Select district', chooseUpazila:'Select upazila',
- free:'🚚 Free delivery'
-} : {
- checkout:'চেকআউট / অর্ডার করুন', status:'অর্ডার দিতে নাম, ফোন ও ঠিকানা লিখুন।',
- name:'আপনার নাম', phone:'মোবাইল নম্বর', address:'ডেলিভারির ঠিকানা', division:'বিভাগ নির্বাচন করুন', district:'জেলা নির্বাচন করুন', upazila:'উপজেলা নির্বাচন করুন',
- details:'বিস্তারিত ঠিকানা (বাড়ি/রোড/এলাকা)', detailsPlaceholder:'বাড়ি নম্বর, রোড, এলাকা লিখুন',
- locationLoading:'বাংলাদেশের বিভাগ, জেলা ও উপজেলার তালিকা লোড হচ্ছে…', locationHelp:'প্রথমে বিভাগ, এরপর জেলা ও উপজেলা নির্বাচন করুন।',
- payment:'পেমেন্ট পদ্ধতি', confirm:'অর্ডার নিশ্চিত করুন', verify:'দাম ও স্টক সার্ভার থেকে যাচাই হবে। bKash/Nagad পেমেন্ট গেটওয়ে এখনো যুক্ত হয়নি।',
- paymentBkash:'bKash (পেমেন্ট এখনো স্বয়ংক্রিয়ভাবে নেওয়া হবে না)', paymentNagad:'Nagad (পেমেন্ট এখনো স্বয়ংক্রিয়ভাবে নেওয়া হবে না)',
- noDivision:'বিভাগের তালিকা লোড হয়নি', noLocation:'অবস্থান তালিকা লোড হয়নি। ইন্টারনেট সংযোগ পরীক্ষা করে পেজ রিফ্রেশ করুন।',
- beforeDivision:'আগে বিভাগ নির্বাচন করুন', beforeDistrict:'আগে জেলা নির্বাচন করুন', chooseDivision:'বিভাগ নির্বাচন করুন', chooseDistrict:'জেলা নির্বাচন করুন', chooseUpazila:'উপজেলা নির্বাচন করুন',
- free:'🚚 ফ্রি ডেলিভারি'
-};
-const checkout=document.getElementById('checkoutForm');
-if(checkout){
- const hs=checkout.querySelectorAll('h3'); if(hs[0])hs[0].textContent=checkoutLabels.checkout;
- const st=document.getElementById('checkoutStatus'); if(st)st.textContent=checkoutLabels.status;
- const labels=checkout.querySelectorAll('label');
- labels.forEach(l=>{const input=l.querySelector('input,select,textarea');if(!input)return;
-   if(input.name==='customer_name')l.childNodes[0].textContent=checkoutLabels.name;
-   if(input.name==='phone')l.childNodes[0].textContent=checkoutLabels.phone;
-   if(input.id==='divisionSelect')l.childNodes[0].textContent=checkoutLabels.division;
-   if(input.id==='districtSelect')l.childNodes[0].textContent=checkoutLabels.district;
-   if(input.id==='upazilaSelect')l.childNodes[0].textContent=checkoutLabels.upazila;
-   if(input.id==='addressDetails'){l.childNodes[0].textContent=checkoutLabels.details;input.placeholder=checkoutLabels.detailsPlaceholder}
-   if(input.name==='payment_method')l.childNodes[0].textContent=checkoutLabels.payment;
- });
- const legend=checkout.querySelector('legend');if(legend)legend.textContent=checkoutLabels.address;
- const submit=document.getElementById('submitOrder');if(submit&&!orderSubmitting)submit.textContent=checkoutLabels.confirm;
- const note=checkout.querySelectorAll('p.empty');if(note.length>1)note[note.length-1].textContent=checkoutLabels.verify;
- const pay=checkout.querySelector('[name="payment_method"]');if(pay&&pay.options.length>2){pay.options[1].textContent=checkoutLabels.paymentBkash;pay.options[2].textContent=checkoutLabels.paymentNagad}
- const loc=document.getElementById('locationStatus');if(loc&&(/লোড হচ্ছে|loading/i.test(loc.textContent)))loc.textContent=checkoutLabels.locationLoading;
-}
-const division=document.getElementById('divisionSelect'), district=document.getElementById('districtSelect'), upazila=document.getElementById('upazilaSelect');
-if(division&&division.options.length===1&&division.options[0].value==='')division.options[0].textContent=checkoutLabels.chooseDivision;
-if(district&&district.options.length===1&&district.options[0].value==='')district.options[0].textContent=district.disabled?checkoutLabels.beforeDivision:checkoutLabels.chooseDistrict;
-if(upazila&&upazila.options.length===1&&upazila.options[0].value==='')upazila.options[0].textContent=upazila.disabled?checkoutLabels.beforeDistrict:checkoutLabels.chooseUpazila;
-
-document.querySelectorAll('#cartItems button').forEach(b=>b.textContent=t.remove);
- const filterText={sort:isEn?'Sort by:':'সাজান:',def:isEn?'Default':'ডিফল্ট',nameAsc:isEn?'Name A to Z':'নাম A to Z',nameDesc:isEn?'Name Z to A':'নাম Z to A',priceAsc:isEn?'Price: low to high':'কম দাম থেকে বেশি',priceDesc:isEn?'Price: high to low':'বেশি দাম থেকে কম',sizeAsc:isEn?'Size: small to large':'ছোট সাইজ থেকে বড়',sizeDesc:isEn?'Size: large to small':'বড় সাইজ থেকে ছোট',clear:isEn?'Clear':'মুছুন',priceRange:isEn?'Price range (৳)':'দামসীমা (৳)',size:isEn?'Size':'সাইজ',min:isEn?'Minimum price':'সর্বনিম্ন 1 টাকা',max:isEn?'Maximum price':'সর্বোচ্চ 100000 টাকা',noSizes:isEn?'No products have sizes yet. Add sizes from the admin panel to see them here.':'এখনো কোনো পণ্যে সাইজ দেওয়া নেই। অ্যাডমিন থেকে পণ্যের সাইজ যোগ করলে এখানে দেখা যাবে।'};
- const sort=document.getElementById('sortProducts');
- if(sort){const opts=[filterText.def,filterText.nameAsc,filterText.nameDesc,filterText.priceAsc,filterText.priceDesc,filterText.sizeAsc,filterText.sizeDesc];Array.from(sort.options).forEach((o,i)=>{if(opts[i])o.textContent=opts[i]})}
- const panel=document.getElementById('productFilters');
- if(panel){const first=panel.querySelector('label');if(first)first.firstChild.textContent=filterText.sort;const bs=panel.querySelectorAll('b');if(bs[0])bs[0].textContent=filterText.priceRange;if(bs[1])bs[1].textContent=filterText.size;const clear=document.getElementById('clearFilters');if(clear)clear.textContent=filterText.clear;const min=document.getElementById('minPriceFilter'),max=document.getElementById('maxPriceFilter');if(min){min.placeholder=filterText.min;min.setAttribute('aria-label',filterText.min)}if(max){max.placeholder=filterText.max;max.setAttribute('aria-label',filterText.max)}const host=document.getElementById('sizeFilterOptions');if(host&&!host.querySelector('[data-size-filter]')&&host.querySelector('small'))host.querySelector('small').textContent=filterText.noSizes}
- const allHead=document.querySelector('#products .sectionhead h2');if(allHead)allHead.textContent=isEn?'All products':'সব পণ্য';
- const allSub=document.querySelector('#products .sectionhead p');if(allSub)allSub.textContent=isEn?'Active products in the database':'ডেটাবেসে সক্রিয় থাকা পণ্য';
- const email=checkout&&checkout.querySelector('[name="customer_email"]')?.parentElement;if(email){email.childNodes[0].textContent=isEn?'Email address':'ইমেইল ঠিকানা';const input=email.querySelector('input');if(input)input.placeholder=isEn?'Your email address':'আপনার Gmail'}
- const paySelect=checkout&&checkout.querySelector('[name="payment_method"]');if(paySelect&&paySelect.options.length)paySelect.options[0].textContent=isEn?'Cash on Delivery (COD)':'ক্যাশ অন ডেলিভারি (COD)';
-}
-window.__kineBnNames=Array.from(document.querySelectorAll('.product h3')).map(x=>x.textContent);
-document.getElementById('langToggle').addEventListener('click',()=>{language=language==='bn'?'en':'bn';localStorage.setItem('kineLanguage',language);apply()});
-apply();
-
-})();
-</script>
-
-<script>
-/* Independent safety net for cart/checkout controls */
-(function(){
-  function openCart(){
-    var drawer=document.getElementById('cartDrawer');
-    if(!drawer)return;
-    drawer.style.display='block';
-    drawer.classList.add('open');
-    drawer.setAttribute('aria-hidden','false');
-    var form=document.getElementById('checkoutForm');
-    if(form) form.style.display='grid';
-  }
-  function closeCart(){
-    var drawer=document.getElementById('cartDrawer');
-    if(!drawer)return;
-    drawer.classList.remove('open');
-    drawer.style.display='none';
-    drawer.setAttribute('aria-hidden','true');
-  }
-  document.addEventListener('click',function(e){
-    var target=e.target && e.target.closest ? e.target : null;
-    if(!target) return;
-    var cart=target.closest('#cartToggle');
-    if(cart){e.preventDefault();if(window.kineDekhi)window.kineDekhi.toggleCartDrawer();else openCart();return;}
-    var close=target.closest('.cart-close');
-    if(close){e.preventDefault();if(window.kineDekhi)window.kineDekhi.closeCartDrawer();else closeCart();return;}
-    var add=target.closest('.product .add');
-    if(add){
-      var inline=(add.getAttribute('onclick')||'').match(/addFromCard\((\d+)\)/);
-      var productId=add.getAttribute('data-product-id') || (inline && inline[1]);
-      if(productId && window.kineDekhi && typeof window.kineDekhi.addFromCard==='function'){
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        window.kineDekhi.addFromCard(productId);
-        return;
-      }
-      if(productId && (!window.kineDekhi || typeof window.kineDekhi.addFromCard!=='function')){
-        // Do not cancel the button's inline fallback: the global bridge may still be available.
-        console.warn("Kine dekhi: storefront bridge unavailable; allowing the native button handler.");
-      }
-    }
-    var detailAdd=target.closest('.detail-add');
-    if(detailAdd && window.kineDekhi){
-      var detailInline=(detailAdd.getAttribute('onclick')||'').match(/addFromDetail\((\d+)\s*,\s*(false|true)\)/);
-      if(detailInline){e.preventDefault();window.kineDekhi.addFromDetail(Number(detailInline[1]),detailInline[2]==='true');return;}
-    }
-    var order=target.closest('.order-now');
-    if(order){
-      var orderInline=(order.getAttribute('onclick')||'').match(/(?:orderFromCard|orderNow)\((\d+)\)/);
-      if(orderInline && window.kineDekhi && typeof window.kineDekhi.orderFromCard==='function'){
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        window.kineDekhi.orderFromCard(Number(orderInline[1]));
-        return;
-      }
-      // Bridge fallback only: let the inline global handler run, then reveal checkout.
-      window.setTimeout(function(){
-        var drawer=document.getElementById('cartDrawer');
-        var form=document.getElementById('checkoutForm');
-        if(drawer && !drawer.classList.contains('open')) openCart();
-        if(form && drawer && drawer.classList.contains('open') && document.getElementById('cartCount')?.textContent !== '0') form.style.display='grid';
-      },0);
-    }
-  },true);
-  document.addEventListener('submit',function(e){
-    if(!e.target || e.target.id!=='searchForm') return;
-    e.preventDefault();
-    var input=document.getElementById('searchInput');
-    if(window.kineDekhi) window.kineDekhi.search(input ? input.value : '');
-    var products=document.getElementById('products');
-    if(products) products.scrollIntoView({behavior:'smooth',block:'start'});
-  },true);
-})();
-</script>
-
-<script>
-/* Capture storefront button taps before inline handlers, avoiding duplicate or swallowed clicks on mobile. */
-(function () {
-  document.addEventListener("click", function (event) {
-    const target = event.target && event.target.closest ? event.target : null;
-    if (!target) return;
-    const add = target.closest(".product .add[data-product-id]");
-    const order = target.closest(".product .order-now");
-    const cart = target.closest("#cartToggle");
-    const close = target.closest(".cart-close");
-    const detailAdd = target.closest(".detail-add");
-    const detailOrder = target.closest(".detail-order");
-    const detailOpen = target.closest(".product-open");
-    if (!window.kineDekhi) return;
-    if (add) {
-      event.preventDefault(); event.stopImmediatePropagation();
-      window.kineDekhi.addFromCard(add.getAttribute("data-product-id"));
-    } else if (order) {
-      const match = (order.getAttribute("onclick") || "").match(/orderFromCard\((\d+)\)/);
-      if (match) { event.preventDefault(); event.stopImmediatePropagation(); window.kineDekhi.orderFromCard(match[1]); }
-    } else if (cart) {
-      event.preventDefault(); event.stopImmediatePropagation(); window.kineDekhi.toggleCartDrawer();
-    } else if (close) {
-      event.preventDefault(); event.stopImmediatePropagation(); window.kineDekhi.closeCartDrawer();
-    } else if (detailAdd || detailOrder) {
-      const match = (target.getAttribute("onclick") || "").match(/addFromDetail\((\d+)\s*,\s*(false|true)\)/);
-      if (match) { event.preventDefault(); event.stopImmediatePropagation(); window.kineDekhi.addFromDetail(match[1], match[2] === "true"); }
-    } else if (detailOpen) {
-      const match = (detailOpen.getAttribute("onclick") || "").match(/openProductDetail\((\d+)\)/);
-      if (match) { event.preventDefault(); event.stopImmediatePropagation(); window.kineDekhi.openProductDetail(match[1]); }
-    }
-  }, true);
-})();
+"use strict";
+const SUPABASE_URL="https://jyrzdtitmdsxzxtxhecu.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY="sb_publishable_saBTFA1ddc3ICx3t_sPjiw_BKjGLl5o";
+const CREATE_ORDER_URL=SUPABASE_URL+"/functions/v1/create-order";
+const $=id=>document.getElementById(id);
+const money=n=>"৳"+Number(n||0).toLocaleString("bn-BD",{maximumFractionDigits:2});
+const escapeHtml=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let products=[],cart=[],activeCategory="",query="",deliveryFee=0,divisionFees={},productsLoaded=false,submitting=false;
+function status(message,type){const el=$("checkoutStatus");el.textContent=message;el.className="status "+type}
+function categoryName(p){return p.category||p.cat||"অন্যান্য"}
+function renderCategories(){const names=[...new Set(products.map(categoryName).filter(Boolean))];$("categories").innerHTML='<button class="category '+(!activeCategory?"active":"")+'" data-category="">সব পণ্য</button>'+names.map(n=>'<button class="category '+(activeCategory===n?"active":"")+'" data-category="'+escapeHtml(n)+'">'+escapeHtml(n)+'</button>').join("")}
+function visibleProducts(){return products.filter(p=>(!activeCategory||categoryName(p)===activeCategory)&&String(p.name).toLocaleLowerCase("bn").includes(query.toLocaleLowerCase("bn")))}
+function renderProducts(){const list=visibleProducts();$("productCount").textContent=list.length+"টি পণ্য";$("productCaption").textContent=productsLoaded?"ডেটাবেসের সক্রিয় পণ্য":"পণ্য ডেটাবেস থেকে লোড হচ্ছে";if(!list.length){$("productGrid").innerHTML='<div class="empty-state">'+(productsLoaded?"এই বিভাগে কোনো পণ্য পাওয়া যায়নি।":"পণ্য লোড করা যাচ্ছে না। কিছুক্ষণ পর আবার রিফ্রেশ করুন।")+'</div>';return}
+$("productGrid").innerHTML=list.map(p=>{const off=Number(p.original_price)>Number(p.price)?Math.round((Number(p.original_price)-Number(p.price))/Number(p.original_price)*100):0;const img=p.image_url||((Array.isArray(p.image_urls)&&p.image_urls[0])||"");const variants=(p.size_options?.length||p.color_options?.length);return '<article class="product"><div class="product-image" data-detail="'+p.id+'" role="button" tabindex="0" aria-label="'+escapeHtml(p.name)+' এর বিস্তারিত">'+(img?'<img src="'+escapeHtml(img)+'" alt="'+escapeHtml(p.name)+'" loading="lazy">':'<span class="emoji">🛍️</span>')+(off?'<span class="discount">'+off+'% ছাড়</span>':'')+'</div><div class="product-info"><span class="category-label">'+escapeHtml(categoryName(p))+'</span><h3 data-detail="'+p.id+'">'+escapeHtml(p.name)+'</h3><p class="description">'+escapeHtml(p.description||p.desc||"বিস্তারিত তথ্য শিগগিরই যোগ করা হবে।")+'</p><div class="price-row"><span class="price">'+money(p.price)+'</span>'+(off?'<span class="old-price">'+money(p.original_price)+'</span>':'')+'</div><div class="product-actions"><button class="secondary" data-add="'+p.id+'">কার্টে যোগ</button><button class="buy" data-buy="'+p.id+'">'+(variants?"অপশন বাছুন":"অর্ডার করুন")+'</button></div></div></article>'}).join("")}
+function renderCart(){const count=cart.reduce((n,i)=>n+i.qty,0);$("cartCount").textContent=count;if(!cart.length){$("cartList").innerHTML='<div class="empty-state">এখনো কার্টে কোনো পণ্য যোগ করা হয়নি। পছন্দের পণ্যে “অর্ডার করুন” চাপুন।</div>'}else{$("cartList").innerHTML=cart.map(i=>{const p=products.find(p=>String(p.id)===String(i.id));if(!p)return "";const img=p.image_url||(p.image_urls||[])[0];return '<div class="cart-row"><div class="cart-thumb">'+(img?'<img src="'+escapeHtml(img)+'" alt="">':(p.emoji||"🛍️"))+'</div><div><div class="cart-name">'+escapeHtml(p.name)+'</div><div class="cart-meta">'+[i.size?"সাইজ: "+i.size:"",i.color?"রং: "+i.color:""].filter(Boolean).join(" · ")+'</div><div class="qty"><button type="button" data-qty="'+escapeHtml(i.key)+'" data-delta="-1" aria-label="পরিমাণ কমান">−</button><b>'+i.qty+'</b><button type="button" data-qty="'+escapeHtml(i.key)+'" data-delta="1" aria-label="পরিমাণ বাড়ান">+</button></div></div><div style="text-align:right"><b>'+money(Number(p.price)*i.qty)+'</b><br><button class="remove" data-remove="'+escapeHtml(i.key)+'">বাদ দিন</button></div></div>'}).join("")}
+const subtotal=cart.reduce((n,i)=>n+Number(products.find(p=>String(p.id)===String(i.id))?.price||0)*i.qty,0);const div=$("divisionSelect").value;const fee=cart.some(i=>products.find(p=>String(p.id)===String(i.id))?.delivery_fee!==0)?(divisionFees[div]??deliveryFee):0;$("subtotal").textContent=money(subtotal);$("delivery").textContent=money(fee);$("total").textContent=money(subtotal+Number(fee||0))}
+function addItem(p,size="",color="",goCheckout=false){const key=String(p.id)+"|"+size+"|"+color;const item=cart.find(i=>i.key===key);if(item)item.qty++;else cart.push({id:p.id,key,size,color,qty:1});renderCart();if(goCheckout){$("cartSection").scrollIntoView({behavior:"smooth",block:"start"});if(!productsLoaded)status("পণ্য ডেটাবেস থেকে সম্পূর্ণ লোড হয়নি। অর্ডার দেওয়ার আগে পেজ রিফ্রেশ করুন।","error")}}
+function chooseOptions(p,goCheckout){const sizeOpts=Array.isArray(p.size_options)?p.size_options:[],colorOpts=Array.isArray(p.color_options)?p.color_options:[];if(!sizeOpts.length&&!colorOpts.length){addItem(p,"","",goCheckout);return}const overlay=document.createElement("div");overlay.style.cssText="position:fixed;inset:0;background:#10182899;z-index:100;display:grid;place-items:center;padding:18px";const card=document.createElement("div");card.style.cssText="width:min(420px,100%);background:white;border-radius:18px;padding:22px;box-shadow:0 20px 60px #0003";const select=(id,label,opts)=>opts.length?'<label class="field" style="margin:14px 0">'+label+'<select id="'+id+'" required><option value="">নির্বাচন করুন</option>'+opts.map(v=>'<option value="'+escapeHtml(v)+'">'+escapeHtml(v)+'</option>').join("")+'</select></label>':"";card.innerHTML='<h3 style="margin:0 0 6px">পণ্যের অপশন বাছুন</h3><p style="color:#697386;margin:0 0 12px">'+escapeHtml(p.name)+'</p>'+select("chooseSize","সাইজ",sizeOpts)+select("chooseColor","কালার",colorOpts)+'<div style="display:flex;gap:8px;margin-top:18px"><button type="button" id="cancelChoose" class="secondary" style="flex:1">বাতিল</button><button type="button" id="confirmChoose" class="buy" style="flex:1">কার্টে যোগ করুন</button></div>';overlay.append(card);document.body.append(overlay);$("cancelChoose").onclick=()=>overlay.remove();overlay.addEventListener("click",e=>{if(e.target===overlay)overlay.remove()});$("confirmChoose").onclick=()=>{const size=$("chooseSize")?.value||"",color=$("chooseColor")?.value||"";if(sizeOpts.length&&!size){alert("সাইজ নির্বাচন করুন।");return}if(colorOpts.length&&!color){alert("কালার নির্বাচন করুন।");return}overlay.remove();addItem(p,size,color,goCheckout)}}
+function showProductDetail(p){const detail=(Array.isArray(p.image_urls)?p.image_urls:[]).concat(p.image_url||[]).filter(Boolean);const overlay=document.createElement("div");overlay.style.cssText="position:fixed;inset:0;background:#10182899;z-index:90;display:grid;place-items:center;padding:18px;overflow:auto";const box=document.createElement("div");box.style.cssText="width:min(760px,100%);max-height:92vh;overflow:auto;background:white;border-radius:20px;padding:20px;position:relative";box.innerHTML='<button id="detailClose" type="button" aria-label="বন্ধ করুন" style="float:right;border:0;background:#f1f3f7;border-radius:50%;width:36px;height:36px;font-size:22px">×</button><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;clear:both"><div style="min-height:220px;background:#fff3f4;border-radius:14px;display:grid;place-items:center;overflow:hidden">'+(detail.length?'<img style="width:100%;max-height:360px;object-fit:contain" src="'+escapeHtml(detail[0])+'" alt="'+escapeHtml(p.name)+'">':'<span style="font-size:90px">🛍️</span>')+'</div><div><small style="color:#697386">'+escapeHtml(categoryName(p))+'</small><h2>'+escapeHtml(p.name)+'</h2><div style="font-size:25px;font-weight:950;color:#c1121f">'+money(p.price)+'</div><p style="line-height:1.8;color:#697386">'+escapeHtml(p.description||p.desc||"")+'</p><button type="button" id="detailBuy" class="buy" style="width:100%;padding:13px">এখনই অর্ডার করুন</button></div></div>';overlay.append(box);document.body.append(overlay);$("detailClose").onclick=()=>overlay.remove();overlay.addEventListener("click",e=>{if(e.target===overlay)overlay.remove()});$("detailBuy").onclick=()=>{overlay.remove();chooseOptions(p,true)}}
+async function loadProducts(){const headers={"apikey":SUPABASE_PUBLISHABLE_KEY};const fields="id,name,description,price,original_price,stock,image_url,image_urls,video_urls,size_options,color_options,color_images,delivery_fee,is_active";try{let res=await fetch(SUPABASE_URL+"/rest/v1/products?select="+fields+",categories(name)&is_active=eq.true&order=id.asc",{cache:"no-store",headers});let joined=res.ok;if(!res.ok)res=await fetch(SUPABASE_URL+"/rest/v1/products?select="+fields+"&is_active=eq.true&order=id.asc",{cache:"no-store",headers});if(!res.ok)throw new Error("পণ্য লোড হয়নি (HTTP "+res.status+")");const rows=await res.json();products=rows.map(p=>({...p,id:p.id,price:Number(p.price)||0,original_price:Number(p.original_price)||0,category:(joined&&p.categories?.name)||p.category||"অন্যান্য",size_options:Array.isArray(p.size_options)?p.size_options:[],color_options:Array.isArray(p.color_options)?p.color_options:[],image_urls:Array.isArray(p.image_urls)?p.image_urls:[]}));productsLoaded=true;renderCategories();renderProducts();renderCart();if(!rows.length)$("productCaption").textContent="অ্যাডমিন প্যানেল থেকে পণ্য যোগ করুন"}catch(err){console.error("Product loading failed:",err);productsLoaded=false;$("productGrid").innerHTML='<div class="empty-state">পণ্য লোড করা যায়নি। ইন্টারনেট ও Supabase সংযোগ পরীক্ষা করে পেজ রিফ্রেশ করুন।<br><small>'+escapeHtml(err.message)+'</small></div>'}}
+async function loadFees(){try{const h={"apikey":SUPABASE_PUBLISHABLE_KEY};const [s,d]=await Promise.all([fetch(SUPABASE_URL+"/rest/v1/store_settings?select=delivery_fee&id=eq.1",{headers:h}),fetch(SUPABASE_URL+"/rest/v1/division_delivery_fees?select=division_name,delivery_fee",{headers:h})]);if(s.ok){const rows=await s.json();if(rows[0])deliveryFee=Number(rows[0].delivery_fee)||0}if(d.ok){const rows=await d.json();divisionFees=Object.fromEntries(rows.map(x=>[x.division_name,Number(x.delivery_fee)||0]))}renderCart()}catch(e){console.warn("Delivery settings not loaded",e)}}
+$("searchForm").addEventListener("submit",e=>{e.preventDefault();query=$("searchInput").value.trim();renderProducts();$("products").scrollIntoView({behavior:"smooth"})});
+$("searchInput").addEventListener("input",()=>{query=$("searchInput").value.trim();renderProducts()});
+$("categories").addEventListener("click",e=>{const b=e.target.closest("[data-category]");if(!b)return;activeCategory=b.dataset.category;renderCategories();renderProducts()});
+$("productGrid").addEventListener("click",e=>{const b=e.target.closest("button,[data-detail]");if(!b)return;const id=b.dataset.buy||b.dataset.add||b.dataset.detail;if(!id)return;const p=products.find(p=>String(p.id)===String(id));if(!p)return;if(b.hasAttribute("data-detail")){showProductDetail(p);return}chooseOptions(p,b.hasAttribute("data-buy"))});
+$("productGrid").addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.matches("[data-detail]")){e.preventDefault();const p=products.find(p=>String(p.id)===e.target.dataset.detail);if(p)showProductDetail(p)}});
+$("cartList").addEventListener("click",e=>{const q=e.target.closest("[data-qty]"),r=e.target.closest("[data-remove]");if(q){const item=cart.find(i=>i.key===q.dataset.qty);if(item){item.qty+=Number(q.dataset.delta);if(item.qty<=0)cart=cart.filter(i=>i!==item);renderCart()}}if(r){cart=cart.filter(i=>i.key!==r.dataset.remove);renderCart()}});
+$("cartJump").addEventListener("click",()=>$("cartSection").scrollIntoView({behavior:"smooth"}));$("divisionSelect").addEventListener("change",renderCart);
+$("checkoutForm").addEventListener("submit",async e=>{e.preventDefault();if(submitting)return;if(!cart.length){status("আগে কার্টে পণ্য যোগ করুন।","error");return}if(!productsLoaded){status("পণ্য ডেটাবেস থেকে লোড হয়নি; নিরাপদভাবে অর্ডার পাঠানো যাচ্ছে না। পেজ রিফ্রেশ করে আবার চেষ্টা করুন।","error");return}const fd=new FormData(e.currentTarget);const division=$("divisionSelect").value;const addressDetails=$("addressDetails").value.trim();const payload={customer_name:String(fd.get("customer_name")||"").trim(),customer_email:String(fd.get("customer_email")||"").trim().toLowerCase(),phone:String(fd.get("phone")||"").trim(),address:[division+" বিভাগ",addressDetails].filter(Boolean).join(", "),division_name:division,payment_method:String(fd.get("payment_method")||"cod"),items:cart.map(i=>({product_id:i.id,quantity:i.qty,size:i.size||null,color:i.color||null}))};const submit=$("submitOrder");submitting=true;submit.disabled=true;submit.textContent="অর্ডার পাঠানো হচ্ছে…";status("সার্ভারে অর্ডার যাচাই করা হচ্ছে…","info");try{const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),20000);let response;try{response=await fetch(CREATE_ORDER_URL,{method:"POST",headers:{"Content-Type":"application/json","apikey":SUPABASE_PUBLISHABLE_KEY},body:JSON.stringify(payload),signal:controller.signal})}finally{clearTimeout(timer)}const result=await response.json().catch(()=>({}));if(!response.ok)throw new Error(result.error||"অর্ডার জমা হয়নি (HTTP "+response.status+")");const number=result.order_number||result.order_id||result.id||"";cart=[];renderCart();e.currentTarget.reset();status("অর্ডার সফলভাবে জমা হয়েছে!"+(number?" অর্ডার নম্বর: "+number:"")+"। COD অর্ডার নিশ্চিত করতে দোকান থেকে যোগাযোগ করা হতে পারে।","success")}catch(err){status(err.name==="AbortError"?"সার্ভার থেকে উত্তর আসতে ২০ সেকেন্ডের বেশি সময় লেগেছে। Supabase Edge Function Logs পরীক্ষা করুন।":"অর্ডার জমা হয়নি: "+err.message,"error")}finally{submitting=false;submit.disabled=false;submit.textContent="অর্ডার নিশ্চিত করুন"}});
+$("year").textContent=new Date().getFullYear();renderCart();loadFees();loadProducts();
 </script>
 </body></html>
