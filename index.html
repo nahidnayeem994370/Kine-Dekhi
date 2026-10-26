@@ -143,6 +143,7 @@ async function loadProductsFromSupabase(){
         delivery_fee: p.delivery_fee===null||p.delivery_fee===undefined?null:Number(p.delivery_fee)
       }));
       category = "";
+      try { const salesResponse=await fetch(SUPABASE_URL+"/rest/v1/rpc/public_product_sales",{method:"POST",headers:{"apikey":SUPABASE_PUBLISHABLE_KEY,"Authorization":"Bearer "+SUPABASE_PUBLISHABLE_KEY,"Content-Type":"application/json"},body:"{}"}); if(salesResponse.ok){const salesRows=await salesResponse.json();const salesMap=new Map(salesRows.map(x=>[Number(x.product_id),Number(x.sales_count||0)]));products=products.map(p=>({...p,sales_count:salesMap.get(p.id)||0}));} } catch(e){console.warn("Sales summary unavailable",e);}
       render();
     }
   }catch(error){
