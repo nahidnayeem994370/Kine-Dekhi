@@ -153,41 +153,63 @@ async function loadDeliveryFee(){
   }catch(error){console.error("Kine dekhi delivery fee:",error);}
 }
 async function loadProductsFromSupabase(){
-  if(!SUPABASE_PUBLISHABLE_KEY || SUPABASE_PUBLISHABLE_KEY.includes("PASTE_YOUR_")) return;
+  if(!SUPABASE_PUBLISHABLE_KEY || SUPABASE_PUBLISHABLE_KEY.includes("PASTE_YOUR_")){
+    console.error("Kine dekhi: Supabase publishable key is not configured.");
+    return;
+  }
   try{
     const response = await fetch(SUPABASE_URL + "/rest/v1/products?select=id,name,description,price,original_price,stock,image_url,image_urls,video_urls,size_options,color_options,color_images,delivery_fee,categories(name)&is_active=eq.true&order=id.asc", {
+      cache: "no-store",
       headers: {
         "apikey": SUPABASE_PUBLISHABLE_KEY,
         "Authorization": "Bearer " + SUPABASE_PUBLISHABLE_KEY
       }
     });
-    if(!response.ok) throw new Error("Supabase product request failed: " + response.status);
-    const rows = await response.json();
-    if(rows.length){
-      supabaseProductsLoaded = true;
-      const emojiByCategory = {"ফ্যাশন":"👕","ইলেকট্রনিক্স":"🎧","ঘর-গৃহস্থালি":"🏠","সৌন্দর্য":"🧴","দৈনন্দিন পণ্য":"🧺"};
-      products = rows.map((p,index)=>({
-        id: Number(p.id),
-        name: p.name,
-        cat: p.categories?.name || "দৈনন্দিন",
-        price: Number(p.price), original_price:Number(p.original_price||0), discount_percent:Number(p.original_price)>Number(p.price)?Math.round((Number(p.original_price)-Number(p.price))/Number(p.original_price)*100):0, sales_count:0,
-        emoji: emojiByCategory[p.categories?.name] || "📦",
-        desc: p.description || "বিস্তারিত শিগগিরই যোগ করা হবে",
-        image_url: p.image_url || (Array.isArray(p.image_urls) ? p.image_urls[0] || "" : ""),
-        image_urls: Array.isArray(p.image_urls) ? p.image_urls : [],
-        video_urls: Array.isArray(p.video_urls) ? p.video_urls : [],
-        size_options: Array.isArray(p.size_options) ? p.size_options : [],
-        color_options: Array.isArray(p.color_options) ? p.color_options : [],
-        color_images: p.color_images && typeof p.color_images === 'object' ? p.color_images : {},
-        delivery_fee: p.delivery_fee===null||p.delivery_fee===undefined?null:Number(p.delivery_fee)
-      }));
-      category = "";
-      try { const salesResponse=await fetch(SUPABASE_URL+"/rest/v1/rpc/public_product_sales",{method:"POST",headers:{"apikey":SUPABASE_PUBLISHABLE_KEY,"Authorization":"Bearer "+SUPABASE_PUBLISHABLE_KEY,"Content-Type":"application/json"},body:"{}"}); if(salesResponse.ok){const salesRows=await salesResponse.json();const salesMap=new Map(salesRows.map(x=>[Number(x.product_id),Number(x.sales_count||0)]));products=products.map(p=>({...p,sales_count:salesMap.get(p.id)||0}));} } catch(e){console.warn("Sales summary unavailable",e);}
-      refreshSizeFilters();
-      render();
+    if(!response.ok) {
+      const detail = await response.text().catch(()=> "");
+      throw new Error("Supabase product request failed: " + response.status + (detail ? " " + detail.slice(0,250) : ""));
     }
+    const rows = await response.json();
+    const emojiByCategory = {"ফ্যাশন":"👕","ইলেকট্রনিক্স":"🎧","ঘর-গৃহস্থালি":"🏠","সৌন্দর্য":"🧴","দৈনন্দিন পণ্য":"🧺"};
+    products = rows.map(p=>({
+      id: Number(p.id),
+      name: p.name,
+      cat: p.categories?.name || "দৈনন্দিন",
+      price: Number(p.price), original_price:Number(p.original_price||0), discount_percent:Number(p.original_price)>Number(p.price)?Math.round((Number(p.original_price)-Number(p.price))/Number(p.original_price)*100):0, sales_count:0,
+      emoji: emojiByCategory[p.categories?.name] || "📦",
+      desc: p.description || "বিস্তারিত শিগগিরই যোগ করা হবে",
+      image_url: p.image_url || (Array.isArray(p.image_urls) ? p.image_urls[0] || "" : ""),
+      image_urls: Array.isArray(p.image_urls) ? p.image_urls : [],
+      video_urls: Array.isArray(p.video_urls) ? p.video_urls : [],
+      size_options: Array.isArray(p.size_options) ? p.size_options : [],
+      color_options: Array.isArray(p.color_options) ? p.color_options : [],
+      color_images: p.color_images && typeof p.color_images === 'object' ? p.color_images : {},
+      delivery_fee: p.delivery_fee===null||p.delivery_fee===undefined?null:Number(p.delivery_fee)
+    }));
+    supabaseProductsLoaded = true;
+    category = "";
+    try {
+      const salesResponse=await fetch(SUPABASE_URL+"/rest/v1/rpc/public_product_sales",{
+        method:"POST",
+        cache:"no-store",
+        headers:{"apikey":SUPABASE_PUBLISHABLE_KEY,"Authorization":"Bearer "+SUPABASE_PUBLISHABLE_KEY,"Content-Type":"application/json"},
+        body:"{}"
+      });
+      if(salesResponse.ok){
+        const salesRows=await salesResponse.json();
+        const salesMap=new Map(salesRows.map(x=>[Number(x.product_id),Number(x.sales_count||0)]));
+        products=products.map(p=>({...p,sales_count:salesMap.get(p.id)||0}));
+      }
+    } catch(e){console.warn("Sales summary unavailable",e);}
+    refreshSizeFilters();
+    render();
+    if(!rows.length) console.info("Kine dekhi: no active products returned from Supabase.");
   }catch(error){
     console.error("Kine dekhi Supabase connection:", error);
+    supabaseProductsLoaded = false;
+    products = [];
+    refreshSizeFilters();
+    render();
   }
 }
 const checkoutForm = document.getElementById("checkoutForm");
