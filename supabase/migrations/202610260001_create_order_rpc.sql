@@ -70,7 +70,7 @@ begin
   end if;
 
   v_total := v_subtotal + v_delivery_fee;
-  v_order_number := 'KD-' || to_char(now(), 'YYYYMMDD') || '-' || upper(substr(encode(gen_random_bytes(5), 'hex'), 1, 10));
+  v_order_number := 'KD-' || to_char(now(), 'YYYYMMDD') || '-' || upper(substr(md5(random()::text || clock_timestamp()::text || txid_current()::text), 1, 10));
 
   insert into public.orders
     (order_number, customer_name, phone, address, payment_method, payment_status,
