@@ -19,7 +19,13 @@
 <p id="checkoutStatus" class="empty" role="status">অর্ডার দিতে নাম, ফোন ও ঠিকানা লিখুন।</p>
 <label>আপনার নাম<input name="customer_name" required minlength="2" maxlength="120" autocomplete="name" style="display:block;width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;font:inherit"></label>
 <label>মোবাইল নম্বর<input name="phone" required minlength="8" maxlength="20" autocomplete="tel" inputmode="tel" style="display:block;width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;font:inherit"></label>
-<label>সম্পূর্ণ ঠিকানা<textarea name="address" required minlength="8" maxlength="500" autocomplete="street-address" rows="3" style="display:block;width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;font:inherit"></textarea></label>
+<fieldset style="border:1px solid var(--line);border-radius:10px;padding:12px;display:grid;gap:10px"><legend style="padding:0 6px;font-weight:700">ডেলিভারির ঠিকানা</legend>
+<label>বিভাগ নির্বাচন করুন<select id="divisionSelect" required style="display:block;width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;font:inherit"><option value="">বিভাগ লোড হচ্ছে...</option></select></label>
+<label>জেলা নির্বাচন করুন<select id="districtSelect" required disabled style="display:block;width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;font:inherit"><option value="">আগে বিভাগ নির্বাচন করুন</option></select></label>
+<label>উপজেলা নির্বাচন করুন<select id="upazilaSelect" required disabled style="display:block;width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;font:inherit"><option value="">আগে জেলা নির্বাচন করুন</option></select></label>
+<label>বিস্তারিত ঠিকানা (বাড়ি/রোড/এলাকা)<textarea id="addressDetails" required minlength="4" maxlength="350" autocomplete="street-address" rows="2" placeholder="বাড়ি নম্বর, রোড, এলাকা লিখুন" style="display:block;width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;font:inherit"></textarea></label>
+<p id="locationStatus" class="empty" role="status" style="margin:0">বাংলাদেশের বিভাগ, জেলা ও উপজেলার তালিকা লোড হচ্ছে…</p>
+</fieldset>
 <label>পেমেন্ট পদ্ধতি<select name="payment_method" required style="display:block;width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;font:inherit"><option value="cod">Cash on Delivery (COD)</option><option value="bkash">bKash (পেমেন্ট এখনো স্বয়ংক্রিয়ভাবে নেওয়া হবে না)</option><option value="nagad">Nagad (পেমেন্ট এখনো স্বয়ংক্রিয়ভাবে নেওয়া হবে না)</option></select></label>
 <button class="btn" id="submitOrder" type="submit" style="width:100%;border:0">অর্ডার নিশ্চিত করুন</button>
 <p class="empty" style="margin:0">দাম ও স্টক সার্ভার থেকে যাচাই হবে। bKash/Nagad পেমেন্ট গেটওয়ে এখনো যুক্ত হয়নি।</p>
@@ -46,7 +52,43 @@ function removeItem(id){cart=cart.filter(i=>i.id!==id);render()}
 document.getElementById("searchForm").addEventListener("submit",e=>{e.preventDefault();search=document.getElementById("searchInput").value.trim();render()});
 document.getElementById("cartToggle").addEventListener("click",()=>document.getElementById("cartDrawer").classList.toggle("open"));
 document.querySelectorAll("[data-cat]").forEach(a=>a.addEventListener("click",()=>{category=a.dataset.cat;render()}));
+
 document.getElementById("year").textContent=new Date().getFullYear();
+
+// Bangladesh address selector: division -> district -> upazila.
+(async function initBangladeshAddress(){
+ const divisionEl=document.getElementById("divisionSelect");
+ const districtEl=document.getElementById("districtSelect");
+ const upazilaEl=document.getElementById("upazilaSelect");
+ const statusEl=document.getElementById("locationStatus");
+ let geo=[];
+ const setOptions=(el,items,placeholder)=>{el.innerHTML='<option value="">'+placeholder+'</option>'+items.map((x,i)=>'<option value="'+i+'">'+(x.bn_name||x.name)+'</option>').join('');};
+ try{
+   const res=await fetch("https://iqbalhasandev.github.io/bangladesh-geo-json/bangladesh-geo.json");
+   if(!res.ok) throw new Error("Location list unavailable");
+   geo=await res.json();
+   if(!Array.isArray(geo)||!geo.length) throw new Error("Invalid location list");
+   setOptions(divisionEl,geo,"বিভাগ নির্বাচন করুন");
+   statusEl.textContent="প্রথমে বিভাগ, এরপর জেলা ও উপজেলা নির্বাচন করুন।";
+   divisionEl.addEventListener("change",()=>{
+     const division=geo[Number(divisionEl.value)];
+     setOptions(districtEl,division?.districts||[],"জেলা নির্বাচন করুন");
+     districtEl.disabled=!division;
+     setOptions(upazilaEl,[],"আগে জেলা নির্বাচন করুন");upazilaEl.disabled=true;
+   });
+   districtEl.addEventListener("change",()=>{
+     const division=geo[Number(divisionEl.value)];
+     const district=division?.districts?.[Number(districtEl.value)];
+     setOptions(upazilaEl,district?.upazilas||[],"উপজেলা নির্বাচন করুন");
+     upazilaEl.disabled=!district;
+   });
+ }catch(err){
+   divisionEl.innerHTML='<option value="">বিভাগের তালিকা লোড হয়নি</option>';
+   statusEl.textContent="অবস্থান তালিকা লোড হয়নি। ইন্টারনেট সংযোগ পরীক্ষা করে পেজ রিফ্রেশ করুন।";
+   console.error("Bangladesh address data:",err);
+ }
+})();
+
 
 // Supabase connection for Kine dekhi.
 // Replace the placeholder below with the project's Publishable key (sb_publishable_...).
@@ -95,7 +137,7 @@ document.getElementById("checkoutForm").addEventListener("submit", async (event)
   const payload = {
     customer_name: String(fd.get("customer_name") || "").trim(),
     phone: String(fd.get("phone") || "").trim(),
-    address: String(fd.get("address") || "").trim(),
+    address: [document.getElementById("divisionSelect").selectedOptions[0]?.textContent, document.getElementById("districtSelect").selectedOptions[0]?.textContent, document.getElementById("upazilaSelect").selectedOptions[0]?.textContent, document.getElementById("addressDetails").value.trim()].filter(Boolean).join(", "),
     payment_method: String(fd.get("payment_method") || "cod"),
     items: cart.map(item => ({ product_id: item.id, quantity: item.qty }))
   };
