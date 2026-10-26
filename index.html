@@ -154,6 +154,58 @@ body{background:var(--bg);color:var(--ink)}
 .account-link{color:#7c3aed;border-color:#e9d5ff;background:#faf5ff}
 .account-link:hover{background:#f3e8ff}
 @media(max-width:640px){.head-actions{gap:5px}.account-link{padding:9px 8px;font-size:11px}.head-actions .pillbtn{font-size:11px}}
+
+/* Keep the brand straight and make header controls compact */
+.head{gap:10px}
+.logo{flex-shrink:0;white-space:nowrap;font-size:clamp(17px,2vw,24px);letter-spacing:-.7px}
+.head-actions{flex-shrink:0;gap:5px}
+.head-actions .pillbtn{padding:8px 9px;font-size:12px}
+.account-link{color:#7c3aed;border-color:#e9d5ff;background:#faf5ff}
+@media(max-width:640px){
+ .head{min-height:56px;gap:5px;flex-wrap:wrap;padding-top:7px;padding-bottom:7px}
+ .logo{font-size:17px;line-height:1;letter-spacing:-.6px;flex-shrink:0}
+ .head-actions{gap:3px;margin-left:auto;flex-shrink:0}
+ .head-actions .pillbtn{padding:6px 6px;font-size:9px;line-height:1.15;border-radius:8px}
+ .head-actions .pillbtn strong{font-size:9px;padding:1px 4px;margin-left:1px}
+ .search{order:3;flex:1 0 100%;max-width:none;margin-top:2px}
+ .search input{padding:8px 10px;font-size:12px;border-radius:9px 0 0 9px}
+ .search button{padding:8px 11px;font-size:11px;border-radius:0 9px 9px 0}
+}
+/* Slimmer horizontal banner: much less height, with text and artwork side-by-side */
+.hero-vivid{min-height:0;padding:13px 22px;margin:10px auto 14px;gap:12px;border-radius:17px}
+.hero-vivid h1{font-size:clamp(22px,2.8vw,32px);line-height:1.08;margin:5px 0}
+.hero-vivid .eyebrow{font-size:9px;padding:4px 8px}
+.hero-vivid p{font-size:11px;line-height:1.35;margin:0 0 6px}
+.hero-perks{gap:4px;margin:0 0 6px}
+.hero-perks span{font-size:9px;padding:3px 6px}
+.hero-vivid .hero-cta{font-size:10px;padding:7px 11px}
+.hero-showcase{height:112px;min-height:0}
+.hero-showcase .hero-orbit{inset:5px 10px 0}
+.product-bag{font-size:34px;width:58px;height:61px;left:12%;top:28px;border-radius:12px}
+.product-phone{font-size:24px;width:39px;height:51px;right:13%;top:15px;border-radius:10px}
+.product-box{font-size:24px;width:42px;height:42px;right:6%;bottom:4px;border-radius:10px}
+.product-fashion{font-size:22px;width:44px;height:34px;left:37%;bottom:2px;border-radius:10px}
+.hero-bubble{padding:4px 6px;font-size:7px;border-radius:8px}
+.bubble-one{right:2%;top:0}.bubble-two{left:23%;top:12px;font-size:7px}
+.hero-spark{font-size:16px}
+@media(max-width:640px){
+ .hero-vivid{grid-template-columns:minmax(0,1fr) 65px;gap:4px;padding:8px 9px;margin:7px auto 9px;border-radius:12px}
+ .hero-vivid .eyebrow{display:none}
+ .hero-vivid h1{font-size:clamp(13px,3.8vw,17px);line-height:1.12;margin:0 0 5px;letter-spacing:-.3px}
+ .hero-vivid p,.hero-perks{display:none}
+ .hero-vivid .hero-cta{font-size:8px;padding:6px 7px;line-height:1.05}
+ .hero-showcase{height:62px;width:65px;margin:0}
+ .hero-showcase .hero-orbit{inset:8px 0 2px}
+ .product-bag{font-size:19px;width:29px;height:31px;left:3%;top:20px;border-radius:7px}
+ .product-phone{font-size:13px;width:20px;height:27px;right:2%;top:12px;border-radius:6px}
+ .product-box{font-size:13px;width:22px;height:22px;right:0;bottom:1px;border-radius:6px}
+ .product-fashion{font-size:12px;width:23px;height:18px;left:29%;bottom:0;border-radius:5px}
+ .hero-bubble{padding:2px 3px;font-size:5px;border-radius:4px}
+ .bubble-one{right:0;top:0}.bubble-two{left:0;top:9px;font-size:5px}
+ .hero-spark{font-size:10px}
+ .spark-one{left:0;top:1px}.spark-two{right:0;bottom:0}
+}
+
 </style>
 </head>
 <body>
