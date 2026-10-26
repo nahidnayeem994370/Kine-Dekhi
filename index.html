@@ -18,7 +18,7 @@
 <div class="features"><div class="feature"><b>🚚 ডেলিভারি</b><small>ডেলিভারি চার্জ ও এলাকা পরবর্তীতে নির্ধারণ করা হবে।</small></div><div class="feature"><b>💵 Cash on Delivery</b><small>অর্ডার ব্যবস্থা তৈরি হলে COD চালু হবে।</small></div><div class="feature"><b>🔒 নিরাপদ পেমেন্ট</b><small>bKash/Nagad অনুমোদিত গেটওয়ে সংযুক্ত করার পর চালু হবে।</small></div></div>
 </main><footer class="footer"><div class="wrap footrow"><div><b>🛍️ Kine dekhi</b><p>আপনার অনলাইন কেনাকাটার নতুন ঠিকানা।</p></div><div><b>সহায়তা</b><p>যোগাযোগ ও নীতিমালার পেজ পরে যুক্ত হবে।</p></div><div><small>© <span id="year"></span> Kine dekhi</small></div></div></footer>
 <script>
-const products=[
+let products=[
 {id:1,name:"ক্যাজুয়াল টি-শার্ট",cat:"ফ্যাশন",price:450,emoji:"👕",desc:"নমুনা পণ্য · সাইজ ও রং পরে যোগ হবে"},
 {id:2,name:"ওয়্যারলেস ইয়ারবাড",cat:"ইলেকট্রনিক্স",price:1250,emoji:"🎧",desc:"নমুনা পণ্য · স্পেসিফিকেশন পরে যোগ হবে"},
 {id:3,name:"ডেকোরেটিভ টেবিল ল্যাম্প",cat:"ঘর-গৃহস্থালি",price:890,emoji:"💡",desc:"নমুনা পণ্য · বিবরণ পরে যোগ হবে"},
@@ -35,7 +35,43 @@ function removeItem(id){cart=cart.filter(i=>i.id!==id);render()}
 document.getElementById("searchForm").addEventListener("submit",e=>{e.preventDefault();search=document.getElementById("searchInput").value.trim();render()});
 document.getElementById("cartToggle").addEventListener("click",()=>document.getElementById("cartDrawer").classList.toggle("open"));
 document.querySelectorAll("[data-cat]").forEach(a=>a.addEventListener("click",()=>{category=a.dataset.cat;render()}));
-document.getElementById("year").textContent=new Date().getFullYear();render();
+document.getElementById("year").textContent=new Date().getFullYear();
+
+// Supabase connection for Kine dekhi.
+// Replace the placeholder below with the project's Publishable key (sb_publishable_...).
+const SUPABASE_URL = "https://jyrzdtitmdsxzxtxhecu.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "PASTE_YOUR_SUPABASE_PUBLISHABLE_KEY_HERE";
+async function loadProductsFromSupabase(){
+  if(!SUPABASE_PUBLISHABLE_KEY || SUPABASE_PUBLISHABLE_KEY.includes("PASTE_YOUR_")) return;
+  try{
+    const response = await fetch(SUPABASE_URL + "/rest/v1/products?select=id,name,description,price,stock,image_url,categories(name)&is_active=eq.true&order=id.asc", {
+      headers: {
+        "apikey": SUPABASE_PUBLISHABLE_KEY,
+        "Authorization": "Bearer " + SUPABASE_PUBLISHABLE_KEY
+      }
+    });
+    if(!response.ok) throw new Error("Supabase product request failed: " + response.status);
+    const rows = await response.json();
+    if(rows.length){
+      const emojiByCategory = {"ফ্যাশন":"👕","ইলেকট্রনিক্স":"🎧","ঘর-গৃহস্থালি":"🏠","সৌন্দর্য":"🧴","দৈনন্দিন পণ্য":"🧺"};
+      products = rows.map((p,index)=>({
+        id: Number(p.id),
+        name: p.name,
+        cat: p.categories?.name || "দৈনন্দিন",
+        price: Number(p.price),
+        emoji: emojiByCategory[p.categories?.name] || "📦",
+        desc: p.description || "বিস্তারিত শিগগিরই যোগ করা হবে",
+        image_url: p.image_url || ""
+      }));
+      category = "";
+      render();
+    }
+  }catch(error){
+    console.error("Kine dekhi Supabase connection:", error);
+  }
+}
+render();
+loadProductsFromSupabase();
 </script>
 <script>
 (function(){
