@@ -43,9 +43,9 @@ let products=[
 {id:6,name:"স্মার্ট ওয়াচ",cat:"ইলেকট্রনিক্স",price:1790,emoji:"⌚",desc:"নমুনা পণ্য · ফিচার পরে যোগ হবে"},
 {id:7,name:"কফি মগ",cat:"ঘর-গৃহস্থালি",price:280,emoji:"☕",desc:"নমুনা পণ্য · ডিজাইন পরে যোগ হবে"},
 {id:8,name:"স্টোরেজ অর্গানাইজার",cat:"দৈনন্দিন",price:390,emoji:"🧺",desc:"নমুনা পণ্য · মাপ পরে যোগ হবে"}];
-let cart=[];let category="";let search="";let supabaseProductsLoaded=false;let orderSubmitting=false;
+let cart=[];let category="";let search="";let supabaseProductsLoaded=false;let orderSubmitting=false;let deliveryFee=0;
 const money=n=>"৳"+n.toLocaleString("en-US");
-function render(){const list=products.filter(p=>(!category||p.cat===category)&&p.name.toLowerCase().includes(search.toLowerCase()));document.getElementById("productGrid").innerHTML=list.map(p=>`<article class="product"><div class="prodimg">${p.emoji}</div><div class="prodinfo"><h3>${p.name}</h3><span class="price">${money(p.price)}</span><p>${p.desc}</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:7px"><button class="add" onclick="addToCart(${p.id})">＋ কার্টে যোগ করুন</button><button class="order-now" onclick="orderNow(${p.id})" style="width:100%;border:0;color:white;background:var(--green);padding:9px 6px;border-radius:10px;font:inherit;font-weight:800;cursor:pointer">অর্ডার করুন</button></div></div></article>`).join("")||'<p>কোনো পণ্য পাওয়া যায়নি।</p>';document.getElementById("cartCount").textContent=cart.reduce((n,i)=>n+i.qty,0);document.getElementById("cartItems").innerHTML=cart.length?cart.map(i=>{let p=products.find(p=>p.id===i.id);return `<p>${p.emoji} ${p.name} × ${i.qty} — ${money(p.price*i.qty)} <button onclick="removeItem(${p.id})">বাদ দিন</button></p>`}).join(""):'কার্টে এখনো কোনো পণ্য নেই।';document.getElementById("cartTotal").textContent=cart.length?"মোট: "+money(cart.reduce((n,i)=>n+products.find(p=>p.id===i.id).price*i.qty,0)):"";}
+function render(){const list=products.filter(p=>(!category||p.cat===category)&&p.name.toLowerCase().includes(search.toLowerCase()));document.getElementById("productGrid").innerHTML=list.map(p=>`<article class="product"><div class="prodimg">${p.emoji}</div><div class="prodinfo"><h3>${p.name}</h3><span class="price">${money(p.price)}</span><p>${p.desc}</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:7px"><button class="add" onclick="addToCart(${p.id})">＋ কার্টে যোগ করুন</button><button class="order-now" onclick="orderNow(${p.id})" style="width:100%;border:0;color:white;background:var(--green);padding:9px 6px;border-radius:10px;font:inherit;font-weight:800;cursor:pointer">অর্ডার করুন</button></div></div></article>`).join("")||'<p>কোনো পণ্য পাওয়া যায়নি।</p>';document.getElementById("cartCount").textContent=cart.reduce((n,i)=>n+i.qty,0);document.getElementById("cartItems").innerHTML=cart.length?cart.map(i=>{let p=products.find(p=>p.id===i.id);return `<p>${p.emoji} ${p.name} × ${i.qty} — ${money(p.price*i.qty)} <button onclick="removeItem(${p.id})">বাদ দিন</button></p>`}).join(""):'কার্টে এখনো কোনো পণ্য নেই।';const subtotal=cart.reduce((n,i)=>n+products.find(p=>p.id===i.id).price*i.qty,0);document.getElementById("cartTotal").innerHTML=cart.length?"পণ্যের দাম: "+money(subtotal)+"<br>ডেলিভারি চার্জ: "+money(deliveryFee)+"<br><strong>সর্বমোট: "+money(subtotal+deliveryFee)+"</strong>":"";}
 function addToCart(id){let item=cart.find(i=>i.id===id);item?item.qty++:cart.push({id,qty:1});render()}
 function orderNow(id){addToCart(id);const drawer=document.getElementById("cartDrawer");drawer.classList.add("open");drawer.scrollIntoView({behavior:"smooth",block:"start"});document.getElementById("checkoutForm").scrollIntoView({behavior:"smooth",block:"start"});}
 function removeItem(id){cart=cart.filter(i=>i.id!==id);render()}
@@ -95,6 +95,15 @@ document.getElementById("year").textContent=new Date().getFullYear();
 const SUPABASE_URL = "https://jyrzdtitmdsxzxtxhecu.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_saBTFA1ddc3ICx3t_sPjiw_BKjGLl5o";
 const CREATE_ORDER_URL = SUPABASE_URL + "/functions/v1/create-order";
+async function loadDeliveryFee(){
+  try{
+    const response=await fetch(SUPABASE_URL+"/rest/v1/store_settings?select=delivery_fee&id=eq.1",{headers:{"apikey":SUPABASE_PUBLISHABLE_KEY,"Authorization":"Bearer "+SUPABASE_PUBLISHABLE_KEY}});
+    if(!response.ok) throw new Error("Delivery fee request failed: "+response.status);
+    const rows=await response.json();
+    if(rows.length) deliveryFee=Number(rows[0].delivery_fee)||0;
+    render();
+  }catch(error){console.error("Kine dekhi delivery fee:",error);}
+}
 async function loadProductsFromSupabase(){
   if(!SUPABASE_PUBLISHABLE_KEY || SUPABASE_PUBLISHABLE_KEY.includes("PASTE_YOUR_")) return;
   try{
@@ -161,6 +170,7 @@ document.getElementById("checkoutForm").addEventListener("submit", async (event)
   }
 });
 render();
+loadDeliveryFee();
 loadProductsFromSupabase();
 </script>
 <script>
