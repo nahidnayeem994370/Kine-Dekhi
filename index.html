@@ -223,11 +223,24 @@ document.getElementById("checkoutForm").addEventListener("submit", async (event)
   orderSubmitting = true; submit.disabled = true; submit.textContent = "অর্ডার পাঠানো হচ্ছে…";
   showCheckoutStatus("অর্ডার যাচাই করা হচ্ছে…", "info");
   try {
-    const response = await fetch(CREATE_ORDER_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "apikey": SUPABASE_PUBLISHABLE_KEY, "Authorization": "Bearer " + SUPABASE_PUBLISHABLE_KEY },
-      body: JSON.stringify(payload)
-    });
+    const orderController = new AbortController();
+    const orderTimeout = setTimeout(() => orderController.abort(), 20000);
+    let response;
+    try {
+      response = await fetch(CREATE_ORDER_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "apikey": SUPABASE_PUBLISHABLE_KEY, "Authorization": "Bearer " + SUPABASE_PUBLISHABLE_KEY },
+        body: JSON.stringify(payload),
+        signal: orderController.signal
+      });
+    } catch (networkError) {
+      if (networkError && networkError.name === "AbortError") {
+        throw new Error("২০ সেকেন্ডেও সার্ভার উত্তর দেয়নি। Supabase Edge Function-এর Logs দেখুন; ফাংশন deploy বা database RPC-তে সমস্যা থাকতে পারে।");
+      }
+      throw new Error("সার্ভারের সঙ্গে সংযোগ হয়নি। ইন্টারনেট, Supabase URL এবং Edge Function পরীক্ষা করুন।");
+    } finally {
+      clearTimeout(orderTimeout);
+    }
     const result = await response.json().catch(() => ({}));
     if (!response.ok) throw new Error(result.error || "অর্ডার নেওয়া যায়নি। আবার চেষ্টা করুন।");
     cart = []; render(); form.reset();
