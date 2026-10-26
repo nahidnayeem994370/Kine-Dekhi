@@ -53,6 +53,7 @@ body{background:linear-gradient(180deg,#fff8f8 0%,#fff 48%,#fff5f5 100%);color:#
 <h3 style="margin:0">চেকআউট / অর্ডার করুন</h3>
 <p id="checkoutStatus" class="empty" role="status" aria-live="polite" style="display:block;white-space:pre-wrap;padding:12px;border:1px solid var(--line);border-radius:10px;background:#f8fafc;color:#334155;margin:0">অর্ডার দিতে নাম, ফোন ও ঠিকানা লিখুন।</p>
 <label>আপনার নাম<input name="customer_name" required minlength="2" maxlength="120" autocomplete="name" style="display:block;width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;font:inherit"></label>
+<label>ইমেইল ঠিকানা<input name="customer_email" type="email" required maxlength="254" autocomplete="email" placeholder="আপনার Gmail" style="display:block;width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;font:inherit"></label>
 <label>মোবাইল নম্বর<input name="phone" required minlength="8" maxlength="20" autocomplete="tel" inputmode="tel" style="display:block;width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;font:inherit"></label>
 <fieldset style="border:1px solid var(--line);border-radius:10px;padding:12px;display:grid;gap:10px"><legend style="padding:0 6px;font-weight:700">ডেলিভারির ঠিকানা</legend>
 <label>বিভাগ নির্বাচন করুন<select id="divisionSelect" required style="display:block;width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;font:inherit"><option value="">বিভাগ লোড হচ্ছে...</option></select></label>
@@ -214,6 +215,7 @@ document.getElementById("checkoutForm").addEventListener("submit", async (event)
   const fd = new FormData(form);
   const payload = {
     customer_name: String(fd.get("customer_name") || "").trim(),
+    customer_email: String(fd.get("customer_email") || "").trim().toLowerCase(),
     phone: String(fd.get("phone") || "").trim(),
     address: [document.getElementById("divisionSelect").selectedOptions[0]?.textContent, document.getElementById("districtSelect").selectedOptions[0]?.textContent, document.getElementById("upazilaSelect").selectedOptions[0]?.textContent, document.getElementById("addressDetails").value.trim()].filter(Boolean).join(", "),
     payment_method: String(fd.get("payment_method") || "cod"),
@@ -245,7 +247,8 @@ document.getElementById("checkoutForm").addEventListener("submit", async (event)
     if (!response.ok) throw new Error(result.error || "অর্ডার নেওয়া যায়নি। আবার চেষ্টা করুন।");
     cart = []; render(); form.reset();
     const orderNo = result.order_number || result.order_id || result.id || "";
-    showCheckoutStatus("অর্ডার সফলভাবে জমা হয়েছে!" + (orderNo ? " অর্ডার নম্বর: " + orderNo : "") + (payload.payment_method === "cod" ? "। COD অর্ডারটি নিশ্চিত করতে দোকান থেকে যোগাযোগ করা হতে পারে।" : "। মনে রাখুন, bKash/Nagad-এর টাকা এই সাইটে এখনো স্বয়ংক্রিয়ভাবে নেওয়া হয় না।"), "success");
+    const trackingUrl = result.tracking_url || "";
+    showCheckoutStatus("অর্ডার সফলভাবে জমা হয়েছে!" + (orderNo ? " অর্ডার নম্বর: " + orderNo : "") + (trackingUrl ? " নিরাপদ ট্র্যাকিং: " + trackingUrl : "") + (payload.payment_method === "cod" ? "। COD অর্ডারটি নিশ্চিত করতে দোকান থেকে যোগাযোগ করা হতে পারে।" : "। মনে রাখুন, bKash/Nagad-এর টাকা এই সাইটে এখনো স্বয়ংক্রিয়ভাবে নেওয়া হয় না।"), "success");
   } catch (error) {
     showCheckoutStatus(error instanceof Error ? "অর্ডার নেওয়া যায়নি: " + error.message : "অর্ডার নেওয়া যায়নি। পরে আবার চেষ্টা করুন।", "error");
   } finally {
