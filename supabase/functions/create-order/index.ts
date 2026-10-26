@@ -23,12 +23,12 @@ Deno.serve(async (req: Request) => {
     const customer_name = typeof body.customer_name === "string" ? body.customer_name.trim() : "";
     const phone = typeof body.phone === "string" ? body.phone.trim() : "";
     const address = typeof body.address === "string" ? body.address.trim() : "";
-    const payment_method = body.payment_method;
+    const payment_method = body.payment_method;\n    const division_name = typeof body.division_name === "string" ? body.division_name.trim() : "";
     const items = body.items;
 
     if (customer_name.length < 2 || customer_name.length > 120 ||
         phone.length < 8 || phone.length > 20 ||
-        address.length < 8 || address.length > 500 ||
+        address.length < 8 || address.length > 500 ||\n        !["ঢাকা","চট্টগ্রাম","রাজশাহী","খুলনা","বরিশাল","সিলেট","রংপুর","ময়মনসিংহ"].includes(division_name) ||
         !["cod", "bkash", "nagad"].includes(payment_method) ||
         !Array.isArray(items) || items.length < 1 || items.length > 30) {
       return new Response(JSON.stringify({ error: "তথ্যগুলো যাচাই করে আবার চেষ্টা করুন।" }), {
