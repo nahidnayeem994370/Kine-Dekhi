@@ -136,7 +136,9 @@ async function loadProductsFromSupabase(){
         desc: p.description || "বিস্তারিত শিগগিরই যোগ করা হবে",
         image_url: p.image_url || (Array.isArray(p.image_urls) ? p.image_urls[0] || "" : ""),
         image_urls: Array.isArray(p.image_urls) ? p.image_urls : [],
-        video_urls: Array.isArray(p.video_urls) ? p.video_urls : [],\n        size_options: Array.isArray(p.size_options) ? p.size_options : [],\n        color_options: Array.isArray(p.color_options) ? p.color_options : [],
+        video_urls: Array.isArray(p.video_urls) ? p.video_urls : [],
+        size_options: Array.isArray(p.size_options) ? p.size_options : [],
+        color_options: Array.isArray(p.color_options) ? p.color_options : [],
         delivery_fee: p.delivery_fee===null||p.delivery_fee===undefined?null:Number(p.delivery_fee)
       }));
       category = "";
