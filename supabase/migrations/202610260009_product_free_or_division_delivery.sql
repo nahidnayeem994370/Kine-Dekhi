@@ -28,15 +28,9 @@ begin
  if not found then raise exception 'Delivery fee setting is missing'; end if;
  select delivery_fee into v_division_fee from public.division_delivery_fees where division_name=p_division_name;
  if v_division_fee is not null then v_default_delivery_fee:=v_division_fee; end if;
- -- If any ordered product is marked free (delivery_fee = 0), the entire order is free.
- -- Otherwise, if any product uses division-based delivery (delivery_fee IS NULL), charge the selected division fee once.
+ -- Free items have no individual fee. If any item is chargeable (delivery_fee IS NULL),
+ -- apply the selected division fee once. If every item is free, delivery is free.
  if exists(
-   select 1 from jsonb_array_elements(p_items) x
-   join public.products p on p.id=(x.value->>'product_id')::bigint
-   where p.delivery_fee = 0
- ) then
-   v_delivery_fee:=0;
- elsif exists(
    select 1 from jsonb_array_elements(p_items) x
    join public.products p on p.id=(x.value->>'product_id')::bigint
    where p.delivery_fee is null
