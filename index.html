@@ -197,7 +197,7 @@ async function loadProductsFromSupabase(){
     const rows = await response.json();
     const emojiByCategory = {"ফ্যাশন":"👕","ইলেকট্রনিক্স":"🎧","ঘর-গৃহস্থালি":"🏠","সৌন্দর্য":"🧴","দৈনন্দিন পণ্য":"🧺"};
     products = rows.map(p=>({
-      id: Number(p.id),
+      id: p.id,
       name: p.name,
       cat: (includesCategory && p.categories?.name) || "দৈনন্দিন",
       price: Number(p.price), original_price:Number(p.original_price||0), discount_percent:Number(p.original_price)>Number(p.price)?Math.round((Number(p.original_price)-Number(p.price))/Number(p.original_price)*100):0, sales_count:0,
@@ -222,8 +222,8 @@ async function loadProductsFromSupabase(){
       });
       if(salesResponse.ok){
         const salesRows=await salesResponse.json();
-        const salesMap=new Map(salesRows.map(x=>[Number(x.product_id),Number(x.sales_count||0)]));
-        products=products.map(p=>({...p,sales_count:salesMap.get(p.id)||0}));
+        const salesMap=new Map(salesRows.map(x=>[String(x.product_id),Number(x.sales_count||0)]));
+        products=products.map(p=>({...p,sales_count:salesMap.get(String(p.id))||0}));
       }
     } catch(e){console.warn("Sales summary unavailable",e);}
     refreshSizeFilters();
