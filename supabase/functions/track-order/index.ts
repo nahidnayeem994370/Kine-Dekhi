@@ -18,10 +18,10 @@ Deno.serve(async (req: Request) => {
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
     if (!url || !serviceKey) throw new Error("Server configuration missing");
     const db = createClient(url, serviceKey, { auth: { persistSession: false, autoRefreshToken: false } });
-    const { data, error } = await db.from("orders").select("order_number,order_status,created_at,updated_at").eq("tracking_token", token).maybeSingle();
+    const { data, error } = await db.from("orders").select("order_number,order_status,created_at").eq("tracking_token", token).maybeSingle();
     if (error) throw error;
     if (!data) return new Response(JSON.stringify({ error: "এই ট্র্যাকিং লিংক পাওয়া যায়নি।" }), { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } });
-    return new Response(JSON.stringify({ order_number: data.order_number, status: data.order_status, created_at: data.created_at ?? null, updated_at: data.updated_at ?? null }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    return new Response(JSON.stringify({ order_number: data.order_number, status: data.order_status, created_at: data.created_at ?? null }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
   } catch (e) {
     console.error("track-order failed:", e);
     return new Response(JSON.stringify({ error: "ট্র্যাকিং তথ্য এখন পাওয়া যাচ্ছে না। পরে আবার চেষ্টা করুন।" }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
