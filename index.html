@@ -346,6 +346,7 @@ top:'Kine dekhi-তে স্বাগতম · নতুন দোকান, �
 }};
 function apply(){
 const t=translations[language], isEn=language==='en';
+window.__kineLanguage=language;
 document.documentElement.lang=language;
 document.getElementById('langToggle').textContent=isEn?'বাংলা':'EN';
 document.querySelector('.top').textContent=t.top;
@@ -416,6 +417,15 @@ if(district&&district.options.length===1&&district.options[0].value==='')distric
 if(upazila&&upazila.options.length===1&&upazila.options[0].value==='')upazila.options[0].textContent=upazila.disabled?checkoutLabels.beforeDistrict:checkoutLabels.chooseUpazila;
 
 document.querySelectorAll('#cartItems button').forEach(b=>b.textContent=t.remove);
+ const filterText={sort:isEn?'Sort by:':'সাজান:',def:isEn?'Default':'ডিফল্ট',nameAsc:isEn?'Name A to Z':'নাম A to Z',nameDesc:isEn?'Name Z to A':'নাম Z to A',priceAsc:isEn?'Price: low to high':'কম দাম থেকে বেশি',priceDesc:isEn?'Price: high to low':'বেশি দাম থেকে কম',sizeAsc:isEn?'Size: small to large':'ছোট সাইজ থেকে বড়',sizeDesc:isEn?'Size: large to small':'বড় সাইজ থেকে ছোট',clear:isEn?'Clear':'মুছুন',priceRange:isEn?'Price range (৳)':'দামসীমা (৳)',size:isEn?'Size':'সাইজ',min:isEn?'Minimum price':'সর্বনিম্ন 1 টাকা',max:isEn?'Maximum price':'সর্বোচ্চ 100000 টাকা',noSizes:isEn?'No products have sizes yet. Add sizes from the admin panel to see them here.':'এখনো কোনো পণ্যে সাইজ দেওয়া নেই। অ্যাডমিন থেকে পণ্যের সাইজ যোগ করলে এখানে দেখা যাবে।'};
+ const sort=document.getElementById('sortProducts');
+ if(sort){const opts=[filterText.def,filterText.nameAsc,filterText.nameDesc,filterText.priceAsc,filterText.priceDesc,filterText.sizeAsc,filterText.sizeDesc];Array.from(sort.options).forEach((o,i)=>{if(opts[i])o.textContent=opts[i]})}
+ const panel=document.getElementById('productFilters');
+ if(panel){const first=panel.querySelector('label');if(first)first.firstChild.textContent=filterText.sort;const bs=panel.querySelectorAll('b');if(bs[0])bs[0].textContent=filterText.priceRange;if(bs[1])bs[1].textContent=filterText.size;const clear=document.getElementById('clearFilters');if(clear)clear.textContent=filterText.clear;const min=document.getElementById('minPriceFilter'),max=document.getElementById('maxPriceFilter');if(min){min.placeholder=filterText.min;min.setAttribute('aria-label',filterText.min)}if(max){max.placeholder=filterText.max;max.setAttribute('aria-label',filterText.max)}const host=document.getElementById('sizeFilterOptions');if(host&&!host.querySelector('[data-size-filter]')&&host.querySelector('small'))host.querySelector('small').textContent=filterText.noSizes}
+ const allHead=document.querySelector('#products .sectionhead h2');if(allHead)allHead.textContent=isEn?'All products':'সব পণ্য';
+ const allSub=document.querySelector('#products .sectionhead p');if(allSub)allSub.textContent=isEn?'Active products in the database':'ডেটাবেসে সক্রিয় থাকা পণ্য';
+ const email=checkout&&checkout.querySelector('[name="customer_email"]')?.parentElement;if(email){email.childNodes[0].textContent=isEn?'Email address':'ইমেইল ঠিকানা';const input=email.querySelector('input');if(input)input.placeholder=isEn?'Your email address':'আপনার Gmail'}
+ const paySelect=checkout&&checkout.querySelector('[name="payment_method"]');if(paySelect&&paySelect.options.length)paySelect.options[0].textContent=isEn?'Cash on Delivery (COD)':'ক্যাশ অন ডেলিভারি (COD)';
 }
 window.__kineBnNames=Array.from(document.querySelectorAll('.product h3')).map(x=>x.textContent);
 document.getElementById('langToggle').addEventListener('click',()=>{language=language==='bn'?'en':'bn';localStorage.setItem('kineLanguage',language);apply()});
