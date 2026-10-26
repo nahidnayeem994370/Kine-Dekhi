@@ -401,9 +401,15 @@ apply();
     var close=target.closest('.cart-close');
     if(close){e.preventDefault();if(window.kineDekhi)window.kineDekhi.closeCartDrawer();else closeCart();return;}
     var add=target.closest('.product .add');
-    if(add && window.kineDekhi){
+    if(add){
       var inline=(add.getAttribute('onclick')||'').match(/addFromCard\((\d+)\)/);
-      if(inline){e.preventDefault();window.kineDekhi.addFromCard(Number(inline[1]));return;}
+      var productId=add.getAttribute('data-product-id') || (inline && inline[1]);
+      if(productId && window.kineDekhi && typeof window.kineDekhi.addFromCard==='function'){
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        window.kineDekhi.addFromCard(Number(productId));
+        return;
+      }
     }
     var detailAdd=target.closest('.detail-add');
     if(detailAdd && window.kineDekhi){
