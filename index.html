@@ -145,7 +145,7 @@ let divisionFees = {};
 async function loadDivisionFees(){try{const response=await fetch(SUPABASE_URL+"/rest/v1/division_delivery_fees?select=division_name,delivery_fee",{headers:{"apikey":SUPABASE_PUBLISHABLE_KEY}});if(!response.ok)throw new Error("Division fees unavailable");const rows=await response.json();divisionFees=Object.fromEntries(rows.map(r=>[r.division_name,r.delivery_fee]));render()}catch(error){console.error("Kine dekhi division fees:",error)}}
 async function loadDeliveryFee(){
   try{
-    const response=await fetch(SUPABASE_URL+"/rest/v1/store_settings?select=delivery_fee&id=eq.1",{headers:{"apikey":SUPABASE_PUBLISHABLE_KEY,"Authorization":"Bearer "+SUPABASE_PUBLISHABLE_KEY}});
+    const response=await fetch(SUPABASE_URL+"/rest/v1/store_settings?select=delivery_fee&id=eq.1",{headers:{"apikey":SUPABASE_PUBLISHABLE_KEY}});
     if(!response.ok) throw new Error("Delivery fee request failed: "+response.status);
     const rows=await response.json();
     if(rows.length) deliveryFee=Number(rows[0].delivery_fee)||0;
@@ -217,7 +217,7 @@ async function loadProductsFromSupabase(){
       const salesResponse=await fetch(SUPABASE_URL+"/rest/v1/rpc/public_product_sales",{
         method:"POST",
         cache:"no-store",
-        headers:{"apikey":SUPABASE_PUBLISHABLE_KEY,"Authorization":"Bearer "+SUPABASE_PUBLISHABLE_KEY,"Content-Type":"application/json"},
+        headers:{"apikey":SUPABASE_PUBLISHABLE_KEY,"Content-Type":"application/json"},
         body:"{}"
       });
       if(salesResponse.ok){
