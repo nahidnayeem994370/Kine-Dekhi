@@ -55,9 +55,17 @@ Deno.serve(async (req: Request) => {
     });
 
     if (error) {
-      const safeMessage = /unavailable|stock|quantity|product|duplicate/i.test(error.message)
-        ? "কোনো পণ্য পাওয়া যাচ্ছে না বা পর্যাপ্ত স্টক নেই। কার্ট যাচাই করুন।"
-        : "অর্ডার নেওয়া যায়নি। তথ্য যাচাই করে আবার চেষ্টা করুন।";
+      // Keep the detailed database error in Supabase Edge Function logs for diagnosis.
+      console.error("create_order_secure RPC failed:", error.code, error.message, error.details, error.hint);
+      const raw = [error.message, error.details, error.hint].filter(Boolean).join(" ");
+      let safeMessage = "ডেটাবেস অর্ডার তৈরি করতে পারেনি। Supabase create-order Logs-এ RPC error দেখুন।";
+      if (/unavailable|insufficient stock|stock|quantity|product|duplicate/i.test(raw)) {
+        safeMessage = "কার্টের কোনো পণ্য পাওয়া যাচ্ছে না বা পর্যাপ্ত স্টক নেই। কার্ট যাচাই করুন।";
+      } else if (/function .* does not exist|could not find the function|schema cache/i.test(raw)) {
+        safeMessage = "ডেটাবেসের create_order_secure ফাংশনের সংজ্ঞা মেলেনি। SQL migration আবার যাচাই করুন।";
+      } else if (/invalid customer name|invalid phone number|invalid delivery address|invalid division|invalid payment method|invalid order items/i.test(raw)) {
+        safeMessage = "নাম, ফোন, বিভাগ, ঠিকানা, পেমেন্ট ও কার্টের তথ্য যাচাই করে আবার চেষ্টা করুন।";
+      }
       return new Response(JSON.stringify({ error: safeMessage }), {
         status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
