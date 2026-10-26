@@ -251,7 +251,16 @@ async function loadProductsFromSupabase(){
   }catch(error){
     console.error("Kine dekhi Supabase connection:", error);
     supabaseProductsLoaded = false;
-    products = [];
+    // Keep the built-in sample catalog available when Supabase is temporarily unreachable.
+    // Clearing products here makes every cart/order button fail with "product not found".
+    if(!Array.isArray(products) || products.length===0){
+      products = [
+        {id:1,name:"ক্যাজুয়াল টি-শার্ট",cat:"ফ্যাশন",price:450,emoji:"👕",desc:"নমুনা পণ্য"},
+        {id:2,name:"ওয়্যারলেস ইয়ারবাড",cat:"ইলেকট্রনিক্স",price:1250,emoji:"🎧",desc:"নমুনা পণ্য"},
+        {id:3,name:"ডেকোরেটিভ টেবিল ল্যাম্প",cat:"ঘর-গৃহস্থালি",price:890,emoji:"💡",desc:"নমুনা পণ্য"},
+        {id:4,name:"স্কিন 케어 সেট",cat:"সৌন্দর্য",price:650,emoji:"🧴",desc:"নমুনা পণ্য"}
+      ];
+    }
     refreshSizeFilters();
     render();
   }
