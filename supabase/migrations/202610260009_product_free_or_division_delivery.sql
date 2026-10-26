@@ -1,4 +1,4 @@
--- Kine dekhi: free products are free individually; chargeable products use the selected division fee.
+-- Kine dekhi: if any item in an order is free-delivery, the entire order has free delivery.
 create or replace function public.create_order_secure(
  p_customer_name text, p_phone text, p_address text, p_division_name text, p_payment_method text, p_items jsonb
 ) returns jsonb language plpgsql security definer set search_path = public, pg_temp as $$
@@ -28,9 +28,15 @@ begin
  if not found then raise exception 'Delivery fee setting is missing'; end if;
  select delivery_fee into v_division_fee from public.division_delivery_fees where division_name=p_division_name;
  if v_division_fee is not null then v_default_delivery_fee:=v_division_fee; end if;
- -- If at least one ordered product uses division-based delivery, charge the division fee once.
- -- Only when every ordered product is marked free is the order delivery free.
+ -- If any ordered product is marked free (delivery_fee = 0), the entire order is free.
+ -- Otherwise, if any product uses division-based delivery (delivery_fee IS NULL), charge the selected division fee once.
  if exists(
+   select 1 from jsonb_array_elements(p_items) x
+   join public.products p on p.id=(x.value->>'product_id')::bigint
+   where p.delivery_fee = 0
+ ) then
+   v_delivery_fee:=0;
+ elsif exists(
    select 1 from jsonb_array_elements(p_items) x
    join public.products p on p.id=(x.value->>'product_id')::bigint
    where p.delivery_fee is null
