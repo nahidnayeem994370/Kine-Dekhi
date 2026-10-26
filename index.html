@@ -13,7 +13,17 @@
 <main class="wrap"><section class="hero"><div><span class="pill">আপনার পছন্দ, এক জায়গায়</span><h1>কিনে দেখি,<br>পছন্দ হলে রাখি!</h1><p>ফ্যাশন, গ্যাজেট, ঘর-গৃহস্থালি ও দৈনন্দিন প্রয়োজনের পণ্য—সব এক দোকানে।</p><a href="#products" class="btn">পণ্য দেখুন ↓</a></div><div class="heroart" aria-hidden="true">🛍️📦</div></section>
 <section><div class="sectionhead"><div><h2>ক্যাটাগরি</h2><p>আপনার পছন্দের বিভাগ বেছে নিন</p></div></div><div class="cats"><a class="cat" href="#products" data-cat="ফ্যাশন"><span>👕</span>ফ্যাশন</a><a class="cat" href="#products" data-cat="ইলেকট্রনিক্স"><span>🎧</span>ইলেকট্রনিক্স</a><a class="cat" href="#products" data-cat="ঘর-গৃহস্থালি"><span>🏠</span>ঘর-গৃহস্থালি</a><a class="cat" href="#products" data-cat="সৌন্দর্য"><span>🧴</span>সৌন্দর্য</a><a class="cat" href="#products" data-cat="দৈনন্দিন"><span>🧺</span>দৈনন্দিন</a></div></section>
 <section id="products"><div class="sectionhead"><div><h2>জনপ্রিয় পণ্য</h2><p>নমুনা পণ্য — বাস্তব পণ্য ও দাম পরে যোগ করা হবে</p></div></div><div class="products" id="productGrid"></div></section>
-<div class="drawer" id="cartDrawer"><h3>আপনার কার্ট</h3><div id="cartItems" class="empty">কার্টে এখনো কোনো পণ্য নেই।</div><p id="cartTotal"></p><p class="empty">অর্ডার নেওয়া এখনো চালু হয়নি। Supabase সংযুক্ত হলে নিরাপদ চেকআউট যোগ করা হবে।</p></div>
+<div class="drawer" id="cartDrawer"><h3>আপনার কার্ট</h3><div id="cartItems" class="empty">কার্টে এখনো কোনো পণ্য নেই।</div><p id="cartTotal"></p>
+<form id="checkoutForm" class="checkout" style="display:grid;gap:10px;margin-top:16px">
+<h3 style="margin:0">চেকআউট / অর্ডার করুন</h3>
+<p id="checkoutStatus" class="empty" role="status">অর্ডার দিতে নাম, ফোন ও ঠিকানা লিখুন।</p>
+<label>আপনার নাম<input name="customer_name" required minlength="2" maxlength="120" autocomplete="name" style="display:block;width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;font:inherit"></label>
+<label>মোবাইল নম্বর<input name="phone" required minlength="8" maxlength="20" autocomplete="tel" inputmode="tel" style="display:block;width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;font:inherit"></label>
+<label>সম্পূর্ণ ঠিকানা<textarea name="address" required minlength="8" maxlength="500" autocomplete="street-address" rows="3" style="display:block;width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;font:inherit"></textarea></label>
+<label>পেমেন্ট পদ্ধতি<select name="payment_method" required style="display:block;width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;font:inherit"><option value="cod">Cash on Delivery (COD)</option><option value="bkash">bKash (পেমেন্ট এখনো স্বয়ংক্রিয়ভাবে নেওয়া হবে না)</option><option value="nagad">Nagad (পেমেন্ট এখনো স্বয়ংক্রিয়ভাবে নেওয়া হবে না)</option></select></label>
+<button class="btn" id="submitOrder" type="submit" style="width:100%;border:0">অর্ডার নিশ্চিত করুন</button>
+<p class="empty" style="margin:0">দাম ও স্টক সার্ভার থেকে যাচাই হবে। bKash/Nagad পেমেন্ট গেটওয়ে এখনো যুক্ত হয়নি।</p>
+</form></div>
 <div class="notice"><b>প্রিভিউ সংস্করণ:</b> এই সাইটের পণ্যগুলো শুধু ডিজাইনের নমুনা। এখনো আসল অর্ডার, স্টক, কাস্টমারের তথ্য বা পেমেন্ট সংরক্ষণ হয় না। চালু করার আগে ডেটাবেস, অ্যাডমিন লগইন ও নিরাপদ চেকআউট তৈরি করতে হবে।</div>
 <div class="features"><div class="feature"><b>🚚 ডেলিভারি</b><small>ডেলিভারি চার্জ ও এলাকা পরবর্তীতে নির্ধারণ করা হবে।</small></div><div class="feature"><b>💵 Cash on Delivery</b><small>অর্ডার ব্যবস্থা তৈরি হলে COD চালু হবে।</small></div><div class="feature"><b>🔒 নিরাপদ পেমেন্ট</b><small>bKash/Nagad অনুমোদিত গেটওয়ে সংযুক্ত করার পর চালু হবে।</small></div></div>
 </main><footer class="footer"><div class="wrap footrow"><div><b>🛍️ Kine dekhi</b><p>আপনার অনলাইন কেনাকাটার নতুন ঠিকানা।</p></div><div><b>সহায়তা</b><p>যোগাযোগ ও নীতিমালার পেজ পরে যুক্ত হবে।</p></div><div><small>© <span id="year"></span> Kine dekhi</small></div></div></footer>
@@ -27,7 +37,7 @@ let products=[
 {id:6,name:"স্মার্ট ওয়াচ",cat:"ইলেকট্রনিক্স",price:1790,emoji:"⌚",desc:"নমুনা পণ্য · ফিচার পরে যোগ হবে"},
 {id:7,name:"কফি মগ",cat:"ঘর-গৃহস্থালি",price:280,emoji:"☕",desc:"নমুনা পণ্য · ডিজাইন পরে যোগ হবে"},
 {id:8,name:"স্টোরেজ অর্গানাইজার",cat:"দৈনন্দিন",price:390,emoji:"🧺",desc:"নমুনা পণ্য · মাপ পরে যোগ হবে"}];
-let cart=[];let category="";let search="";
+let cart=[];let category="";let search="";let supabaseProductsLoaded=false;let orderSubmitting=false;
 const money=n=>"৳"+n.toLocaleString("en-US");
 function render(){const list=products.filter(p=>(!category||p.cat===category)&&p.name.toLowerCase().includes(search.toLowerCase()));document.getElementById("productGrid").innerHTML=list.map(p=>`<article class="product"><div class="prodimg">${p.emoji}</div><div class="prodinfo"><h3>${p.name}</h3><span class="price">${money(p.price)}</span><p>${p.desc}</p><button class="add" onclick="addToCart(${p.id})">＋ কার্টে যোগ করুন</button></div></article>`).join("")||'<p>কোনো পণ্য পাওয়া যায়নি।</p>';document.getElementById("cartCount").textContent=cart.reduce((n,i)=>n+i.qty,0);document.getElementById("cartItems").innerHTML=cart.length?cart.map(i=>{let p=products.find(p=>p.id===i.id);return `<p>${p.emoji} ${p.name} × ${i.qty} — ${money(p.price*i.qty)} <button onclick="removeItem(${p.id})">বাদ দিন</button></p>`}).join(""):'কার্টে এখনো কোনো পণ্য নেই।';document.getElementById("cartTotal").textContent=cart.length?"মোট: "+money(cart.reduce((n,i)=>n+products.find(p=>p.id===i.id).price*i.qty,0)):"";}
 function addToCart(id){let item=cart.find(i=>i.id===id);item?item.qty++:cart.push({id,qty:1});render()}
@@ -41,6 +51,7 @@ document.getElementById("year").textContent=new Date().getFullYear();
 // Replace the placeholder below with the project's Publishable key (sb_publishable_...).
 const SUPABASE_URL = "https://jyrzdtitmdsxzxtxhecu.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_saBTFA1ddc3ICx3t_sPjiw_BKjGLl5o";
+const CREATE_ORDER_URL = SUPABASE_URL + "/functions/v1/create-order";
 async function loadProductsFromSupabase(){
   if(!SUPABASE_PUBLISHABLE_KEY || SUPABASE_PUBLISHABLE_KEY.includes("PASTE_YOUR_")) return;
   try{
@@ -53,6 +64,7 @@ async function loadProductsFromSupabase(){
     if(!response.ok) throw new Error("Supabase product request failed: " + response.status);
     const rows = await response.json();
     if(rows.length){
+      supabaseProductsLoaded = true;
       const emojiByCategory = {"ফ্যাশন":"👕","ইলেকট্রনিক্স":"🎧","ঘর-গৃহস্থালি":"🏠","সৌন্দর্য":"🧴","দৈনন্দিন পণ্য":"🧺"};
       products = rows.map((p,index)=>({
         id: Number(p.id),
@@ -70,6 +82,41 @@ async function loadProductsFromSupabase(){
     console.error("Kine dekhi Supabase connection:", error);
   }
 }
+document.getElementById("checkoutForm").addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const status = document.getElementById("checkoutStatus");
+  const submit = document.getElementById("submitOrder");
+  if (orderSubmitting) return;
+  if (!cart.length) { status.textContent = "আপনার কার্টে আগে পণ্য যোগ করুন।"; return; }
+  if (!supabaseProductsLoaded) { status.textContent = "এখন অর্ডার নেওয়া যাচ্ছে না: সক্রিয় ডেটাবেস পণ্য লোড হয়নি। পরে আবার চেষ্টা করুন।"; return; }
+  const form = event.currentTarget;
+  const fd = new FormData(form);
+  const payload = {
+    customer_name: String(fd.get("customer_name") || "").trim(),
+    phone: String(fd.get("phone") || "").trim(),
+    address: String(fd.get("address") || "").trim(),
+    payment_method: String(fd.get("payment_method") || "cod"),
+    items: cart.map(item => ({ product_id: item.id, quantity: item.qty }))
+  };
+  orderSubmitting = true; submit.disabled = true; submit.textContent = "অর্ডার পাঠানো হচ্ছে…";
+  status.textContent = "অর্ডার যাচাই করা হচ্ছে…";
+  try {
+    const response = await fetch(CREATE_ORDER_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "apikey": SUPABASE_PUBLISHABLE_KEY, "Authorization": "Bearer " + SUPABASE_PUBLISHABLE_KEY },
+      body: JSON.stringify(payload)
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(result.error || "অর্ডার নেওয়া যায়নি। আবার চেষ্টা করুন।");
+    cart = []; render(); form.reset();
+    const orderNo = result.order_number || result.order_id || result.id || "";
+    status.textContent = "অর্ডার সফলভাবে জমা হয়েছে!" + (orderNo ? " অর্ডার নম্বর: " + orderNo : "") + (payload.payment_method === "cod" ? "। COD অর্ডারটি নিশ্চিত করতে দোকান থেকে যোগাযোগ করা হতে পারে।" : "। মনে রাখুন, bKash/Nagad-এর টাকা এই সাইটে এখনো স্বয়ংক্রিয়ভাবে নেওয়া হয় না।");
+  } catch (error) {
+    status.textContent = error instanceof Error ? error.message : "অর্ডার নেওয়া যায়নি। পরে আবার চেষ্টা করুন।";
+  } finally {
+    orderSubmitting = false; submit.disabled = false; submit.textContent = "অর্ডার নিশ্চিত করুন";
+  }
+});
 render();
 loadProductsFromSupabase();
 </script>
