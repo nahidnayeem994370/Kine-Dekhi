@@ -35,7 +35,7 @@ begin
   if v_product.delivery_fee=0 then v_has_free_product:=true; end if;
   v_delivery_fee:=greatest(v_delivery_fee,coalesce(v_product.delivery_fee,0));
  end loop;
- if (select count(*) from jsonb_array_elements(p_items))<>(select count(distinct (value->>'product_id')::bigint) from jsonb_array_elements(p_items)) then raise exception 'Duplicate products in order'; end if;
+ if (select count(*) from jsonb_array_elements(p_items))<>(select count(distinct concat_ws('|',value->>'product_id',coalesce(value->>'size',''),coalesce(value->>'color',''))) from jsonb_array_elements(p_items)) then raise exception 'Duplicate product variants in order'; end if;
  select delivery_fee into v_default_delivery_fee from public.store_settings where id=1;
  if not found then raise exception 'Delivery fee setting is missing'; end if;
  select delivery_fee into v_division_fee from public.division_delivery_fees where division_name=p_division_name;
