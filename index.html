@@ -460,6 +460,13 @@ apply();
         window.kineDekhi.addFromCard(productId);
         return;
       }
+      if(productId && (!window.kineDekhi || typeof window.kineDekhi.addFromCard!=='function')){
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        console.error("Kine dekhi: storefront initialization failed; window.kineDekhi is unavailable");
+        alert("দোকানের কার্ট স্ক্রিপ্ট চালু হয়নি। GitHub Pages-এর আপডেট/JavaScript সমস্যা শনাক্ত হয়েছে।");
+        return;
+      }
     }
     var detailAdd=target.closest('.detail-add');
     if(detailAdd && window.kineDekhi){
