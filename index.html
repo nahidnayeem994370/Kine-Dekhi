@@ -51,7 +51,7 @@ body{background:linear-gradient(180deg,#fff8f8 0%,#fff 48%,#fff5f5 100%);color:#
 <div class="product-detail" id="productDetail" role="dialog" aria-modal="true" aria-label="পণ্যের বিবরণ" onclick="if(event.target===this)closeProductDetail()"><div class="detail-card"><button class="detail-close" onclick="closeProductDetail()" aria-label="বন্ধ করুন">×</button><div id="productDetailContent"></div></div></div><div class="drawer" id="cartDrawer"><div class="cart-drawer-head"><h3>আপনার কার্ট</h3><button type="button" class="cart-close" onclick="closeCartDrawer()" aria-label="কার্ট বন্ধ করুন" title="ফিরে যান">×</button></div><div id="cartItems" class="empty">কার্টে এখনো কোনো পণ্য নেই।</div><p id="cartTotal"></p>
 <form id="checkoutForm" class="checkout" style="display:grid;gap:10px;margin-top:16px">
 <h3 style="margin:0">চেকআউট / অর্ডার করুন</h3>
-<p id="checkoutStatus" class="empty" role="status">অর্ডার দিতে নাম, ফোন ও ঠিকানা লিখুন।</p>
+<p id="checkoutStatus" class="empty" role="status" aria-live="polite" style="display:block;white-space:pre-wrap;padding:12px;border:1px solid var(--line);border-radius:10px;background:#f8fafc;color:#334155;margin:0">অর্ডার দিতে নাম, ফোন ও ঠিকানা লিখুন।</p>
 <label>আপনার নাম<input name="customer_name" required minlength="2" maxlength="120" autocomplete="name" style="display:block;width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;font:inherit"></label>
 <label>মোবাইল নম্বর<input name="phone" required minlength="8" maxlength="20" autocomplete="tel" inputmode="tel" style="display:block;width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;font:inherit"></label>
 <fieldset style="border:1px solid var(--line);border-radius:10px;padding:12px;display:grid;gap:10px"><legend style="padding:0 6px;font-weight:700">ডেলিভারির ঠিকানা</legend>
@@ -187,13 +187,29 @@ async function loadProductsFromSupabase(){
     console.error("Kine dekhi Supabase connection:", error);
   }
 }
+const checkoutForm = document.getElementById("checkoutForm");
+function showCheckoutStatus(message, type = "info") {
+  const status = document.getElementById("checkoutStatus");
+  status.textContent = message;
+  status.style.display = "block";
+  status.style.padding = "12px";
+  status.style.borderRadius = "10px";
+  status.style.whiteSpace = "pre-wrap";
+  status.style.fontWeight = "600";
+  status.style.background = type === "success" ? "#ecfdf5" : type === "error" ? "#fef2f2" : "#eff6ff";
+  status.style.color = type === "success" ? "#065f46" : type === "error" ? "#991b1b" : "#1e40af";
+  status.style.border = "1px solid " + (type === "success" ? "#a7f3d0" : type === "error" ? "#fecaca" : "#bfdbfe");
+}
+checkoutForm.addEventListener("invalid", (event) => {
+  showCheckoutStatus("অর্ডার দেওয়ার আগে এই ঘরটি ঠিকভাবে পূরণ করুন: " + (event.target.labels?.[0]?.textContent || event.target.name || "প্রয়োজনীয় তথ্য"), "error");
+}, true);
 document.getElementById("checkoutForm").addEventListener("submit", async (event) => {
   event.preventDefault();
   const status = document.getElementById("checkoutStatus");
   const submit = document.getElementById("submitOrder");
   if (orderSubmitting) return;
-  if (!cart.length) { status.textContent = "আপনার কার্টে আগে পণ্য যোগ করুন।"; return; }
-  if (!supabaseProductsLoaded) { status.textContent = "এখন অর্ডার নেওয়া যাচ্ছে না: সক্রিয় ডেটাবেস পণ্য লোড হয়নি। পরে আবার চেষ্টা করুন।"; return; }
+  if (!cart.length) { showCheckoutStatus("আপনার কার্টে আগে পণ্য যোগ করুন।", "error"); return; }
+  if (!supabaseProductsLoaded) { showCheckoutStatus("এখন অর্ডার নেওয়া যাচ্ছে না: সক্রিয় ডেটাবেস পণ্য লোড হয়নি। পরে আবার চেষ্টা করুন।", "error"); return; }
   const form = event.currentTarget;
   const fd = new FormData(form);
   const payload = {
@@ -205,7 +221,7 @@ document.getElementById("checkoutForm").addEventListener("submit", async (event)
     items: cart.map(item => ({ product_id: item.id, quantity: item.qty, size: item.size || null, color: item.color || null }))
   };
   orderSubmitting = true; submit.disabled = true; submit.textContent = "অর্ডার পাঠানো হচ্ছে…";
-  status.textContent = "অর্ডার যাচাই করা হচ্ছে…";
+  showCheckoutStatus("অর্ডার যাচাই করা হচ্ছে…", "info");
   try {
     const response = await fetch(CREATE_ORDER_URL, {
       method: "POST",
@@ -216,9 +232,9 @@ document.getElementById("checkoutForm").addEventListener("submit", async (event)
     if (!response.ok) throw new Error(result.error || "অর্ডার নেওয়া যায়নি। আবার চেষ্টা করুন।");
     cart = []; render(); form.reset();
     const orderNo = result.order_number || result.order_id || result.id || "";
-    status.textContent = "অর্ডার সফলভাবে জমা হয়েছে!" + (orderNo ? " অর্ডার নম্বর: " + orderNo : "") + (payload.payment_method === "cod" ? "। COD অর্ডারটি নিশ্চিত করতে দোকান থেকে যোগাযোগ করা হতে পারে।" : "। মনে রাখুন, bKash/Nagad-এর টাকা এই সাইটে এখনো স্বয়ংক্রিয়ভাবে নেওয়া হয় না।");
+    showCheckoutStatus("অর্ডার সফলভাবে জমা হয়েছে!" + (orderNo ? " অর্ডার নম্বর: " + orderNo : "") + (payload.payment_method === "cod" ? "। COD অর্ডারটি নিশ্চিত করতে দোকান থেকে যোগাযোগ করা হতে পারে।" : "। মনে রাখুন, bKash/Nagad-এর টাকা এই সাইটে এখনো স্বয়ংক্রিয়ভাবে নেওয়া হয় না।"), "success");
   } catch (error) {
-    status.textContent = error instanceof Error ? error.message : "অর্ডার নেওয়া যায়নি। পরে আবার চেষ্টা করুন।";
+    showCheckoutStatus(error instanceof Error ? "অর্ডার নেওয়া যায়নি: " + error.message : "অর্ডার নেওয়া যায়নি। পরে আবার চেষ্টা করুন।", "error");
   } finally {
     orderSubmitting = false; submit.disabled = false; submit.textContent = "অর্ডার নিশ্চিত করুন";
   }
