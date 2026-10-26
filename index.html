@@ -269,6 +269,7 @@ window.kineDekhi = {
   addFromCard: id => addFromCard(Number(id)),
   orderFromCard: id => orderFromCard(Number(id)),
   addToCart: (id, size, color) => addToCart(Number(id), size || "", color || ""),
+  addFromDetail: (id, goCheckout) => addFromDetail(Number(id), Boolean(goCheckout)),
   toggleCartDrawer: () => toggleCartDrawer(),
   closeCartDrawer: () => closeCartDrawer(),
   search: value => {
@@ -406,7 +407,7 @@ apply();
     var detailAdd=target.closest('.detail-add');
     if(detailAdd && window.kineDekhi){
       var detailInline=(detailAdd.getAttribute('onclick')||'').match(/addFromDetail\((\d+)\s*,\s*(false|true)\)/);
-      if(detailInline){e.preventDefault();window.kineDekhi.addToCart(Number(detailInline[1]),document.getElementById('detailSize')?.value||'',document.getElementById('detailColor')?.value||'');return;}
+      if(detailInline){e.preventDefault();window.kineDekhi.addFromDetail(Number(detailInline[1]),detailInline[2]==='true');return;}
     }
     var order=target.closest('.order-now');
     if(order){
