@@ -262,6 +262,23 @@ refreshSizeFilters();
 loadDeliveryFee();
 loadDivisionFees();
 loadProductsFromSupabase();
+
+// Expose storefront actions explicitly for inline HTML handlers and diagnostics.
+window.kineDekhi = {
+  render: () => render(),
+  addFromCard: id => addFromCard(Number(id)),
+  orderFromCard: id => orderFromCard(Number(id)),
+  addToCart: (id, size, color) => addToCart(Number(id), size || "", color || ""),
+  toggleCartDrawer: () => toggleCartDrawer(),
+  closeCartDrawer: () => closeCartDrawer(),
+  search: value => {
+    search = String(value || "").trim();
+    category = "";
+    render();
+    searchSuggestions.hidden = true;
+  },
+  getState: () => ({ productCount: products.length, cartCount: cart.reduce((n, item) => n + item.qty, 0), supabaseProductsLoaded })
+};
 </script>
 <script>
 (function(){
@@ -375,17 +392,35 @@ apply();
     drawer.setAttribute('aria-hidden','true');
   }
   document.addEventListener('click',function(e){
-    var cart=e.target.closest('#cartToggle');
-    if(cart){e.preventDefault();openCart();return;}
-    var close=e.target.closest('.cart-close');
-    if(close){e.preventDefault();closeCart();return;}
-    var order=e.target.closest('.order-now');
+    var target=e.target && e.target.closest ? e.target : null;
+    if(!target) return;
+    var cart=target.closest('#cartToggle');
+    if(cart){e.preventDefault();if(window.kineDekhi)window.kineDekhi.toggleCartDrawer();else openCart();return;}
+    var close=target.closest('.cart-close');
+    if(close){e.preventDefault();if(window.kineDekhi)window.kineDekhi.closeCartDrawer();else closeCart();return;}
+    var add=target.closest('.product .add');
+    if(add && window.kineDekhi){
+      var card=add.closest('.product');
+      var inline=(add.getAttribute('onclick')||'').match(/addFromCard\\((\\d+)\\)/);
+      if(inline){e.preventDefault();window.kineDekhi.addFromCard(Number(inline[1]));return;}
+    }
+    var order=target.closest('.order-now');
     if(order){
+      var orderInline=(order.getAttribute('onclick')||'').match(/(?:orderFromCard|orderNow)\\((\\d+)\\)/);
+      if(orderInline && window.kineDekhi){e.preventDefault();window.kineDekhi.orderFromCard(Number(orderInline[1]));}
       window.setTimeout(function(){
         var drawer=document.getElementById('cartDrawer');
         if(drawer && !drawer.classList.contains('open')) openCart();
       },0);
     }
+  },true);
+  document.addEventListener('submit',function(e){
+    if(!e.target || e.target.id!=='searchForm') return;
+    e.preventDefault();
+    var input=document.getElementById('searchInput');
+    if(window.kineDekhi) window.kineDekhi.search(input ? input.value : '');
+    var products=document.getElementById('products');
+    if(products) products.scrollIntoView({behavior:'smooth',block:'start'});
   },true);
 })();
 </script>
