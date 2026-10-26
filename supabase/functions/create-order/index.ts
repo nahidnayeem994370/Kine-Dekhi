@@ -30,7 +30,7 @@ Deno.serve(async (req: Request) => {
 
     if (customer_name.length < 2 || customer_name.length > 120 ||
         phone.length < 8 || phone.length > 20 ||
-        customer_email.length > 254 || !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(customer_email) ||
+        customer_email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customer_email) ||
         address.length < 8 || address.length > 500 ||
         !["ঢাকা","চট্টগ্রাম","রাজশাহী","খুলনা","বরিশাল","সিলেট","রংপুর","ময়মনসিংহ"].includes(division_name) ||
         !["cod", "bkash", "nagad"].includes(payment_method) ||
