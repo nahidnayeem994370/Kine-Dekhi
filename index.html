@@ -152,7 +152,8 @@ document.getElementById("checkoutForm").addEventListener("submit", async (event)
     phone: String(fd.get("phone") || "").trim(),
     address: [document.getElementById("divisionSelect").selectedOptions[0]?.textContent, document.getElementById("districtSelect").selectedOptions[0]?.textContent, document.getElementById("upazilaSelect").selectedOptions[0]?.textContent, document.getElementById("addressDetails").value.trim()].filter(Boolean).join(", "),
     payment_method: String(fd.get("payment_method") || "cod"),
-    division_name: document.getElementById("divisionSelect").selectedOptions[0]?.textContent || "",\n    items: cart.map(item => ({ product_id: item.id, quantity: item.qty }))
+    division_name: document.getElementById("divisionSelect").selectedOptions[0]?.textContent || "",
+    items: cart.map(item => ({ product_id: item.id, quantity: item.qty }))
   };
   orderSubmitting = true; submit.disabled = true; submit.textContent = "অর্ডার পাঠানো হচ্ছে…";
   status.textContent = "অর্ডার যাচাই করা হচ্ছে…";
