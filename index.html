@@ -521,4 +521,39 @@ apply();
   },true);
 })();
 </script>
+
+<script>
+/* Capture storefront button taps before inline handlers, avoiding duplicate or swallowed clicks on mobile. */
+(function () {
+  document.addEventListener("click", function (event) {
+    const target = event.target && event.target.closest ? event.target : null;
+    if (!target) return;
+    const add = target.closest(".product .add[data-product-id]");
+    const order = target.closest(".product .order-now");
+    const cart = target.closest("#cartToggle");
+    const close = target.closest(".cart-close");
+    const detailAdd = target.closest(".detail-add");
+    const detailOrder = target.closest(".detail-order");
+    const detailOpen = target.closest(".product-open");
+    if (!window.kineDekhi) return;
+    if (add) {
+      event.preventDefault(); event.stopImmediatePropagation();
+      window.kineDekhi.addFromCard(add.getAttribute("data-product-id"));
+    } else if (order) {
+      const match = (order.getAttribute("onclick") || "").match(/orderFromCard\((\d+)\)/);
+      if (match) { event.preventDefault(); event.stopImmediatePropagation(); window.kineDekhi.orderFromCard(match[1]); }
+    } else if (cart) {
+      event.preventDefault(); event.stopImmediatePropagation(); window.kineDekhi.toggleCartDrawer();
+    } else if (close) {
+      event.preventDefault(); event.stopImmediatePropagation(); window.kineDekhi.closeCartDrawer();
+    } else if (detailAdd || detailOrder) {
+      const match = (target.getAttribute("onclick") || "").match(/addFromDetail\((\d+)\s*,\s*(false|true)\)/);
+      if (match) { event.preventDefault(); event.stopImmediatePropagation(); window.kineDekhi.addFromDetail(match[1], match[2] === "true"); }
+    } else if (detailOpen) {
+      const match = (detailOpen.getAttribute("onclick") || "").match(/openProductDetail\((\d+)\)/);
+      if (match) { event.preventDefault(); event.stopImmediatePropagation(); window.kineDekhi.openProductDetail(match[1]); }
+    }
+  }, true);
+})();
+</script>
 </body></html>
