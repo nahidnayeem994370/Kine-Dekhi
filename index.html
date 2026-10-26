@@ -72,6 +72,7 @@ document.getElementById("year").textContent=new Date().getFullYear();
    statusEl.textContent="প্রথমে বিভাগ, এরপর জেলা ও উপজেলা নির্বাচন করুন।";
    divisionEl.addEventListener("change",()=>{
      const division=geo[Number(divisionEl.value)];
+     render();
      setOptions(districtEl,division?.districts||[],"জেলা নির্বাচন করুন");
      districtEl.disabled=!division;
      setOptions(upazilaEl,[],"আগে জেলা নির্বাচন করুন");upazilaEl.disabled=true;
