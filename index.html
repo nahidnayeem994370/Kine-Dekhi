@@ -225,6 +225,53 @@ const fs=document.querySelectorAll('.feature');
 document.querySelector('.footer p').textContent=t.footer;
 const foot=document.querySelectorAll('.footrow>div');foot[1].querySelector('b').textContent=t.help;foot[1].querySelector('p').textContent=t.helpText;
 document.querySelectorAll('.product').forEach((card,i)=>{const orderBtn=card.querySelector('.order-now');if(orderBtn)orderBtn.textContent=t.orderNow;if(isEn&&enNames[i])card.querySelector('h3').textContent=enNames[i];else if(!isEn){const original=window.__kineBnNames||[];if(original[i])card.querySelector('h3').textContent=original[i]}const b=card.querySelector('.add');if(b)b.textContent=t.add});
+
+const checkoutLabels = isEn ? {
+ checkout:'Checkout / Place an order', status:'Enter your name, phone number and address to order.',
+ name:'Your name', phone:'Mobile number', address:'Delivery address', division:'Select division', district:'Select district', upazila:'Select upazila',
+ details:'Detailed address (house/road/area)', detailsPlaceholder:'Enter house number, road and area',
+ locationLoading:'Loading Bangladesh divisions, districts and upazilas…', locationHelp:'First select a division, then district and upazila.',
+ payment:'Payment method', confirm:'Confirm order', verify:'Prices and stock will be verified by the server. The bKash/Nagad payment gateway is not connected yet.',
+ paymentBkash:'bKash (payment will not be collected automatically yet)', paymentNagad:'Nagad (payment will not be collected automatically yet)',
+ noDivision:'Division list failed to load', noLocation:'Location list failed to load. Check your internet connection and refresh the page.',
+ beforeDivision:'Select a division first', beforeDistrict:'Select a district first', chooseDivision:'Select division', chooseDistrict:'Select district', chooseUpazila:'Select upazila',
+ free:'🚚 Free delivery'
+} : {
+ checkout:'চেকআউট / অর্ডার করুন', status:'অর্ডার দিতে নাম, ফোন ও ঠিকানা লিখুন।',
+ name:'আপনার নাম', phone:'মোবাইল নম্বর', address:'ডেলিভারির ঠিকানা', division:'বিভাগ নির্বাচন করুন', district:'জেলা নির্বাচন করুন', upazila:'উপজেলা নির্বাচন করুন',
+ details:'বিস্তারিত ঠিকানা (বাড়ি/রোড/এলাকা)', detailsPlaceholder:'বাড়ি নম্বর, রোড, এলাকা লিখুন',
+ locationLoading:'বাংলাদেশের বিভাগ, জেলা ও উপজেলার তালিকা লোড হচ্ছে…', locationHelp:'প্রথমে বিভাগ, এরপর জেলা ও উপজেলা নির্বাচন করুন।',
+ payment:'পেমেন্ট পদ্ধতি', confirm:'অর্ডার নিশ্চিত করুন', verify:'দাম ও স্টক সার্ভার থেকে যাচাই হবে। bKash/Nagad পেমেন্ট গেটওয়ে এখনো যুক্ত হয়নি।',
+ paymentBkash:'bKash (পেমেন্ট এখনো স্বয়ংক্রিয়ভাবে নেওয়া হবে না)', paymentNagad:'Nagad (পেমেন্ট এখনো স্বয়ংক্রিয়ভাবে নেওয়া হবে না)',
+ noDivision:'বিভাগের তালিকা লোড হয়নি', noLocation:'অবস্থান তালিকা লোড হয়নি। ইন্টারনেট সংযোগ পরীক্ষা করে পেজ রিফ্রেশ করুন।',
+ beforeDivision:'আগে বিভাগ নির্বাচন করুন', beforeDistrict:'আগে জেলা নির্বাচন করুন', chooseDivision:'বিভাগ নির্বাচন করুন', chooseDistrict:'জেলা নির্বাচন করুন', chooseUpazila:'উপজেলা নির্বাচন করুন',
+ free:'🚚 ফ্রি ডেলিভারি'
+};
+const checkout=document.getElementById('checkoutForm');
+if(checkout){
+ const hs=checkout.querySelectorAll('h3'); if(hs[0])hs[0].textContent=checkoutLabels.checkout;
+ const st=document.getElementById('checkoutStatus'); if(st)st.textContent=checkoutLabels.status;
+ const labels=checkout.querySelectorAll('label');
+ labels.forEach(l=>{const input=l.querySelector('input,select,textarea');if(!input)return;
+   if(input.name==='customer_name')l.childNodes[0].textContent=checkoutLabels.name;
+   if(input.name==='phone')l.childNodes[0].textContent=checkoutLabels.phone;
+   if(input.id==='divisionSelect')l.childNodes[0].textContent=checkoutLabels.division;
+   if(input.id==='districtSelect')l.childNodes[0].textContent=checkoutLabels.district;
+   if(input.id==='upazilaSelect')l.childNodes[0].textContent=checkoutLabels.upazila;
+   if(input.id==='addressDetails'){l.childNodes[0].textContent=checkoutLabels.details;input.placeholder=checkoutLabels.detailsPlaceholder}
+   if(input.name==='payment_method')l.childNodes[0].textContent=checkoutLabels.payment;
+ });
+ const legend=checkout.querySelector('legend');if(legend)legend.textContent=checkoutLabels.address;
+ const submit=document.getElementById('submitOrder');if(submit&&!orderSubmitting)submit.textContent=checkoutLabels.confirm;
+ const note=checkout.querySelectorAll('p.empty');if(note.length>1)note[note.length-1].textContent=checkoutLabels.verify;
+ const pay=checkout.querySelector('[name="payment_method"]');if(pay&&pay.options.length>2){pay.options[1].textContent=checkoutLabels.paymentBkash;pay.options[2].textContent=checkoutLabels.paymentNagad}
+ const loc=document.getElementById('locationStatus');if(loc&&(/লোড হচ্ছে|loading/i.test(loc.textContent)))loc.textContent=checkoutLabels.locationLoading;
+}
+const division=document.getElementById('divisionSelect'), district=document.getElementById('districtSelect'), upazila=document.getElementById('upazilaSelect');
+if(division&&division.options.length===1&&division.options[0].value==='')division.options[0].textContent=checkoutLabels.chooseDivision;
+if(district&&district.options.length===1&&district.options[0].value==='')district.options[0].textContent=district.disabled?checkoutLabels.beforeDivision:checkoutLabels.chooseDistrict;
+if(upazila&&upazila.options.length===1&&upazila.options[0].value==='')upazila.options[0].textContent=upazila.disabled?checkoutLabels.beforeDistrict:checkoutLabels.chooseUpazila;
+
 document.querySelectorAll('#cartItems button').forEach(b=>b.textContent=t.remove);
 }
 window.__kineBnNames=Array.from(document.querySelectorAll('.product h3')).map(x=>x.textContent);
