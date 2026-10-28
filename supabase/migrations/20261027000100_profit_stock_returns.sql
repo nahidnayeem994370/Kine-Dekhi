@@ -55,3 +55,90 @@ create policy "Admins manage order returns" on public.order_returns
 
 -- Do not backfill historical purchase costs: old profit is unknown unless the
 -- shop owner supplies the real cost for those orders. Keep them flagged incomplete.
+
+
+-- Record a return atomically; only admins can execute this privileged operation.
+create or replace function public.record_order_return(
+  p_order_item_id bigint,
+  p_quantity integer,
+  p_condition text,
+  p_refund_amount numeric default 0,
+  p_notes text default null
+) returns bigint
+language plpgsql
+security definer
+set search_path = public, pg_temp
+as $$
+declare
+  v_item public.order_items%rowtype;
+  v_order public.orders%rowtype;
+  v_return_id bigint;
+begin
+  if coalesce(auth.jwt() -> 'app_metadata' ->> 'role', '') <> 'admin' then
+    raise exception 'Admin access required' using errcode = '42501';
+  end if;
+  if p_quantity is null or p_quantity < 1 then
+    raise exception 'Return quantity must be positive';
+  end if;
+  if p_condition not in ('good','damaged') then
+    raise exception 'Return condition must be good or damaged';
+  end if;
+  if coalesce(p_refund_amount,0) < 0 then
+    raise exception 'Refund amount cannot be negative';
+  end if;
+
+  select * into v_item from public.order_items
+    where id = p_order_item_id for update;
+  if not found then raise exception 'Order item not found'; end if;
+  select * into v_order from public.orders
+    where id = v_item.order_id for update;
+  if not found then raise exception 'Order not found'; end if;
+  if v_order.order_status <> 'delivered' then
+    raise exception 'Only delivered orders can be returned';
+  end if;
+  if v_item.is_gift then raise exception 'Gift items cannot be returned for refund';
+  end if;
+  if v_item.returned_quantity + p_quantity > v_item.quantity then
+    raise exception 'Return quantity exceeds purchased quantity';
+  end if;
+
+  insert into public.order_returns
+    (order_id, order_item_id, quantity, item_condition, refund_amount, restock_applied, notes, created_by)
+  values
+    (v_order.id, v_item.id, p_quantity, p_condition, coalesce(p_refund_amount,0),
+     p_condition = 'good', nullif(trim(coalesce(p_notes,'')),''), auth.uid())
+  returning id into v_return_id;
+
+  update public.order_items
+    set returned_quantity = returned_quantity + p_quantity,
+        return_condition = case
+          when returned_quantity + p_quantity >= quantity then p_condition
+          when return_condition = 'damaged' or p_condition = 'damaged' then 'damaged'
+          else 'good'
+        end
+    where id = v_item.id;
+
+  if p_condition = 'good' and v_item.product_id is not null then
+    update public.products
+      set stock = stock + p_quantity, updated_at = now()
+      where id = v_item.product_id;
+  end if;
+
+  update public.orders
+    set return_status = case
+          when exists (
+            select 1 from public.order_items oi
+            where oi.order_id = v_order.id
+              and oi.returned_quantity + case when oi.id = v_item.id then p_quantity else 0 end < oi.quantity
+              and not oi.is_gift
+          ) then 'partial'
+          else 'returned'
+        end,
+        returned_at = now()
+    where id = v_order.id;
+
+  return v_return_id;
+end;
+$$;
+revoke all on function public.record_order_return(bigint, integer, text, numeric, text) from public, anon;
+grant execute on function public.record_order_return(bigint, integer, text, numeric, text) to authenticated;
