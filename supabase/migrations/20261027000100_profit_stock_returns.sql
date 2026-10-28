@@ -129,7 +129,7 @@ begin
           when exists (
             select 1 from public.order_items oi
             where oi.order_id = v_order.id
-              and oi.returned_quantity + case when oi.id = v_item.id then p_quantity else 0 end < oi.quantity
+              and oi.returned_quantity < oi.quantity
               and not oi.is_gift
           ) then 'partial'
           else 'returned'
