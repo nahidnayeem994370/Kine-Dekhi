@@ -121,7 +121,7 @@ function addReportCloseButton(host,resetProduct=false){
  close.textContent='×';
  close.setAttribute('aria-label','রিপোর্ট বন্ধ করুন');
  close.title='রিপোর্ট বন্ধ করুন';
- close.style.cssText='position:absolute;top:0;right:0;width:34px;height:32px;padding:0;margin:0;font-size:25px;line-height:1;border-radius:8px;z-index:2;cursor:pointer';
+ close.style.cssText='position:absolute;top:0;right:0;width:34px;height:32px;padding:0;margin:0;font-size:25px;line-height:1;border-radius:8px;z-index:2;cursor:pointer;background:#feeceb;color:#b42318';
  close.onclick=()=>{host.innerHTML='';host.style.paddingTop='0';if(resetProduct){$('productProfitSelect').value='';}};
  host.prepend(close);
 }
