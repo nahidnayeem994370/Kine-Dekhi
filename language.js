@@ -84,4 +84,4 @@ function init(){const css=document.createElement('style');css.textContent='#kine
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 // Load admin courier controls only on the admin page.
-if (location.pathname.endsWith('/admin.html') || location.pathname.endsWith('admin.html')) { const s=document.createElement('script'); s.src='./courier-admin.js?v=20261029-5'; s.defer=true; document.head.appendChild(s); }
+if (location.pathname.endsWith('/admin.html') || location.pathname.endsWith('admin.html')) { const s=document.createElement('script'); s.src='./courier-admin.js?v=20261029-6'; s.defer=true; document.head.appendChild(s); }
