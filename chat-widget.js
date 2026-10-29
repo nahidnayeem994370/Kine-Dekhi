@@ -107,8 +107,8 @@ import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js
   }
   function setPanelPosition() {
     const rect = bubble.getBoundingClientRect();
-    const width = Math.min(360, window.innerWidth - 20);
-    const height = Math.min(490, window.innerHeight - 100);
+    const width = Math.min(310, window.innerWidth - 18);
+    const height = Math.min(430, window.innerHeight - 86);
     let left = rect.left > window.innerWidth / 2 ? rect.right - width : rect.left;
     left = Math.max(10, Math.min(window.innerWidth - width - 10, left));
     let top = rect.top - height - 10;
@@ -212,7 +212,7 @@ import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js
           let href = raw, isProductLink = false;
           try {
             const parsed = new URL(raw);
-            const productId = parsed.searchParams.get("orderProduct") || parsed.searchParams.get("addProduct") || parsed.searchParams.get("productId") || parsed.searchParams.get("product_id") || parsed.searchParams.get("product") || (parsed.pathname.endsWith("product.html") ? parsed.searchParams.get("id") : "");
+            const productId = parsed.searchParams.get("orderProduct") || parsed.searchParams.get("addProduct") || parsed.searchParams.get("productId") || parsed.searchParams.get("product_id") || parsed.searchParams.get("product") || parsed.searchParams.get("id");
             if (productId && (/github\.io$/i.test(parsed.hostname) || parsed.origin === location.origin)) {
               const target = new URL(SHOP_BASE.href); target.searchParams.set("orderProduct", productId); href = target.href; isProductLink = true;
             }
