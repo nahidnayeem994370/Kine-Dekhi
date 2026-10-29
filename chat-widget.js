@@ -212,7 +212,7 @@ import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js
           let href = raw, isProductLink = false;
           try {
             const parsed = new URL(raw);
-            const productId = parsed.searchParams.get("orderProduct") || parsed.searchParams.get("addProduct") || parsed.searchParams.get("productId") || parsed.searchParams.get("product_id") || (parsed.pathname.endsWith("product.html") ? parsed.searchParams.get("id") : "");
+            const productId = parsed.searchParams.get("orderProduct") || parsed.searchParams.get("addProduct") || parsed.searchParams.get("productId") || parsed.searchParams.get("product_id") || parsed.searchParams.get("product") || (parsed.pathname.endsWith("product.html") ? parsed.searchParams.get("id") : "");
             if (productId && (/github\.io$/i.test(parsed.hostname) || parsed.origin === location.origin)) {
               const target = new URL(SHOP_BASE.href); target.searchParams.set("orderProduct", productId); href = target.href; isProductLink = true;
             }
