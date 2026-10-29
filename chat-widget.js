@@ -244,6 +244,8 @@ import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js
     if (!body.querySelector("#kdChatForm")) renderCustomerLayout();
     try { await api("customer_init"); await refreshCustomer(); }
     catch (error) { showNotice(error.message); }
+    if (pollTimer) clearInterval(pollTimer);
+    pollTimer = setInterval(() => refreshCustomer().catch(() => {}), 4000);
   }
 
   function renderAdminLayout() {
@@ -327,8 +329,12 @@ import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js
     }
     adminSession = data.session;
     if (!body.querySelector("#kdChatAdminLayout")) renderAdminLayout();
-    try { await refreshAdminInbox(); }
+    try { await refreshAdminInbox(); await refreshAdminThread(); }
     catch (error) { showNotice(error.message); }
+    if (inboxTimer) clearInterval(inboxTimer);
+    inboxTimer = setInterval(() => refreshAdminInbox().catch(() => {}), 7000);
+    if (pollTimer) clearInterval(pollTimer);
+    pollTimer = setInterval(() => refreshAdminThread().catch(() => {}), 4000);
   }
   if (isAdminPage) {
     bubble.style.display = "none";
