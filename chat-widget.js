@@ -23,6 +23,7 @@ import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js
     return token;
   };
   const visitorToken = getVisitorToken();
+  const SHOP_BASE = new URL("./", new URL("./index.html", location.href));
   let adminSession = null;
   let isOpen = false;
   let activeConversation = null;
@@ -39,11 +40,11 @@ import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 
   const style = document.createElement("style");
   style.textContent = `
-  #kdChatBubble{position:fixed;right:20px;bottom:20px;z-index:2147483000;border:0;border-radius:999px;background:linear-gradient(135deg,#7c3aed,#db2777);color:#fff;box-shadow:0 8px 26px #4c1d9580;min-width:62px;height:62px;padding:0 17px;display:flex;align-items:center;justify-content:center;gap:8px;font:800 15px system-ui,sans-serif;touch-action:none;user-select:none;cursor:grab}
-  #kdChatBubble svg{width:25px;height:25px;flex:0 0 25px}
+  #kdChatBubble{position:fixed;right:16px;bottom:16px;z-index:2147483000;border:0;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#db2777);color:#fff;box-shadow:0 5px 18px #4c1d9560;width:46px;min-width:46px;height:46px;padding:0;display:flex;align-items:center;justify-content:center;gap:0;font:800 12px system-ui,sans-serif;touch-action:none;user-select:none;cursor:grab} #kdChatBubble span:not(#kdChatBadge){display:none}
+  #kdChatBubble svg{width:22px;height:22px;flex:0 0 22px}
   #kdChatBubble:active{cursor:grabbing}
   #kdChatBadge{position:absolute;right:-3px;top:-4px;background:#ef4444;color:#fff;border:2px solid #fff;border-radius:999px;min-width:19px;height:19px;font:800 11px system-ui;display:none;align-items:center;justify-content:center;padding:0 4px}
-  #kdChatPanel{position:fixed;z-index:2147482999;width:min(360px,calc(100vw - 20px));height:min(490px,calc(100dvh - 100px));background:#fff;border:1px solid #eadcf5;border-radius:18px;box-shadow:0 18px 60px #2e10652b;display:none;overflow:hidden;color:#241a35;font:14px system-ui,-apple-system,"Noto Sans Bengali",sans-serif}
+  #kdChatPanel{position:fixed;z-index:2147482999;width:min(310px,calc(100vw - 18px));height:min(430px,calc(100dvh - 86px));background:#fff;border:1px solid #eadcf5;border-radius:18px;box-shadow:0 18px 60px #2e10652b;display:none;overflow:hidden;color:#241a35;font:14px system-ui,-apple-system,"Noto Sans Bengali",sans-serif}
   #kdChatPanel.kd-open{display:flex;flex-direction:column}
   #kdChatHeader{background:linear-gradient(110deg,#6d28d9,#c026d3);color:#fff;display:flex;align-items:center;gap:10px;padding:13px 14px;min-height:61px}
   #kdChatHeader .kd-title{font-weight:900;font-size:15px;flex:1;line-height:1.35}
@@ -56,10 +57,10 @@ import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js
   .kd-msg.kd-theirs{align-self:flex-start;background:#f0e9f8;color:#2d2140;border-bottom-left-radius:4px}
   .kd-msg time{display:block;font-size:10px;opacity:.72;text-align:right;margin-top:3px}
   #kdChatEmpty{margin:auto;text-align:center;color:#766985;font-size:13px;line-height:1.8;padding:20px}
-  #kdChatForm{display:flex;gap:7px;padding:10px;border-top:1px solid #eee5f7;background:#fff}
+  #kdChatForm{display:flex;gap:5px;padding:8px;border-top:1px solid #eee5f7;background:#fff;align-items:flex-end} .kd-attach{width:36px;min-width:36px;height:40px;border:1px solid #ded1ed;border-radius:10px;background:#fff;color:#7c3aed;font-size:18px;display:grid;place-items:center;padding:0}.kd-file-input{display:none}.kd-msg img{display:block;max-width:100%;max-height:190px;object-fit:contain;border-radius:9px}.kd-msg a{color:inherit;text-decoration:underline;overflow-wrap:anywhere}.kd-msg.kd-mine a{color:#fff}
   #kdChatInput{flex:1;min-width:0;resize:none;max-height:92px;min-height:40px;border:1px solid #ded1ed;border-radius:12px;padding:10px;font:13px system-ui,sans-serif;outline:none}
   #kdChatInput:focus{border-color:#a855f7;box-shadow:0 0 0 3px #a855f71c}
-  #kdChatSend{border:0;border-radius:11px;background:#7c3aed;color:#fff;font-weight:900;padding:0 13px;min-width:54px}
+  #kdChatSend{border:0;border-radius:11px;background:#7c3aed;color:#fff;font-weight:900;padding:0 10px;min-width:48px;height:40px}
   #kdChatSend:disabled{opacity:.55}
   #kdChatNotice{padding:5px 12px;color:#b91c1c;background:#fff1f2;font-size:12px;display:none}
   #kdChatAdminLayout{display:flex;flex:1;min-height:0}
@@ -73,7 +74,7 @@ import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js
   #kdChatAdminTools{display:flex;gap:5px;padding:6px 9px;background:#fff;border-top:1px solid #eee5f7}
   #kdChatAdminTools button{border:1px solid #e5d7f2;border-radius:8px;background:#fff;padding:5px 7px;font-size:11px;color:#6d28d9}
   #kdChatStatusLine{font-size:11px;color:#6b5a7c;padding:4px 10px;background:#fff}
-  @media(max-width:430px){#kdChatBubble{right:12px;bottom:14px;height:56px;min-width:56px;padding:0 13px}#kdChatPanel{width:calc(100vw - 16px);height:min(500px,calc(100dvh - 82px));border-radius:16px}#kdChatInbox{width:100px;flex-basis:100px}.kd-thread{padding:9px 6px;font-size:11px}}
+  @media(max-width:430px){#kdChatBubble{right:12px;bottom:14px;height:44px;width:44px;min-width:44px;padding:0}#kdChatPanel{width:calc(100vw - 18px);max-width:310px;height:min(430px,calc(100dvh - 78px));border-radius:14px}#kdChatInbox{width:100px;flex-basis:100px}.kd-thread{padding:9px 6px;font-size:11px}}
   `;
   document.head.appendChild(style);
 
@@ -193,16 +194,89 @@ import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js
     for (const m of messages) {
       const item = document.createElement("div");
       item.className = "kd-msg " + ((mode === "admin" ? m.sender_role === "admin" : m.sender_role === "customer") ? "kd-mine" : "kd-theirs");
-      const text = document.createElement("div"); text.textContent = m.body;
+      const bodyText = String(m.body || "");
+      if (bodyText.startsWith("IMAGE:")) {
+        const url = bodyText.slice(6).trim();
+        if (/^https:\/\//i.test(url)) {
+          const link = document.createElement("a"); link.href = url; link.target = "_blank"; link.rel = "noopener noreferrer";
+          const image = document.createElement("img"); image.src = url; image.alt = "চ্যাটে পাঠানো ছবি"; image.loading = "lazy";
+          link.appendChild(image); item.appendChild(link);
+        } else { item.appendChild(document.createTextNode("ছবি পাওয়া যায়নি")); }
+      } else {
+        const urlPattern = /https?:\/\/[^\s<>]+/gi;
+        let cursor = 0, match;
+        while ((match = urlPattern.exec(bodyText))) {
+          if (match.index > cursor) item.appendChild(document.createTextNode(bodyText.slice(cursor, match.index)));
+          const raw = match[0].replace(/[),.!?\]}]+$/g, "");
+          const trailing = match[0].slice(raw.length);
+          let href = raw, isProductLink = false;
+          try {
+            const parsed = new URL(raw);
+            const productId = parsed.searchParams.get("orderProduct") || parsed.searchParams.get("addProduct") || parsed.searchParams.get("productId") || parsed.searchParams.get("product_id") || (parsed.pathname.endsWith("product.html") ? parsed.searchParams.get("id") : "");
+            if (productId && (/github\.io$/i.test(parsed.hostname) || parsed.origin === location.origin)) {
+              const target = new URL(SHOP_BASE.href); target.searchParams.set("orderProduct", productId); href = target.href; isProductLink = true;
+            }
+          } catch {}
+          const anchor = document.createElement("a"); anchor.href = href; anchor.textContent = raw;
+          if (!isProductLink) { anchor.target = "_blank"; anchor.rel = "noopener noreferrer"; }
+          item.appendChild(anchor);
+          if (trailing) item.appendChild(document.createTextNode(trailing));
+          cursor = match.index + match[0].length;
+        }
+        if (cursor < bodyText.length) item.appendChild(document.createTextNode(bodyText.slice(cursor)));
+      }
       const time = document.createElement("time"); time.textContent = timeLabel(m.created_at);
-      item.append(text, time); host.appendChild(item);
+      item.appendChild(time); host.appendChild(item);
     }
     host.scrollTop = host.scrollHeight;
   }
+  async function sendChatImage(file) {
+    if (!file) return;
+    if (!/^image\/(jpeg|png|webp)$/.test(file.type) || file.size > 3 * 1024 * 1024) {
+      showNotice("শুধু JPG, PNG বা WEBP ছবি পাঠান (সর্বোচ্চ ৩ MB)।"); return;
+    }
+    if (isAdminPage && !activeConversation) { showNotice("আগে ইনবক্স থেকে একটি ক্রেতার চ্যাট বেছে নিন।"); return; }
+    const input = panel.querySelector("#kdChatInput");
+    const send = panel.querySelector("#kdChatSend");
+    const fileInput = panel.querySelector("#kdChatFile");
+    if (send) send.disabled = true;
+    showNotice("ছবি আপলোড হচ্ছে…");
+    try {
+      const dataUrl = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(String(reader.result || ""));
+        reader.onerror = () => reject(new Error("ছবি পড়া যায়নি।"));
+        reader.readAsDataURL(file);
+      });
+      const action = isAdminPage ? "admin_upload" : "customer_upload";
+      const payload = { image_base64:dataUrl, mime_type:file.type };
+      if (isAdminPage) payload.conversation_id = activeConversation.id;
+      const result = await api(action, payload, isAdminPage);
+      if (!result.image_url) throw new Error("ছবি আপলোড হয়নি।");
+      if (isAdminPage) {
+        await api("admin_send", { conversation_id:activeConversation.id, message:"IMAGE:" + result.image_url }, true);
+        await refreshAdminThread(); await refreshAdminInbox();
+      } else {
+        await api("customer_send", { message:"IMAGE:" + result.image_url });
+        await refreshCustomer();
+      }
+      showNotice("");
+    } catch (error) { showNotice(error.message || "ছবি পাঠানো যায়নি।"); }
+    finally { if (send) send.disabled = false; if (fileInput) fileInput.value = ""; if (input) input.focus(); }
+  }
+  function wireImagePicker() {
+    const pick = panel.querySelector("#kdChatAttach");
+    const file = panel.querySelector("#kdChatFile");
+    if (pick && file) {
+      pick.addEventListener("click", () => file.click());
+      file.addEventListener("change", () => sendChatImage(file.files?.[0]));
+    }
+  }
   function renderCustomerLayout() {
-    body.innerHTML = '<div id="kdChatMessages"></div><form id="kdChatForm"><textarea id="kdChatInput" maxlength="1000" rows="1" placeholder="আপনার মেসেজ লিখুন…" aria-label="মেসেজ লিখুন"></textarea><button id="kdChatSend" type="submit">পাঠান</button></form>';
+    body.innerHTML = '<div id="kdChatMessages"></div><form id="kdChatForm"><input class="kd-file-input" id="kdChatFile" type="file" accept="image/jpeg,image/png,image/webp"><button class="kd-attach" id="kdChatAttach" type="button" aria-label="ছবি পাঠান" title="ছবি পাঠান">📎</button><textarea id="kdChatInput" maxlength="1000" rows="1" placeholder="মেসেজ লিখুন…" aria-label="মেসেজ লিখুন"></textarea><button id="kdChatSend" type="submit">পাঠান</button></form>';
     panel.querySelector("#kdChatHeading").childNodes[0].textContent = "Kine Dekhi Chat";
     panel.querySelector("#kdChatSubtitle").textContent = "ক্রেতা সেবা • সরাসরি মেসেজ";
+    wireImagePicker();
     const form = body.querySelector("#kdChatForm");
     form.addEventListener("submit", async event => {
       event.preventDefault();
@@ -249,9 +323,10 @@ import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js
   }
 
   function renderAdminLayout() {
-    body.innerHTML = '<div id="kdChatAdminLayout"><div id="kdChatInbox"><div class="kd-thread">ইনবক্স লোড হচ্ছে…</div></div><div id="kdChatAdminThread"><div id="kdChatStatusLine">একটি কথোপকথন বেছে নিন</div><div id="kdChatMessages"><div id="kdChatEmpty">বাম পাশ থেকে ক্রেতার চ্যাট বেছে নিন।</div></div><div id="kdChatAdminTools"><button id="kdChatCloseThread" type="button">চ্যাট বন্ধ করুন</button><button id="kdChatRefresh" type="button">রিফ্রেশ</button></div><form id="kdChatForm"><textarea id="kdChatInput" maxlength="1000" rows="1" placeholder="ক্রেতাকে উত্তর লিখুন…" aria-label="উত্তর লিখুন"></textarea><button id="kdChatSend" type="submit">পাঠান</button></form></div></div>';
+    body.innerHTML = '<div id="kdChatAdminLayout"><div id="kdChatInbox"><div class="kd-thread">ইনবক্স লোড হচ্ছে…</div></div><div id="kdChatAdminThread"><div id="kdChatStatusLine">একটি কথোপকথন বেছে নিন</div><div id="kdChatMessages"><div id="kdChatEmpty">বাম পাশ থেকে ক্রেতার চ্যাট বেছে নিন।</div></div><div id="kdChatAdminTools"><button id="kdChatCloseThread" type="button">চ্যাট বন্ধ করুন</button><button id="kdChatRefresh" type="button">রিফ্রেশ</button></div><form id="kdChatForm"><input class="kd-file-input" id="kdChatFile" type="file" accept="image/jpeg,image/png,image/webp"><button class="kd-attach" id="kdChatAttach" type="button" aria-label="ছবি পাঠান" title="ছবি পাঠান">📎</button><textarea id="kdChatInput" maxlength="1000" rows="1" placeholder="উত্তর লিখুন…" aria-label="উত্তর লিখুন"></textarea><button id="kdChatSend" type="submit">পাঠান</button></form></div></div>';
     panel.querySelector("#kdChatHeading").childNodes[0].textContent = "লাইভ চ্যাট ইনবক্স";
     panel.querySelector("#kdChatSubtitle").textContent = "ক্রেতার মেসেজের উত্তর দিন";
+    wireImagePicker();
     body.querySelector("#kdChatForm").addEventListener("submit", async event => {
       event.preventDefault();
       const input = body.querySelector("#kdChatInput");
