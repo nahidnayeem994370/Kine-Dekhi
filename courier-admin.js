@@ -8,17 +8,18 @@
   return {status:r.status,ok:r.ok,data:await r.json().catch(()=>({}))};
  }
  async function render(){
-  if(!Array.isArray(adminOrdersCache))return;
+  const detailNodes=Array.from(root.querySelectorAll('[id^="order-details-"]'));
+  if(!detailNodes.length)return;
   let bookings={};
   try{const x=await call({action:'list'});if(x.ok)(x.data.bookings||[]).forEach(b=>bookings[String(b.order_id)]=b);}catch(e){console.warn('Courier status unavailable',e);}
-  adminOrdersCache.forEach(o=>{
-   const details=document.getElementById('order-details-'+o.id);if(!details||details.querySelector('[data-courier-ui]'))return;
+  detailNodes.forEach(details=>{
+   const orderId=details.id.slice('order-details-'.length);if(!orderId||details.querySelector('[data-courier-ui]'))return;
    const b=bookings[String(o.id)]||null,locked=b&&['pending','booked','unknown'].includes(b.status);
    const status={pending:'বুকিং চলছে',booked:'বুকিং সফল',failed:'বুকিং ব্যর্থ',unknown:'অবস্থা নিশ্চিত নয় — কুরিয়ার পোর্টালে যাচাই করুন'};
    const panel=document.createElement('section');panel.dataset.courierUi='1';panel.style.cssText='margin:12px 0;padding:12px;border:1px solid #b8dcd3;border-radius:10px;background:#f7fffc';
    panel.innerHTML='<b>🚚 কুরিয়ার বুকিং</b><div class="courier-result" style="margin:6px 0">'+(b?escapeHtml(b.provider==='pathao'?'Pathao Courier':'Steadfast Courier')+' · '+escapeHtml(status[b.status]||b.status)+(b.consignment_id?'<div>Consignment ID: <b>'+escapeHtml(b.consignment_id)+'</b></div>':'')+(b.tracking_code?'<div>Tracking: <b>'+escapeHtml(b.tracking_code)+'</b></div>':'')+(b.tracking_url?'<div><a target="_blank" rel="noopener" href="'+escapeHtml(b.tracking_url)+'">ট্র্যাকিং খুলুন</a></div>':'')+(b.error_message?'<div>'+escapeHtml(b.error_message)+'</div>':''):'এখনো বুকিং করা হয়নি।')+'</div><label>কুরিয়ার</label><select class="courier-provider" '+(locked?'disabled':'')+'><option value="pathao" '+(b?.provider==='pathao'?'selected':'')+'>Pathao Courier</option><option value="steadfast" '+(b?.provider==='steadfast'?'selected':'')+'>Steadfast Courier</option></select><div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px"><div><label>Pathao City ID</label><input class="courier-city" type="number" min="1" placeholder="City ID" '+(locked?'disabled':'')+'></div><div><label>Pathao Zone ID</label><input class="courier-zone" type="number" min="1" placeholder="Zone ID" '+(locked?'disabled':'')+'></div></div><label>Pathao Area ID (ঐচ্ছিক)</label><input class="courier-area" type="number" min="1" placeholder="Area ID" '+(locked?'disabled':'')+'><button type="button" class="courier-book" '+(locked?'disabled':'')+'>কুরিয়ার বুক করুন</button>';
    panel.querySelector('.courier-book').addEventListener('click',async()=>{
-    const provider=panel.querySelector('.courier-provider').value,result=panel.querySelector('.courier-result'),payload={action:'book',order_id:o.id,provider};
+    const provider=panel.querySelector('.courier-provider').value,result=panel.querySelector('.courier-result'),payload={action:'book',order_id:Number(orderId),provider};
     if(provider==='pathao'){payload.city_id=Number(panel.querySelector('.courier-city').value);payload.zone_id=Number(panel.querySelector('.courier-zone').value);payload.area_id=panel.querySelector('.courier-area').value?Number(panel.querySelector('.courier-area').value):null;if(!payload.city_id||!payload.zone_id){result.textContent='Pathao City ID ও Zone ID সঠিকভাবে দিন।';return;}}
     if(!confirm((provider==='pathao'?'Pathao':'Steadfast')+'-এ এই অর্ডারের বাস্তব পার্সেল বুক করবেন?'))return;
     const button=panel.querySelector('.courier-book');button.disabled=true;result.textContent='বুকিং অনুরোধ পাঠানো হচ্ছে…';
