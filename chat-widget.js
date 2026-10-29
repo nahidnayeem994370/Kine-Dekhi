@@ -23,7 +23,7 @@ import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js
     return token;
   };
   const visitorToken = getVisitorToken();
-  const SHOP_BASE = new URL("./", new URL("./index.html", location.href));
+  const SHOP_BASE = new window.URL("./", new window.URL("./index.html", window.location.href));
   let adminSession = null;
   let isOpen = false;
   let activeConversation = null;
@@ -211,10 +211,10 @@ import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js
           const trailing = match[0].slice(raw.length);
           let href = raw, isProductLink = false;
           try {
-            const parsed = new URL(raw);
+            const parsed = new window.URL(raw);
             const productId = parsed.searchParams.get("orderProduct") || parsed.searchParams.get("addProduct") || parsed.searchParams.get("productId") || parsed.searchParams.get("product_id") || parsed.searchParams.get("product") || parsed.searchParams.get("id");
             if (productId && (/github\.io$/i.test(parsed.hostname) || parsed.origin === location.origin)) {
-              const target = new URL(SHOP_BASE.href); target.searchParams.set("orderProduct", productId); href = target.href; isProductLink = true;
+              const target = new window.URL(SHOP_BASE.href); target.searchParams.set("orderProduct", productId); href = target.href; isProductLink = true;
             }
           } catch {}
           const anchor = document.createElement("a"); anchor.href = href; anchor.textContent = raw;
