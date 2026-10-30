@@ -57,6 +57,9 @@
   });
  }
  let busy=false;const run=async()=>{if(busy)return;busy=true;try{await render()}finally{busy=false;}};
- new MutationObserver(()=>{if(root.querySelector('[id^="order-details-"]'))run();}).observe(root,{childList:true,subtree:true});
+ new MutationObserver(mutations=>{
+  const meaningful=mutations.some(m=>[...m.addedNodes,...m.removedNodes].some(n=>n.nodeType===1&&!(n.matches?.('[data-courier-ui]')||n.closest?.('[data-courier-ui]'))));
+  if(meaningful&&root.querySelector('[id^="order-details-"]'))run();
+ }).observe(root,{childList:true,subtree:true});
  setTimeout(run,1200);
 })();
