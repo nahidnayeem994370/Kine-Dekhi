@@ -16,6 +16,7 @@
   pending_pickup:'পিকআপ অপেক্ষমাণ',picked_up:'কুরিয়ার পিকআপ করেছে',in_transit:'কুরিয়ারে পথে',received_at_hub:'হাবে পৌঁছেছে',
   out_for_delivery:'ডেলিভারির জন্য বের হয়েছে',returned:'রিটার্ন',returned_to_merchant:'মার্চেন্টের কাছে ফেরত'
  }[String(s||'').toLowerCase()]||String(s||'স্ট্যাটাস পাওয়া যায়নি'));
+ root.addEventListener('click',async e=>{const btn=e.target.closest('[data-courier-refresh-order]');if(!btn||!root.contains(btn))return;e.preventDefault();e.stopPropagation();const orderId=Number(btn.dataset.courierRefreshOrder);btn.disabled=true;btn.textContent='…';btn.title='স্ট্যাটাস আপডেট হচ্ছে';try{const x=await request('courier-tracking',{action:'sync',order_id:orderId});if(!x.ok)throw new Error(x.data.error||'স্ট্যাটাস পাওয়া যায়নি');btn.textContent='↻';btn.title='স্ট্যাটাস আপডেট হয়েছে';await render();}catch(err){btn.textContent='↻';btn.disabled=false;btn.title='স্ট্যাটাস রিফ্রেশ ব্যর্থ';alert('কুরিয়ার স্ট্যাটাস আপডেট হয়নি: '+(err.message||'ত্রুটি'));}});
  async function render(){
   const nodes=Array.from(root.querySelectorAll('[id^="order-details-"]'));if(!nodes.length)return;
   let bookings={};
@@ -32,7 +33,7 @@
    const checked=b?.last_checked_at?new Date(b.last_checked_at).toLocaleString('bn-BD'):'এখনো চেক হয়নি';
    const statusHtml=b?'<div style="margin:7px 0;line-height:1.8"><div><b>'+escapeHtml(courierName(b.provider))+'</b> · '+escapeHtml(b.status==='booked'?'বুকিং সফল':b.status==='failed'?'বুকিং ব্যর্থ':b.status==='unknown'?'অবস্থা নিশ্চিত নয়':'বুকিং চলছে')+'</div><div>কুরিয়ার স্ট্যাটাস: <b>'+escapeHtml(label(b.courier_status||b.status))+'</b></div>'+(b.courier_status_message?'<div style="color:#475569">'+escapeHtml(b.courier_status_message)+'</div>':'')+(b.consignment_id?'<div>Consignment ID: '+escapeHtml(b.consignment_id)+'</div>':'')+(b.tracking_code?'<div>Tracking: '+escapeHtml(b.tracking_code)+'</div>':'')+(b.tracking_url?'<div><a target="_blank" rel="noopener" href="'+escapeHtml(b.tracking_url)+'">কুরিয়ার ট্র্যাকিং খুলুন</a></div>':'')+'<small style="color:#64748b">সর্বশেষ চেক: '+escapeHtml(checked)+'</small>'+(history.length?'<div style="margin-top:6px;font-size:12px;color:#475569"><b>সাম্প্রতিক ইতিহাস</b>'+history.map(h=>'<div>• '+escapeHtml(label(h.status||h.label))+' — '+escapeHtml(h.checked_at?new Date(h.checked_at).toLocaleString('bn-BD'):'')+'</div>').join('')+'</div>':'')+'</div>':'<div class="courier-result" style="margin:6px 0">এখনো কুরিয়ার বুকিং করা হয়নি।</div>';
    panel.innerHTML='<b>🚚 কুরিয়ার বুকিং ও লাইভ স্ট্যাটাস</b>'+statusHtml+
-    '<div style="display:flex;gap:8px;flex-wrap:wrap;margin:8px 0"><button type="button" class="courier-refresh" '+(b?.status==='booked'?'':'disabled')+'>↻ স্ট্যাটাস রিফ্রেশ</button></div>'+
+    
     '<label>কুরিয়ার নির্বাচন</label><select class="courier-provider"><option value="pathao" '+(b?.provider==='pathao'?'selected':'')+'>Pathao Courier</option><option value="steadfast" '+(b?.provider==='steadfast'?'selected':'')+'>Steadfast Courier</option></select>'+
     '<div class="courier-pathao-fields"><div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px"><div><label>Pathao City ID</label><input class="courier-city" type="number" min="1" placeholder="City ID"></div><div><label>Pathao Zone ID</label><input class="courier-zone" type="number" min="1" placeholder="Zone ID"></div></div><label>Pathao Area ID (ঐচ্ছিক)</label><input class="courier-area" type="number" min="1" placeholder="Area ID"></div>'+
     '<div class="courier-steadfast-note" style="display:none;padding:8px;margin:8px 0;background:#fff;border-radius:7px">Steadfast-এর জন্য City ID/Zone ID প্রয়োজন নেই। বুকিংয়ের আগে অর্ডারের ঠিকানা যাচাই করুন।</div>'+
@@ -40,11 +41,6 @@
     (b?.error_message?'<div style="margin-top:6px;color:#b91c1c">'+escapeHtml(b.error_message)+'</div>':'');
    const provider=panel.querySelector('.courier-provider'),pathao=panel.querySelector('.courier-pathao-fields'),steadfast=panel.querySelector('.courier-steadfast-note');
    const sync=()=>{const yes=provider.value==='pathao';pathao.style.display=yes?'block':'none';steadfast.style.display=yes?'none':'block';};provider.addEventListener('change',sync);sync();
-   panel.querySelector('.courier-refresh').addEventListener('click',async()=>{
-    const btn=panel.querySelector('.courier-refresh');btn.disabled=true;btn.textContent='চেক হচ্ছে…';
-    try{const x=await request('courier-tracking',{action:'sync',order_id:Number(orderId)});if(!x.ok)throw new Error(x.data.error||'স্ট্যাটাস পাওয়া যায়নি');await render();}
-    catch(e){btn.disabled=false;btn.textContent='↻ আবার চেষ্টা করুন';alert('কুরিয়ার স্ট্যাটাস আপডেট হয়নি: '+(e.message||'ত্রুটি'));}
-   });
    panel.querySelector('.courier-book').addEventListener('click',async()=>{
     const p=provider.value,payload={action:'book',order_id:Number(orderId),provider:p},result=panel.querySelector('.courier-result');
     if(p==='pathao'){payload.city_id=Number(panel.querySelector('.courier-city').value);payload.zone_id=Number(panel.querySelector('.courier-zone').value);payload.area_id=panel.querySelector('.courier-area').value?Number(panel.querySelector('.courier-area').value):null;if(!payload.city_id||!payload.zone_id){alert('Pathao City ID ও Zone ID দিন।');return;}}
