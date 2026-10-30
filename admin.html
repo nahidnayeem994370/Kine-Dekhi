@@ -82,6 +82,7 @@ const URL='https://jyrzdtitmdsxzxtxhecu.supabase.co';
 const KEY='sb_publishable_saBTFA1ddc3ICx3t_sPjiw_BKjGLl5o';
 window.__kineAdminModuleStarted = true;
 const db=createClient(URL,KEY);
+window.__kineAdminDb=db;window.__kineAdminKey=KEY;
 const $=id=>document.getElementById(id);
 function status(t){$('status').textContent=t}
 function show(session){$('login').style.display=session?'none':'block';$('panel').style.display=session?'block':'none'}
