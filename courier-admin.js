@@ -3,7 +3,7 @@
  const root=document.getElementById('ordersList');if(!root)return;
  const escapeHtml=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  async function request(fn,payload){
-  const {data}=await db.auth.getSession();if(!data?.session)throw new Error('আবার অ্যাডমিন লগইন করুন।');
+  const db=window.__kineAdminDb,KEY=window.__kineAdminKey;if(!db||!KEY)throw new Error('অ্যাডমিন সেশন প্রস্তুত হয়নি। পেজ রিফ্রেশ করুন।');const {data}=await db.auth.getSession();if(!data?.session)throw new Error('আবার অ্যাডমিন লগইন করুন।');
   const r=await fetch('https://jyrzdtitmdsxzxtxhecu.supabase.co/functions/v1/'+fn,{method:'POST',headers:{'Content-Type':'application/json','apikey':KEY,'Authorization':'Bearer '+data.session.access_token},body:JSON.stringify(payload)});
   return {status:r.status,ok:r.ok,data:await r.json().catch(()=>({}))};
  }
