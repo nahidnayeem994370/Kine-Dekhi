@@ -75,7 +75,7 @@ const words={"সর্বোচ্চ ছাড়ের পণ্য":"Product
 const protectedSelector='[data-detail],[data-product-name],[data-product-description],[class*="product-name"],[class*="product-title"],[class*="product-desc"],[class*="product-description"],[class*="item-name"],[class*="item-title"],[class*="related-name"],[class="name"],[class="desc"]';
 const originalText=new WeakMap(),originalAttrs=new WeakMap();
 function translate(s){if(Object.prototype.hasOwnProperty.call(exact,s))return exact[s];let out=s;for(const [a,b] of Object.entries(exact)){if(a.length>7&&out.includes(a))out=out.split(a).join(b)}for(const a of Object.keys(words).sort((x,y)=>y.length-x.length)){const escaped=a.replace(/[.*+?^\x24{}()|[\]\\]/g,'\\$&');out=out.replace(new RegExp(escaped,'g'),words[a])}return out}
-function lang(){try{return localStorage.getItem('kineDekhiLanguage')||'en'}catch(e){return 'en'}}
+function lang(){try{return localStorage.getItem('kineDekhiLanguage')||'bn'}catch(e){return 'bn'}}
 function blocked(node){const el=node.nodeType===1?node:node.parentElement;return !el||!!el.closest('script,style,noscript,textarea,input,[contenteditable="true"],'+protectedSelector)}
 function textNode(n){if(blocked(n))return;if(!originalText.has(n))originalText.set(n,n.nodeValue);const o=originalText.get(n),v=lang()==='en'?translate(o):o;if(n.nodeValue!==v)n.nodeValue=v}
 function attr(el,a){if(el.id==='kineLanguageToggle'||(el.closest&&el.closest(protectedSelector)))return;let m=originalAttrs.get(el);if(!m){m={};originalAttrs.set(el,m)}if(!(a in m))m[a]=el.getAttribute(a);const o=m[a],v=lang()==='en'?translate(o):o;if(o!==null&&el.getAttribute(a)!==v)el.setAttribute(a,v)}
