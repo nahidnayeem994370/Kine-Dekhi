@@ -541,6 +541,39 @@ body{padding-bottom:72px}
  .logo,.site-logo{max-width:42vw}
  .search.kd-search-expanded,.site-search.kd-search-expanded{right:43px;width:calc(100vw - 105px)}
 }
+
+/* Clean all-white storefront inspired by the supplied reference */
+:root{--bg:#fff;--ink:#111;--line:#e8e8e8;--white:#fff}
+html,body{background:#fff!important;color:#111}
+.announcement{display:none!important}
+.header,.site-header,.head,.site-head{background:#fff!important;border-color:#eee!important;box-shadow:none!important}
+.logo,.site-logo{color:#111!important}
+.logo span,.site-logo span{color:#111!important}
+.hero,.hero-vivid,.benefit,.benefit .ico,.category-card,.category-tile,.product,.product-card,.section-card,.cart-section,.checkout-card{background:#fff!important;box-shadow:none!important}
+.hero{border:0!important;border-radius:0!important}
+.hero:after{display:none!important}
+.eyebrow{background:#fff!important;color:#222!important;border-color:#eee!important}
+.kd-footer{background:#fff!important;color:#222!important;border-top:1px solid #eee!important}
+.kd-footer a,.kd-footer-contact a{color:#222!important}
+.kd-footer p,.kd-footer small{color:#666!important}
+.kd-bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:100;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));align-items:center;padding:8px 2px calc(8px + env(safe-area-inset-bottom));background:#fff!important;border-top:1px solid #eee!important;box-shadow:0 -2px 12px rgba(0,0,0,.06)!important;border-radius:0!important;max-width:none!important;transform:none!important;width:auto!important}
+.kd-bottom-item{min-width:0;min-height:64px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:2px 1px;background:transparent!important;color:#666!important;text-decoration:none;white-space:nowrap}
+.kd-bottom-item span{font-size:30px;line-height:1;filter:grayscale(1);color:#555!important}
+.kd-bottom-item small{font-size:clamp(9px,2.5vw,12px);font-weight:500;line-height:1.2;color:#999!important;letter-spacing:0;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.kd-bottom-item .kd-wa-icon{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#25d366;color:#fff!important;font-size:21px;filter:none;box-shadow:0 0 0 3px #e7f7ec}
+.kd-bottom-item:hover,.kd-bottom-item:focus{background:#fafafa!important;color:#222!important;border-radius:0!important}
+body{padding-bottom:88px!important}
+@media(max-width:380px){.kd-bottom-item small{font-size:8px}.kd-bottom-item span{font-size:27px}}
+@media(min-width:641px){.kd-bottom-nav{max-width:none;left:0;right:0;transform:none;border-radius:0}}
+/* Center brand between left menu and right actions */
+.head,.site-head{position:relative;justify-content:space-between;min-height:76px}
+.logo,.site-logo{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:1;font-size:25px;font-weight:950;white-space:nowrap;text-align:center;max-width:42vw}
+.kd-menu-open{z-index:3;background:#fff!important;border:0!important;box-shadow:none!important}
+.head-actions,.site-actions{margin-left:auto;z-index:3;gap:14px}
+.kd-search-toggle{font-size:27px!important;color:#111!important;width:42px;height:42px}
+.pillbtn.cart-icon-only,.site-actions .cart-icon-only{background:#fff!important;border:0!important;color:#111!important;font-size:27px!important;width:46px;height:46px}
+.cart-icon-only strong{background:#ad8656!important;color:#fff!important}
+@media(max-width:640px){.head,.site-head{min-height:72px;padding:7px 8px}.logo,.site-logo{font-size:21px;max-width:44vw}.head-actions,.site-actions{gap:7px}.kd-search-toggle{width:35px;height:38px;font-size:24px!important}.pillbtn.cart-icon-only,.site-actions .cart-icon-only{width:38px;height:40px;font-size:23px!important}}
 </style>
 </head>
 <body>
@@ -658,10 +691,11 @@ $("year").textContent=new Date().getFullYear();renderCart();loadGeoData();loadFe
 <script src="./language.js?v=20261029-6"></script>
 <script type="module" src="./chat-widget.js?v=20261029-4"></script>
 <nav class="kd-bottom-nav" aria-label="দ্রুত নেভিগেশন">
-<a href="./index.html" class="kd-bottom-item"><span>🏠</span><small>Home</small></a>
-<a href="tel:01706147994" class="kd-bottom-item"><span>📞</span><small>Call</small></a>
-<a href="./index.html#bestDiscountSection" class="kd-bottom-item"><span>🏷️</span><small>Offers</small></a>
-<a href="./account.html" class="kd-bottom-item kd-login-item"><span>👤</span><small>Login</small></a>
+<a href="./index.html" class="kd-bottom-item"><span>⌂</span><small>HOME</small></a>
+<a href="tel:01706147994" class="kd-bottom-item"><span>☎</span><small>01706147994</small></a>
+<a href="./index.html#bestDiscountSection" class="kd-bottom-item"><span>ϟ</span><small>OFFERS</small></a>
+<a href="https://wa.me/8801706147994" class="kd-bottom-item"><span class="kd-wa-icon">☎</span><small>WHATSAPP</small></a>
+<a href="./account.html" class="kd-bottom-item"><span>♟</span><small>ACCOUNT</small></a>
 </nav>
 <script>
 (()=>{const head=document.querySelector('.head,.site-head');if(!head)return;const form=head.querySelector('.search,.site-search');const trigger=head.querySelector('.kd-search-toggle');if(!form||!trigger)return;trigger.addEventListener('click',()=>{const opening=!form.classList.contains('kd-search-expanded');form.classList.toggle('kd-search-expanded',opening);form.classList.toggle('kd-search-collapsed',!opening);trigger.setAttribute('aria-label',opening?'সার্চ বন্ধ করুন':'সার্চ খুলুন');if(opening){const field=form.querySelector('input');if(field)setTimeout(()=>field.focus(),0);}});document.addEventListener('click',e=>{if(!head.contains(e.target)&&form.classList.contains('kd-search-expanded')){form.classList.remove('kd-search-expanded');form.classList.add('kd-search-collapsed');trigger.setAttribute('aria-label','সার্চ খুলুন');}});document.addEventListener('keydown',e=>{if(e.key==='Escape'){form.classList.remove('kd-search-expanded');form.classList.add('kd-search-collapsed');trigger.setAttribute('aria-label','সার্চ খুলুন');}});})();
