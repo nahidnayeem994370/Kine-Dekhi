@@ -358,6 +358,107 @@ body{background:var(--bg);color:var(--ink)}
 .field input,.field select,.field textarea{padding:8px;font-size:12px}
 .submit{padding:10px;font-size:12px}
 }
+
+/* Kine Dekhi storefront refresh — presentation only; checkout and app logic remain untouched */
+:root{--red:#b42332;--red2:#d33b49;--ink:#242424;--muted:#777;--bg:#f7f7f5;--line:#e9e7e3;--white:#fff;--green:#087f5b;--shadow:0 5px 18px rgba(20,20,20,.055)}
+body{background:#f7f7f5;color:#242424;font-family:system-ui,-apple-system,"Noto Sans Bengali",sans-serif}
+.announcement{background:#292929;color:#fff;padding:8px 12px;font-size:12px;letter-spacing:.1px}
+.header{background:#fff;border-bottom:1px solid #e9e7e3;box-shadow:0 3px 14px rgba(0,0,0,.035)}
+.head{min-height:70px;gap:18px}
+.logo{color:#b42332;font-size:25px;letter-spacing:-1px}
+.logo span{color:#262626}
+.search input{background:#f8f8f7;border:1px solid #e5e3df;border-right:0;border-radius:7px 0 0 7px;padding:12px 14px}
+.search button,.primary{background:#b42332;border-radius:0 7px 7px 0}
+.search button:hover,.primary:hover,.buy:hover{background:#941d2a}
+.pillbtn{border:1px solid #e5e3df;border-radius:7px;background:#fff;color:#333}
+.pillbtn strong{background:#b42332}
+.hero-vivid{background:linear-gradient(105deg,#f4eee7,#f8f5f0 58%,#eee8e0);border:0;border-radius:4px;box-shadow:none;padding:26px 32px;margin:18px auto 20px;min-height:0}
+.hero-vivid:after{background:#e3d6c8;opacity:.45}
+.hero-vivid:before{background:#fff;opacity:.35}
+.hero-vivid h1{color:#242424;font-size:clamp(25px,3.4vw,40px);line-height:1.18;letter-spacing:-.8px}
+.hero-highlight{color:#b42332}
+.hero-vivid .eyebrow{color:#8d2630;border:1px solid #e5d5ca;background:#fff;border-radius:3px}
+.hero-vivid p{color:#666}
+.hero-perks span{border:1px solid #e7ddd4;background:#ffffffd9;color:#51463e;border-radius:3px}
+.hero-vivid .hero-cta{background:#b42332;border-radius:4px;box-shadow:none}
+.hero-showcase .hero-orbit{background:linear-gradient(145deg,#e8d6c6,#c9b29d);box-shadow:none}
+.hero-product{border:1px solid #eee5dc;border-radius:10px;box-shadow:0 9px 20px rgba(50,35,25,.12)}
+.bubble-one{background:#292929;color:#fff;border-radius:4px}
+.bubble-two{color:#7c2931;border-radius:4px}
+.section{margin:25px auto}
+.section-title{margin-bottom:13px}
+.section-title h2{font-size:22px;color:#242424;letter-spacing:-.25px}
+.section-title p{color:#85817c}
+.category-showcase{gap:10px;padding-bottom:12px}
+.category-tile{border:1px solid #e8e5df;border-radius:5px;background:#fff;color:#34312e;box-shadow:none;padding:7px;gap:7px}
+.category-tile:hover,.category-tile:focus-visible{transform:translateY(-2px);border-color:#c9a99c;box-shadow:0 5px 14px rgba(0,0,0,.06)}
+.category-tile.active{border-color:#b42332;box-shadow:inset 0 0 0 1px #b42332}
+.category-tile-image{border-radius:3px;background:#f3f0ec}
+.category-tile-name{font-size:12px;color:#4c4742}
+.category-row{gap:8px}
+.category{border:1px solid #e8e5df;border-radius:4px;background:#fff;color:#514b45;box-shadow:none}
+.category.active,.category:hover{background:#b42332;border-color:#b42332;color:#fff}
+.grid{gap:14px}
+.product{border:1px solid #e9e6e1;border-radius:5px;background:#fff;box-shadow:0 3px 12px rgba(0,0,0,.035);transition:box-shadow .18s,border-color .18s}
+.product:hover{transform:none;border-color:#d5c7bd;box-shadow:0 8px 20px rgba(0,0,0,.08)}
+.product-image{height:205px;background:#f5f3ef}
+.product-image img{object-fit:contain;padding:8px}
+.discount{background:#b42332;color:#fff;border-radius:2px;font-size:10px}
+.free-delivery{background:#292929;border-radius:2px;font-size:10px}
+.product-info{padding:13px}
+.product h3{font-size:14px;font-weight:700;line-height:1.45;color:#302e2b}
+.category-label{color:#8b8580}
+.price{font-size:19px;color:#b42332}
+.old-price{color:#999}
+.stock-badge{font-size:9px}
+.product-actions{gap:7px}
+.secondary,.buy{border-radius:4px;font-weight:750}
+.secondary{border:1px solid #b42332;color:#a51f2d;background:#fff}
+.secondary:hover{background:#fbf1f1}
+.buy{background:#b42332;border-color:#b42332;color:#fff}
+.inline-options{border:1px solid #eee6df;border-radius:5px;background:#fcfbfa}
+.inline-options .variant-label{color:#51443d}
+.inline-options .variant-option{border-color:#ddd4cb;border-radius:4px;color:#403a35}
+.inline-options .variant-option.selected{border-color:#b42332;background:#fff3f3;color:#a51f2d}
+.offer-marquee-wrap{border:1px solid #eadbd2;border-radius:4px;background:#fff;color:#9b2934;box-shadow:none}
+.offer-marquee-item{font-size:13px}
+.footer{background:#262626}
+.benefit{border:1px solid #e8e5df;border-radius:5px;box-shadow:none}
+.benefit .ico{background:#f3eee8;border-radius:5px;color:#8d2933}
+#cartSection .section-title h2{color:#242424}
+#cartSection .cart-section{border:1px solid #e8e5df;border-radius:5px;background:#fff}
+#cartList .empty-state{border:1px dashed #d8d1ca;border-radius:5px;background:#fcfbfa}
+#cartList .cart-row{border:1px solid #ebe7e2;border-radius:5px;background:#fff;margin-bottom:9px;padding:11px}
+#cartList .cart-thumb{border-radius:4px;background:#f3f0ec}
+#cartList .cart-name{font-weight:750;color:#292725}
+#cartList .remove{color:#a51f2d}
+#cartList .qty button{border:1px solid #ded8d1;border-radius:4px;background:#faf9f7;color:#333}
+@media(max-width:900px){.grid{gap:11px}.product-image{height:175px}}
+@media(max-width:640px){
+ .head{min-height:58px;gap:6px}
+ .logo{font-size:19px}
+ .head-actions .pillbtn{border-radius:5px}
+ .hero-vivid{grid-template-columns:minmax(0,1fr) 65px;padding:10px 11px;margin:8px auto 12px;border-radius:4px}
+ .hero-vivid h1{font-size:clamp(14px,4vw,18px);color:#242424;line-height:1.18}
+ .hero-vivid .hero-cta{border-radius:4px}
+ .section{margin:19px auto}
+ .section-title h2{font-size:19px}
+ .category-tile{padding:5px;border-radius:4px}
+ .category-tile-name{font-size:10px}
+ .grid{gap:8px}
+ .product{border-radius:4px}
+ .product-image{height:138px}
+ .product-image img{padding:5px}
+ .product-info{padding:9px}
+ .product h3{font-size:12px;line-height:1.4;margin:5px 0 7px}
+ .price{font-size:16px}
+ .old-price{font-size:10px}
+ .discount,.free-delivery{font-size:8px;padding:4px 5px}
+ .product-actions{gap:5px}
+ .secondary,.buy{font-size:10px;padding:9px 4px;border-radius:4px}
+ #cartList .cart-row{padding:8px;border-radius:4px}
+}
+
 </style>
 </head>
 <body>
