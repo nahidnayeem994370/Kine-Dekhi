@@ -64,6 +64,7 @@ a:hover{text-decoration:underline}
 <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:nowrap;padding:14px 0">
 <div style="min-width:0;flex:1"><h2 style="margin:0;font-size:21px">📊 ব্যবসার ড্যাশবোর্ড <span id="dashboardAlertDot" role="status" aria-label="নতুন বা অপেক্ষমাণ অর্ডার আছে"></span></h2><small id="dashboardUpdated">হিসাব লোড হচ্ছে…</small></div>
 <button type="button" id="dashboardRefresh" class="secondary" style="margin:0 0 0 auto;width:auto;flex:0 0 auto;white-space:nowrap">↻ রিফ্রেশ</button></div>
+<div style="display:flex;align-items:center;gap:6px;justify-content:flex-end;margin:0 0 8px"><label for="dashboardPeriod" style="margin:0;font-size:12px;white-space:nowrap">সময়</label><select id="dashboardPeriod" aria-label="ড্যাশবোর্ডের হিসাবের সময়" style="width:auto;min-width:105px;padding:6px 8px;margin:0;font-size:13px"><option value="day" selected>আজ</option><option value="7days">৭ দিন</option><option value="month">১ মাস</option><option value="year">১ বছর</option><option value="all">সব সময়</option></select></div>
 <div id="dashboardCards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:9px">
 <div class="hint">হিসাব লোড হচ্ছে…</div></div>
 <button type="button" id="showProductProfitPanel" class="secondary" style="width:auto;margin:12px 0 0">＋ পণ্যভিত্তিক লাভ-ক্ষতি খুলুন</button>
@@ -123,13 +124,15 @@ async function load(){
 const MAIN_ADMIN_EMAIL='mstgolenurbegum89@gmail.com';
 let currentAdminSession=null,dashboardTimer=null,orderRealtimeChannel=null,orderRefreshDebounce=null;
 const moneyBD=n=>'৳'+Number(n||0).toLocaleString('bn-BD',{maximumFractionDigits:2});
+function dhakaToday(){return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Dhaka',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date())}
+function dashboardExpenseStart(){const p=$('dashboardPeriod')?.value||'day';if(p==='all')return '1970-01-01';const d=new Date(dhakaToday()+'T00:00:00+06:00');if(p==='7days')d.setDate(d.getDate()-6);else if(p==='month')d.setDate(1);else if(p==='year'){d.setMonth(0,1)}return d.toISOString().slice(0,10)}
 function dashboardCard(label,value){return '<div><small>'+label+'</small><strong>'+value+'</strong></div>'}
 async function loadBusinessDashboard(){
  const cards=$('dashboardCards'),history=$('expenseHistory');
  cards.innerHTML='<div class="hint">হিসাব আপডেট হচ্ছে…</div>';
  const [summaryR,expensesR]=await Promise.all([
-  db.rpc('admin_dashboard_financial_summary'),
-  db.from('business_expenses').select('*').order('expense_date',{ascending:false}).order('created_at',{ascending:false})
+  db.rpc('admin_profit_report',{p_period:$('dashboardPeriod')?.value||'day'}),
+  db.from('business_expenses').select('*').gte('expense_date',dashboardExpenseStart()).order('expense_date',{ascending:false}).order('created_at',{ascending:false})
  ]);
  const err=summaryR.error||expensesR.error;
  if(err){cards.innerHTML='<div class="hint">ড্যাশবোর্ড লোড হয়নি: '+esc(err.message)+'</div>';history.textContent='খরচের তালিকা লোড হয়নি।';return}
@@ -173,6 +176,7 @@ async function loadBusinessDashboard(){
 }
 function startDashboardRefresh(){if(dashboardTimer)clearInterval(dashboardTimer);loadBusinessDashboard();dashboardTimer=setInterval(loadBusinessDashboard,15*60*1000);if(orderRealtimeChannel)db.removeChannel(orderRealtimeChannel);orderRealtimeChannel=db.channel('admin-dashboard-orders-live').on('postgres_changes',{event:'*',schema:'public',table:'orders'},()=>{clearTimeout(orderRefreshDebounce);orderRefreshDebounce=setTimeout(()=>{if(currentAdminSession)loadBusinessDashboard();},500)}).subscribe((state)=>{if(state==='CHANNEL_ERROR'||state==='TIMED_OUT')$('dashboardUpdated').textContent='লাইভ আপডেট সংযোগ বিচ্ছিন্ন · প্রতি ১৫ মিনিটে স্বয়ংক্রিয় আপডেট চালু আছে';});}
 $('dashboardRefresh').onclick=loadBusinessDashboard;
+$('dashboardPeriod').onchange=loadBusinessDashboard;
 $('closeProductProfitPanel').onclick=()=>{$('dashboardProductProfit').hidden=true;$('showProductProfitPanel').style.display='block';$('productProfitSelect').value='';$('productProfitReport').innerHTML='';};
 $('showProductProfitPanel').onclick=()=>{$('dashboardProductProfit').hidden=false;$('showProductProfitPanel').style.display='none';};
 $('closeExpensePanel').onclick=()=>{$('expensePanel').hidden=true;$('showExpensePanel').style.display='block';};
