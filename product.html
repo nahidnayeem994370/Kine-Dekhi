@@ -94,11 +94,28 @@ body{padding-bottom:72px}
  body{padding-bottom:68px}
 }
 @media(min-width:641px){.kd-bottom-nav{max-width:620px;left:50%;right:auto;width:100%;transform:translateX(-50%);border-radius:8px 8px 0 0}}
+
+/* Monochrome icons, white bottom navigation, expandable search */
+.kd-bottom-nav{background:#fff!important;border-top:1px solid #e5e5e5!important;box-shadow:0 -4px 18px rgba(0,0,0,.08)!important}
+.kd-bottom-item,.kd-bottom-item small,.kd-bottom-item.kd-login-item,.kd-bottom-item.kd-login-item small{color:#222!important}
+.kd-bottom-item span{filter:grayscale(1) brightness(.25);font-size:20px}
+.kd-bottom-item small{font-weight:700}
+.kd-bottom-item:hover,.kd-bottom-item:focus{background:#f2f2f2!important;color:#111!important}
+.kd-search-toggle{width:36px;height:36px;flex:0 0 36px;border:0;border-radius:50%;background:transparent;color:#222;font-size:19px;display:grid;place-items:center;cursor:pointer;z-index:5}
+.search.kd-search-collapsed,.site-search.kd-search-collapsed{display:none}
+.search.kd-search-expanded,.site-search.kd-search-expanded{display:flex;position:absolute;right:44px;top:calc(100% + 5px);width:min(76vw,360px);max-width:none;margin:0;z-index:100;background:#fff;padding:6px;border:1px solid #e5e5e5;border-radius:7px;box-shadow:0 5px 20px rgba(0,0,0,.14)}
+.search.kd-search-expanded input,.site-search.kd-search-expanded input{min-width:0;flex:1}
+.head-actions,.site-actions{gap:3px}
+.kd-menu-open span{filter:grayscale(1)}
+@media(max-width:640px){
+ .logo,.site-logo{max-width:42vw}
+ .search.kd-search-expanded,.site-search.kd-search-expanded{right:43px;width:calc(100vw - 105px)}
+}
 </style></head><body><div class="announcement">🎉 Kine Dekhi-তে স্বাগতম — পছন্দের পণ্য অর্ডার করুন ঘরে বসেই</div>
 <header class="site-header"><div class="site-head"><button type="button" class="kd-menu-open" id="kdMenuOpen" aria-label="মেনু খুলুন" aria-expanded="false"><span></span><span></span><span></span></button>
 <a class="site-logo" href="./index.html" aria-label="Kine Dekhi হোম">Kine Dekhi</a>
-<form class="site-search" action="./index.html" method="get"><input name="q" type="search" placeholder="পণ্যের নাম লিখুন..." aria-label="পণ্য খুঁজুন"><button type="submit">খুঁজুন</button></form>
-<nav class="site-actions"><a class="cart-icon-only" href="./index.html#cartSection" aria-label="কার্ট">🛒</a></nav>
+<form class="site-search kd-search-collapsed" action="./index.html" method="get"><input name="q" type="search" placeholder="পণ্যের নাম লিখুন..." aria-label="পণ্য খুঁজুন"><button type="submit" aria-label="সার্চ করুন">🔍</button></form>
+<nav class="site-actions"><button type="button" class="kd-search-toggle" aria-label="সার্চ খুলুন">🔍</button><a class="cart-icon-only" href="./index.html#cartSection" aria-label="কার্ট">🛒</a></nav>
 </div></header><div class="kd-menu-overlay" id="kdMenuOverlay" hidden></div>
 <aside class="kd-drawer" id="kdDrawer" aria-hidden="true" aria-label="প্রধান মেনু">
   <div class="kd-drawer-head"><a href="./index.html" class="kd-drawer-brand">🛍️ Kine Dekhi</a><button type="button" class="kd-menu-close" id="kdMenuClose" aria-label="মেনু বন্ধ করুন">×</button></div>
@@ -134,4 +151,7 @@ const KEY_HISTORY="kinedekhi_product_interest_v1";let history=[];try{const saved
 <a href="./index.html#bestDiscountSection" class="kd-bottom-item"><span>🏷️</span><small>Offers</small></a>
 <a href="./account.html" class="kd-bottom-item kd-login-item"><span>👤</span><small>Login</small></a>
 </nav>
+<script>
+(()=>{const head=document.querySelector('.head,.site-head');if(!head)return;const form=head.querySelector('.search,.site-search');const trigger=head.querySelector('.kd-search-toggle');if(!form||!trigger)return;trigger.addEventListener('click',()=>{const opening=!form.classList.contains('kd-search-expanded');form.classList.toggle('kd-search-expanded',opening);form.classList.toggle('kd-search-collapsed',!opening);trigger.setAttribute('aria-label',opening?'সার্চ বন্ধ করুন':'সার্চ খুলুন');if(opening){const field=form.querySelector('input');if(field)setTimeout(()=>field.focus(),0);}});document.addEventListener('click',e=>{if(!head.contains(e.target)&&form.classList.contains('kd-search-expanded')){form.classList.remove('kd-search-expanded');form.classList.add('kd-search-collapsed');trigger.setAttribute('aria-label','সার্চ খুলুন');}});document.addEventListener('keydown',e=>{if(e.key==='Escape'){form.classList.remove('kd-search-expanded');form.classList.add('kd-search-collapsed');trigger.setAttribute('aria-label','সার্চ খুলুন');}});})();
+</script>
 </body></html>
