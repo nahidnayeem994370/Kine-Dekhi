@@ -115,30 +115,41 @@ const moneyBD=n=>'৳'+Number(n||0).toLocaleString('bn-BD',{maximumFractionDigit
 function dashboardCard(label,value){return '<div><small>'+label+'</small><strong>'+value+'</strong></div>'}
 async function loadBusinessDashboard(){
  const cards=$('dashboardCards'),history=$('expenseHistory');cards.innerHTML='<div class="hint">হিসাব আপডেট হচ্ছে…</div>';
- const [ordersR,itemsR,returnsR,expensesR]=await Promise.all([
-  db.from('orders').select('id,order_status,subtotal,discount_amount,courier_cost,created_at'),
-  db.from('order_items').select('order_id,quantity,unit_cost_snapshot'),
-  db.from('order_returns').select('loss_amount,refund_amount'),
-  db.from('business_expenses').select('*').order('expense_date',{ascending:false}).order('created_at',{ascending:false})
+ const [ordersR,itemsR,returnsR,expensesR,productsR,costsR,settingsR]=await Promise.all([
+  db.from('orders').select('id,order_status,subtotal,discount_amount,delivery_fee,courier_cost,created_at,profit_data_complete'),
+  db.from('order_items').select('order_id,product_id,quantity,unit_cost_snapshot,returned_quantity,return_condition,is_gift'),
+  db.from('order_returns').select('id,order_id,order_item_id,quantity,loss_amount,refund_amount,item_condition'),
+  db.from('business_expenses').select('*').order('expense_date',{ascending:false}).order('created_at',{ascending:false}),
+  db.from('products').select('id,stock'),
+  db.from('product_costs').select('product_id,purchase_cost'),
+  db.from('store_settings').select('delivery_fee').eq('id',1).maybeSingle()
  ]);
- const err=[ordersR,itemsR,returnsR,expensesR].find(x=>x.error);
+ const err=[ordersR,itemsR,returnsR,expensesR,productsR,costsR,settingsR].find(x=>x.error);
  if(err){cards.innerHTML='<div class="hint">ড্যাশবোর্ড লোড হয়নি: '+esc(err.error.message)+'</div>';history.textContent='খরচের তালিকা লোড হয়নি।';return}
- const orders=ordersR.data||[],items=itemsR.data||[],returns=returnsR.data||[],expenses=expensesR.data||[];
+ const orders=ordersR.data||[],items=itemsR.data||[],returns=returnsR.data||[],expenses=expensesR.data||[],products=productsR.data||[],costs=costsR.data||[];
  const delivered=orders.filter(o=>o.order_status==='delivered'),newOrders=orders.filter(o=>o.order_status==='pending');$('dashboardAlertDot').classList.toggle('active',newOrders.length>0);$('dashboardAlertDot').title=newOrders.length?newOrders.length+'টি নতুন/অপেক্ষমাণ অর্ডার আছে':'';
  const statusLabels={pending:'অপেক্ষমাণ',confirmed:'কনফার্ম',processing:'প্রসেসিং',shipped:'কুরিয়ারে পাঠানো',delivered:'ডেলিভারি সম্পন্ন',returned:'রিটার্ন',cancelled:'বাতিল'};
  const statusHtml=Object.entries(statusLabels).map(([k,v])=>'<div style="display:flex;justify-content:space-between;gap:8px;padding:3px 0"><span>'+v+'</span><b>'+orders.filter(o=>o.order_status===k).length+'</b></div>').join('');
  const deliveredIds=new Set(delivered.map(o=>Number(o.id)));
- const purchase=items.filter(i=>deliveredIds.has(Number(i.order_id))).reduce((a,i)=>a+Number(i.unit_cost_snapshot||0)*Number(i.quantity||0),0);
+ const purchase=items.filter(i=>deliveredIds.has(Number(i.order_id))&&!i.is_gift).reduce((a,i)=>a+Number(i.unit_cost_snapshot||0)*Math.max(0,Number(i.quantity||0)-(i.return_condition==='good'?Number(i.returned_quantity||0):0)),0);
  const sales=delivered.reduce((a,o)=>a+Math.max(0,Number(o.subtotal||0)-Number(o.discount_amount||0)),0);
  const delivery=delivered.reduce((a,o)=>a+Number(o.courier_cost||0),0);
  const returnLoss=returns.reduce((a,r)=>a+Number(r.loss_amount||0),0);
+  const refunds=returns.reduce((a,r)=>a+Number(r.refund_amount||0),0);
+  const returnedOrderIds=new Set(returns.map(r=>Number(r.order_id)));
+  const freeDeliveryLoss=[...returnedOrderIds].reduce((a,id)=>{const o=orders.find(x=>Number(x.id)===id);return a+(o&&Number(o.delivery_fee||0)===0?Number(settingsR.data?.delivery_fee||0):0)},0);
+  const stockCostByProduct=new Map(costs.map(c=>[Number(c.product_id),Number(c.purchase_cost||0)]));
+  const currentStockCost=products.reduce((a,p)=>a+Number(p.stock||0)*(stockCostByProduct.get(Number(p.id))||0),0);
+  const missingStockCost=products.filter(p=>Number(p.stock||0)>0&&!stockCostByProduct.has(Number(p.id))).length;
+  const missingCostOrders=new Set(items.filter(i=>deliveredIds.has(Number(i.order_id))&&!i.is_gift&&(i.unit_cost_snapshot===null||i.unit_cost_snapshot===undefined)).map(i=>Number(i.order_id))).size;
+  const returnedQuantity=returns.reduce((a,r)=>a+Number(r.quantity||0),0);
  const ad=expenses.filter(e=>e.expense_type==='advertising').reduce((a,e)=>a+Number(e.amount||0),0);
  const salary=expenses.filter(e=>e.expense_type==='salary').reduce((a,e)=>a+Number(e.amount||0),0);
- const profit=sales-purchase-ad-salary-delivery-returnLoss;
+ const profit=sales-purchase-ad-salary-delivery-refunds-freeDeliveryLoss;
  cards.innerHTML=dashboardCard('মোট অর্ডার',orders.length+'টি')+dashboardCard('নতুন অর্ডার',newOrders.length+'টি')+
  '<div style="background:#f8fbff;border:1px solid #dce8e4;border-radius:12px;padding:12px"><small>অর্ডারের সব স্ট্যাটাস</small>'+statusHtml+'</div>'+
  dashboardCard('মোট ক্রয় (ডেলিভারি পণ্য)',moneyBD(purchase))+dashboardCard('মোট বিক্রয় (ডেলিভারি সম্পন্ন)',moneyBD(sales))+
- dashboardCard('বিজ্ঞাপন খরচ',moneyBD(ad))+dashboardCard('বেতন',moneyBD(salary))+dashboardCard('ডেলিভারি খরচ',moneyBD(delivery))+dashboardCard('রিটার্নজনিত ক্ষতি',moneyBD(returnLoss))+
+ dashboardCard('বিজ্ঞাপন খরচ',moneyBD(ad))+dashboardCard('বেতন',moneyBD(salary))+dashboardCard('ডেলিভারি খরচ',moneyBD(delivery))+dashboardCard('রিটার্নজনিত ক্ষতি (ড্যামেজ)',moneyBD(returnLoss))+dashboardCard('রিটার্ন রিফান্ড',moneyBD(refunds))+dashboardCard('ফ্রি ডেলিভারি রিটার্ন ক্ষতি',moneyBD(freeDeliveryLoss))+dashboardCard('মোট রিটার্ন',returns.length+'টি · '+returnedQuantity+'টি পণ্য')+dashboardCard('বর্তমান স্টকের ক্রয়মূল্য',moneyBD(currentStockCost))+dashboardCard('ক্রয়মূল্য অনুপস্থিত স্টক',missingStockCost+'টি পণ্য')+dashboardCard('ক্রয়মূল্য অনুপস্থিত ডেলিভারি অর্ডার',missingCostOrders+'টি')+
  '<div style="background:#eaf8f1;border:1px solid #b8dfc9;border-radius:12px;padding:12px"><small>মোট লাভ / ক্ষতি</small><strong style="color:'+(profit>=0?'#087443':'#b42318')+'">'+moneyBD(profit)+'</strong></div>';
  if(!expenses.length){history.textContent='এখনো কোনো বিজ্ঞাপন খরচ বা বেতনের রেকর্ড নেই।';}
  else{
