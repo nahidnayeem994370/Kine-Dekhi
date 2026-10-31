@@ -67,15 +67,7 @@ a:hover{text-decoration:underline}
 <div style="display:flex;align-items:center;gap:6px;justify-content:flex-end;margin:0 0 8px"><label for="dashboardPeriod" style="margin:0;font-size:12px;white-space:nowrap">সময়</label><select id="dashboardPeriod" aria-label="ড্যাশবোর্ডের হিসাবের সময়" style="width:auto;min-width:105px;padding:6px 8px;margin:0;font-size:13px"><option value="day" selected>আজ</option><option value="7days">৭ দিন</option><option value="month">১ মাস</option><option value="year">১ বছর</option><option value="all">সব সময়</option></select></div>
 <div id="dashboardCards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:9px">
 <div class="hint">হিসাব লোড হচ্ছে…</div></div>
-<button type="button" id="showProductProfitPanel" class="secondary" style="width:auto;margin:12px 0 0">＋ পণ্যভিত্তিক লাভ-ক্ষতি খুলুন</button>
-<div id="dashboardProductProfit" hidden style="position:relative;margin-top:12px;padding:34px 12px 12px;border:1px solid #dce8e4;border-radius:12px">
-<button type="button" id="closeProductProfitPanel" aria-label="পণ্যভিত্তিক লাভ-ক্ষতি বন্ধ করুন" title="বন্ধ করুন" style="position:absolute;top:8px;right:8px;width:34px;height:32px;padding:0;margin:0;font-size:25px;line-height:1;border-radius:8px;background:#feeceb;color:#b42318">×</button>
-<h3 style="margin:0 42px 8px 0;font-size:17px">📦 পণ্যভিত্তিক লাভ-ক্ষতি</h3>
-<p style="margin:0 0 8px">পণ্য বেছে নিলে সেই পণ্যের বিক্রয়, ক্রয়মূল্য, রিটার্ন ও বর্তমান স্টকের হিসাব দেখাবে।</p>
-<label for="productProfitSelect">পণ্য নির্বাচন করুন</label>
-<select id="productProfitSelect" style="width:100%;max-width:280px;display:block"><option value="">পণ্য লোড হচ্ছে…</option></select>
-<div id="productProfitReport"></div>
-</div>
+<div style="margin-top:14px;padding-top:12px;border-top:1px solid #dce8e4"><h3 style="margin:0 0 8px;font-size:17px">📦 পণ্যভিত্তিক লাভ-ক্ষতি</h3><p style="margin:0 0 8px">নির্বাচিত পণ্যের ডেলিভারি সম্পন্ন বিক্রয়, ক্রয়মূল্য, রিটার্ন ও বর্তমান স্টকের হিসাব।</p><label for="productProfitSelect">পণ্য নির্বাচন করুন</label><select id="productProfitSelect" style="width:100%;max-width:280px;display:block"><option value="">পণ্য লোড হচ্ছে…</option></select><div id="productProfitReport"></div></div>
 <button type="button" id="showExpensePanel" class="secondary" style="width:auto;margin:12px 0 0">＋ বিজ্ঞাপন খরচ ও বেতনের হিসাব খুলুন</button>
 <div id="expensePanel" hidden style="position:relative;margin-top:16px;padding:12px;border:1px solid #dce8e4;border-radius:12px">
 <button type="button" id="closeExpensePanel" aria-label="খরচের হিসাব বন্ধ করুন" title="বন্ধ করুন" style="position:absolute;top:8px;right:8px;width:34px;height:34px;margin:0;padding:0;background:#feeceb;color:#b42318;font-size:23px;line-height:1">×</button>
@@ -179,8 +171,6 @@ function startDashboardRefresh(){if(dashboardTimer)clearInterval(dashboardTimer)
 $('showDashboardOrders').onclick=()=>{const panel=$('ordersSection');panel.hidden=!panel.hidden;$('showDashboardOrders').textContent=panel.hidden?'＋ অর্ডার ব্যবস্থাপনা খুলুন':'− অর্ডার ব্যবস্থাপনা বন্ধ করুন';if(!panel.hidden&&!adminOrdersCache.length)loadOrders();};
 $('dashboardRefresh').onclick=loadBusinessDashboard;
 $('dashboardPeriod').onchange=loadBusinessDashboard;
-$('closeProductProfitPanel').onclick=()=>{$('dashboardProductProfit').hidden=true;$('showProductProfitPanel').style.display='block';$('productProfitSelect').value='';$('productProfitReport').innerHTML='';};
-$('showProductProfitPanel').onclick=()=>{$('dashboardProductProfit').hidden=false;$('showProductProfitPanel').style.display='none';};
 $('closeExpensePanel').onclick=()=>{$('expensePanel').hidden=true;$('showExpensePanel').style.display='block';};
 $('showExpensePanel').onclick=()=>{$('expensePanel').hidden=false;$('showExpensePanel').style.display='none';};
 $('saveExpenseBtn').onclick=async()=>{
@@ -395,8 +385,8 @@ $('productProfitSelect').onchange=async()=>{
  const {data,error}=await db.rpc('admin_product_profit_report',{p_product_id:Number(id)});
  if(error){host.textContent='পণ্যের হিসাব তৈরি হয়নি: '+error.message;return}
  const money=n=>'৳'+Number(n||0).toLocaleString('bn-BD',{maximumFractionDigits:2});
- const cards=[['মোট ক্রয়মূল্য (বর্তমান স্টক)',money(data.current_stock_purchase_cost)],['ডেলিভারি সম্পন্ন পণ্যের বিক্রয়মূল্য',money(data.sales)],['ডেলিভারি সম্পন্ন পণ্যের ক্রয়মূল্য',money(data.product_cost)],['রিটার্নের রিফান্ড',money(data.refunds)],['রিটার্নজনিত ক্ষতি',money(data.return_loss)],['ফ্রি ডেলিভারির ক্ষতি',money(data.free_delivery_loss)],['মোট ক্ষতি (রিটার্ন + ফ্রি ডেলিভারি)',money(data.total_loss)],['মোট অর্ডার',Number(data.total_orders||0)+'টি'],['মোট রিটার্ন রেকর্ড',Number(data.return_count||0)+'টি'],['রিটার্ন পণ্যের পরিমাণ',Number(data.returned_quantity||0)+'টি'],['বর্তমান স্টক',Number(data.current_stock||0)+'টি'],['ডেলিভারি সম্পন্ন অর্ডার',Number(data.delivered_orders||0)+'টি'],['ডেলিভারি সম্পন্ন পণ্যের পরিমাণ',Number(data.delivered_quantity||0)+'টি'],['আনুমানিক লাভ',money(data.profit)]];
- host.innerHTML='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px">'+cards.map(x=>'<div style="border:1px solid #dce8e4;border-radius:10px;padding:12px"><small>'+x[0]+'</small><div style="font-size:17px;font-weight:800;margin-top:5px">'+x[1]+'</div></div>').join('')+'</div>'+(Number(data.cost_missing_orders||0)>0?'<p class="hint">সতর্কতা: '+data.cost_missing_orders+'টি ডেলিভারি অর্ডারে ক্রয়মূল্যের স্ন্যাপশট নেই; লাভ/ক্ষতির হিসাব অসম্পূর্ণ হতে পারে।</p>':'')+'<p class="hint">মোট ক্রয়মূল্য = বর্তমান স্টক × প্রতি পণ্যের ক্রয়মূল্য। ফ্রি ডেলিভারির অর্ডারের পণ্য রিটার্ন হলে, সেই অর্ডারের জন্য ডিফল্ট ডেলিভারি চার্জ একবার ফ্রি ডেলিভারির ক্ষতিতে যোগ হবে। মোট ক্ষতি = রিটার্নজনিত ক্ষতি + ফ্রি ডেলিভারির ক্ষতি। রিটার্নের রিফান্ড আলাদা দেখানো হয়; অন্যান্য ব্যবসায়িক খরচ এতে অন্তর্ভুক্ত নয়।</p>';
+ const cards=[['ডেলিভারি সম্পন্ন বিক্রয়',money(data.sales)],['বিক্রি হওয়া পণ্যের ক্রয়মূল্য',money(data.product_cost)],['রিটার্ন রিফান্ড',money(data.refunds)],['রিটার্নজনিত ক্ষতি',money(data.return_loss)],['রিটার্ন অর্ডারপ্রতি ডেলিভারি ক্ষতি',money(data.free_delivery_loss)],['আনুমানিক পণ্য লাভ / ক্ষতি',money(data.profit)],['বর্তমান স্টক',Number(data.current_stock||0)+'টি'],['বর্তমান স্টকের ক্রয়মূল্য',money(data.current_stock_purchase_cost)],['ডেলিভারি সম্পন্ন পরিমাণ',Number(data.delivered_quantity||0)+'টি'],['রিটার্ন পরিমাণ',Number(data.returned_quantity||0)+'টি']];
+ host.innerHTML='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px">'+cards.map(x=>'<div style="border:1px solid #dce8e4;border-radius:10px;padding:12px"><small>'+x[0]+'</small><div style="font-size:17px;font-weight:800;margin-top:5px">'+x[1]+'</div></div>').join('')+'</div>'+(Number(data.cost_missing_orders||0)>0?'<p class="hint">সতর্কতা: '+data.cost_missing_orders+'টি ডেলিভারি অর্ডারে ক্রয়মূল্যের স্ন্যাপশট নেই; লাভ/ক্ষতির হিসাব অসম্পূর্ণ হতে পারে।</p>':'')+'<p class="hint">ড্যাশবোর্ডের হিসাবের নিয়মে ভালো রিটার্ন স্টকে যোগ হয়, ড্যামেজ পণ্যের ক্ষতি ও রিফান্ড বাদ যায় এবং প্রতিটি রিটার্ন অর্ডারের জন্য ডিফল্ট ডেলিভারি চার্জ একবার ক্ষতিতে ধরা হয়—ক্রেতা ডেলিভারি চার্জ দিয়ে থাকলেও। বিজ্ঞাপন, বেতন ও কুরিয়ার খরচ নির্দিষ্ট পণ্যের সঙ্গে ভাগ করা যায় না; সেগুলো মূল ড্যাশবোর্ডের মোট লাভ-ক্ষতিতে গণনা হয়।</p>';
  addReportCloseButton(host,true);
 };
 async function searchReturnOrders(){
