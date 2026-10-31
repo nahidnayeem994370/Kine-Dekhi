@@ -114,41 +114,51 @@ let currentAdminSession=null,dashboardTimer=null,orderRealtimeChannel=null,order
 const moneyBD=n=>'৳'+Number(n||0).toLocaleString('bn-BD',{maximumFractionDigits:2});
 function dashboardCard(label,value){return '<div><small>'+label+'</small><strong>'+value+'</strong></div>'}
 async function loadBusinessDashboard(){
- const cards=$('dashboardCards'),history=$('expenseHistory');cards.innerHTML='<div class="hint">হিসাব আপডেট হচ্ছে…</div>';
- const [ordersR,itemsR,returnsR,expensesR]=await Promise.all([
-  db.from('orders').select('id,order_status,subtotal,discount_amount,courier_cost,created_at'),
-  db.from('order_items').select('order_id,quantity,unit_cost_snapshot'),
-  db.from('order_returns').select('loss_amount,refund_amount'),
+ const cards=$('dashboardCards'),history=$('expenseHistory');
+ cards.innerHTML='<div class="hint">হিসাব আপডেট হচ্ছে…</div>';
+ const [summaryR,expensesR]=await Promise.all([
+  db.rpc('admin_dashboard_financial_summary'),
   db.from('business_expenses').select('*').order('expense_date',{ascending:false}).order('created_at',{ascending:false})
  ]);
- const err=[ordersR,itemsR,returnsR,expensesR].find(x=>x.error);
- if(err){cards.innerHTML='<div class="hint">ড্যাশবোর্ড লোড হয়নি: '+esc(err.error.message)+'</div>';history.textContent='খরচের তালিকা লোড হয়নি।';return}
- const orders=ordersR.data||[],items=itemsR.data||[],returns=returnsR.data||[],expenses=expensesR.data||[];
- const delivered=orders.filter(o=>o.order_status==='delivered'),newOrders=orders.filter(o=>o.order_status==='pending');$('dashboardAlertDot').classList.toggle('active',newOrders.length>0);$('dashboardAlertDot').title=newOrders.length?newOrders.length+'টি নতুন/অপেক্ষমাণ অর্ডার আছে':'';
+ const err=summaryR.error||expensesR.error;
+ if(err){cards.innerHTML='<div class="hint">ড্যাশবোর্ড লোড হয়নি: '+esc(err.message)+'</div>';history.textContent='খরচের তালিকা লোড হয়নি।';return}
+ const d=summaryR.data||{},expenses=expensesR.data||[];
+ const pending=Number(d.pending_orders||0);
+ $('dashboardAlertDot').classList.toggle('active',pending>0);
+ $('dashboardAlertDot').title=pending?pending+'টি নতুন/অপেক্ষমাণ অর্ডার আছে':'';
+ const moneyBD=n=>'৳'+Number(n||0).toLocaleString('bn-BD',{maximumFractionDigits:2});
  const statusLabels={pending:'অপেক্ষমাণ',confirmed:'কনফার্ম',processing:'প্রসেসিং',shipped:'কুরিয়ারে পাঠানো',delivered:'ডেলিভারি সম্পন্ন',returned:'রিটার্ন',cancelled:'বাতিল'};
- const statusHtml=Object.entries(statusLabels).map(([k,v])=>'<div style="display:flex;justify-content:space-between;gap:8px;padding:3px 0"><span>'+v+'</span><b>'+orders.filter(o=>o.order_status===k).length+'</b></div>').join('');
- const deliveredIds=new Set(delivered.map(o=>Number(o.id)));
- const purchase=items.filter(i=>deliveredIds.has(Number(i.order_id))).reduce((a,i)=>a+Number(i.unit_cost_snapshot||0)*Number(i.quantity||0),0);
- const sales=delivered.reduce((a,o)=>a+Math.max(0,Number(o.subtotal||0)-Number(o.discount_amount||0)),0);
- const delivery=delivered.reduce((a,o)=>a+Number(o.courier_cost||0),0);
- const returnLoss=returns.reduce((a,r)=>a+Number(r.loss_amount||0),0);
- const ad=expenses.filter(e=>e.expense_type==='advertising').reduce((a,e)=>a+Number(e.amount||0),0);
- const salary=expenses.filter(e=>e.expense_type==='salary').reduce((a,e)=>a+Number(e.amount||0),0);
- const profit=sales-purchase-ad-salary-delivery-returnLoss;
- cards.innerHTML=dashboardCard('মোট অর্ডার',orders.length+'টি')+dashboardCard('নতুন অর্ডার',newOrders.length+'টি')+
+ const statusHtml=Object.entries(statusLabels).map(([k,v])=>'<div style="display:flex;justify-content:space-between;gap:8px;padding:3px 0"><span>'+v+'</span><b>'+Number(d.status_counts?.[k]||0)+'</b></div>').join('');
+ cards.innerHTML=dashboardCard('মোট অর্ডার',Number(d.total_orders||0)+'টি')+
+ dashboardCard('নতুন / অপেক্ষমাণ অর্ডার',pending+'টি')+
  '<div style="background:#f8fbff;border:1px solid #dce8e4;border-radius:12px;padding:12px"><small>অর্ডারের সব স্ট্যাটাস</small>'+statusHtml+'</div>'+
- dashboardCard('মোট ক্রয় (ডেলিভারি পণ্য)',moneyBD(purchase))+dashboardCard('মোট বিক্রয় (ডেলিভারি সম্পন্ন)',moneyBD(sales))+
- dashboardCard('বিজ্ঞাপন খরচ',moneyBD(ad))+dashboardCard('বেতন',moneyBD(salary))+dashboardCard('ডেলিভারি খরচ',moneyBD(delivery))+dashboardCard('রিটার্নজনিত ক্ষতি',moneyBD(returnLoss))+
- '<div style="background:#eaf8f1;border:1px solid #b8dfc9;border-radius:12px;padding:12px"><small>মোট লাভ / ক্ষতি</small><strong style="color:'+(profit>=0?'#087443':'#b42318')+'">'+moneyBD(profit)+'</strong></div>';
+ dashboardCard('ডেলিভারি সম্পন্ন অর্ডার',Number(d.delivered_orders||0)+'টি')+
+ dashboardCard('মোট বিক্রয় (ছাড় বাদে)',moneyBD(d.sales))+
+ dashboardCard('বিক্রি হওয়া পণ্যের ক্রয়মূল্য',moneyBD(d.product_cost))+
+ dashboardCard('বিজ্ঞাপন খরচ',moneyBD(d.advertising))+
+ dashboardCard('বেতন',moneyBD(d.salary))+
+ dashboardCard('প্রকৃত কুরিয়ার খরচ',moneyBD(d.courier_cost))+
+ dashboardCard('রিটার্ন রিফান্ড',moneyBD(d.refunds))+
+ dashboardCard('ড্যামেজ রিটার্নের হিসাবি ক্ষতি',moneyBD(d.damage_loss))+
+ dashboardCard('ফ্রি ডেলিভারি রিটার্ন ক্ষতি',moneyBD(d.free_delivery_loss))+
+ dashboardCard('মোট রিটার্ন',Number(d.return_count||0)+'টি · '+Number(d.returned_quantity||0)+'টি পণ্য')+
+ dashboardCard('বর্তমান স্টকের ক্রয়মূল্য',moneyBD(d.current_stock_purchase_cost))+
+ '<div style="background:#eaf8f1;border:1px solid #b8dfc9;border-radius:12px;padding:12px"><small>মোট লাভ / ক্ষতি</small><strong style="color:'+(Number(d.profit||0)>=0?'#087443':'#b42318')+'">'+moneyBD(d.profit)+'</strong></div>';
+ if(Number(d.missing_stock_cost_products||0)||Number(d.missing_cost_orders||0)){
+  cards.innerHTML+='<div style="grid-column:1/-1;background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:10px;color:#9a3412"><b>হিসাব যাচাই প্রয়োজন</b><br>'+
+   (Number(d.missing_stock_cost_products||0)?Number(d.missing_stock_cost_products)+'টি স্টক পণ্যের ক্রয়মূল্য দেওয়া নেই। ':'')+
+   (Number(d.missing_cost_orders||0)?Number(d.missing_cost_orders)+'টি ডেলিভারি অর্ডারের ক্রয়মূল্য অনুপস্থিত।':'')+
+   ' অনুপস্থিত ক্রয়মূল্য শূন্য ধরে লাভ দেখানো হয়েছে; প্রকৃত লাভ এর চেয়ে কম হতে পারে।</div>';
+ }
  if(!expenses.length){history.textContent='এখনো কোনো বিজ্ঞাপন খরচ বা বেতনের রেকর্ড নেই।';}
  else{
   history.innerHTML='<div style="overflow-x:auto"><table><thead><tr><th>তারিখ</th><th>ধরন</th><th>পরিমাণ</th><th>বিবরণ</th>'+(currentAdminSession?.user?.email?.toLowerCase()===MAIN_ADMIN_EMAIL?'<th>কাজ</th>':'')+'</tr></thead><tbody>'+
-  expenses.map(e=>'<tr><td>'+esc(e.expense_date)+'</td><td>'+(e.expense_type==='advertising'?'বিজ্ঞাপন':'বেতন')+'</td><td>'+moneyBD(e.amount)+'</td><td>'+esc(e.description||'—')+'</td>'+
-  (currentAdminSession?.user?.email?.toLowerCase()===MAIN_ADMIN_EMAIL?'<td><button type="button" class="secondary" data-expense-edit="'+e.id+'">সম্পাদনা</button><button type="button" style="background:#b42318" data-expense-delete="'+e.id+'">মুছুন</button></td>':'')+'</tr>').join('')+'</tbody></table></div>';
+   expenses.map(e=>'<tr><td>'+esc(e.expense_date)+'</td><td>'+(e.expense_type==='advertising'?'বিজ্ঞাপন':'বেতন')+'</td><td>'+moneyBD(e.amount)+'</td><td>'+esc(e.description||'—')+'</td>'+
+   (currentAdminSession?.user?.email?.toLowerCase()===MAIN_ADMIN_EMAIL?'<td><button type="button" class="secondary" data-expense-edit="'+e.id+'">সম্পাদনা</button><button type="button" style="background:#b42318" data-expense-delete="'+e.id+'">মুছুন</button></td>':'')+'</tr>').join('')+'</tbody></table></div>';
   history.querySelectorAll('[data-expense-edit]').forEach(b=>b.onclick=()=>{const e=expenses.find(x=>String(x.id)===b.dataset.expenseEdit);$('expenseType').value=e.expense_type;$('expenseAmount').value=e.amount;$('expenseDate').value=e.expense_date;$('expenseDescription').value=e.description||'';$('saveExpenseBtn').dataset.editId=e.id;$('saveExpenseBtn').textContent='পরিবর্তন সেভ করুন';$('expenseStatus').textContent='রেকর্ড সম্পাদনা করুন।';});
   history.querySelectorAll('[data-expense-delete]').forEach(b=>b.onclick=async()=>{if(!confirm('এই খরচের রেকর্ড মুছে ফেলবেন?'))return;const {error}=await db.from('business_expenses').delete().eq('id',b.dataset.expenseDelete);if(error){$('expenseStatus').textContent='মুছতে সমস্যা: '+error.message;return}await loadBusinessDashboard();});
  }
- $('dashboardUpdated').textContent='সর্বশেষ আপডেট: '+new Date().toLocaleString('bn-BD')+' · প্রতি ১৫ মিনিটে স্বয়ংক্রিয় আপডেট';
+ $('dashboardUpdated').textContent='সর্বশেষ আপডেট: '+new Date().toLocaleString('bn-BD')+' · লাইভ অর্ডার আপডেট ও প্রতি ১৫ মিনিটে স্বয়ংক্রিয় আপডেট';
 }
 function startDashboardRefresh(){if(dashboardTimer)clearInterval(dashboardTimer);loadBusinessDashboard();dashboardTimer=setInterval(loadBusinessDashboard,15*60*1000);if(orderRealtimeChannel)db.removeChannel(orderRealtimeChannel);orderRealtimeChannel=db.channel('admin-dashboard-orders-live').on('postgres_changes',{event:'*',schema:'public',table:'orders'},()=>{clearTimeout(orderRefreshDebounce);orderRefreshDebounce=setTimeout(()=>{if(currentAdminSession)loadBusinessDashboard();},500)}).subscribe((state)=>{if(state==='CHANNEL_ERROR'||state==='TIMED_OUT')$('dashboardUpdated').textContent='লাইভ আপডেট সংযোগ বিচ্ছিন্ন · প্রতি ১৫ মিনিটে স্বয়ংক্রিয় আপডেট চালু আছে';});}
 $('dashboardRefresh').onclick=loadBusinessDashboard;
