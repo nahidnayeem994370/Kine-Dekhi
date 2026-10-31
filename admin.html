@@ -138,11 +138,9 @@ async function loadBusinessDashboard(){
  if(err){cards.innerHTML='<div class="hint">ড্যাশবোর্ড লোড হয়নি: '+esc(err.message)+'</div>';history.textContent='খরচের তালিকা লোড হয়নি।';return}
  const d=summaryR.data||{},expenses=expensesR.data||[];
  const pending=Number(d.pending_orders||0);
- $('dashboardAlertDot').classList.toggle('active',pending>0);
- $('dashboardAlertDot').title=pending?pending+'টি নতুন/অপেক্ষমাণ অর্ডার আছে':'';
  const moneyBD=n=>'৳'+Number(n||0).toLocaleString('bn-BD',{maximumFractionDigits:2});
  const statusLabels={pending:'অপেক্ষমাণ',confirmed:'কনফার্ম',processing:'প্রসেসিং',shipped:'কুরিয়ারে পাঠানো',delivered:'ডেলিভারি সম্পন্ন',returned:'রিটার্ন',cancelled:'বাতিল'};
- const statusHtml=Object.entries(statusLabels).map(([k,v])=>'<button type="button" data-dashboard-order-status="'+k+'" style="display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;margin:4px 0;padding:7px 9px;background:#fff;border:1px solid #dce8e4;color:#17312d;text-align:left;font-size:13px"><span>'+v+' <small style="display:inline;color:#0f766e">অর্ডার দেখুন →</small></span><b>'+Number(d.status_counts?.[k]||0)+'</b></button>').join('');
+ const statusHtml=Object.entries(statusLabels).map(([k,v])=>'<button type="button" data-dashboard-order-status="'+k+'" style="display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;margin:4px 0;padding:7px 9px;background:#fff;border:1px solid #dce8e4;color:#17312d;text-align:left;font-size:13px"><span>'+v+' </span><b>'+Number(d.status_counts?.[k]||0)+'</b></button>').join('');
  cards.onclick=e=>{const b=e.target.closest('[data-dashboard-order-status]');if(!b)return;const section=$('ordersSection');if(section)section.open=true;loadOrders(b.dataset.dashboardOrderStatus).then(()=>{section?.scrollIntoView({behavior:'smooth',block:'start'});});};
  cards.innerHTML=dashboardCard('মোট অর্ডার',Number(d.total_orders||0)+'টি')+
  '<div style="background:#fff;border:1px solid #dce8e4;border-radius:12px;padding:12px;min-width:0"><small style="display:flex;align-items:center">নতুন / অপেক্ষমাণ অর্ডার <span id="dashboardAlertDot" role="status" aria-label="নতুন বা অপেক্ষমাণ অর্ডার আছে"></span></small><strong>'+pending.toLocaleString('bn-BD')+'টি</strong></div>'+
@@ -159,6 +157,8 @@ async function loadBusinessDashboard(){
  dashboardCard('মোট রিটার্ন',Number(d.return_count||0)+'টি · '+Number(d.returned_quantity||0)+'টি পণ্য')+
  dashboardCard('বর্তমান স্টকের ক্রয়মূল্য',moneyBD(d.current_stock_purchase_cost))+
  '<div style="background:#eaf8f1;border:1px solid #b8dfc9;border-radius:12px;padding:12px"><small>মোট লাভ / ক্ষতি</small><strong style="color:'+(Number(d.profit||0)>=0?'#087443':'#b42318')+'">'+moneyBD(d.profit)+'</strong></div>';
+ const alertDot=$('dashboardAlertDot');
+ if(alertDot){alertDot.classList.toggle('active',pending>0);alertDot.title=pending?pending+'টি নতুন/অপেক্ষমাণ অর্ডার আছে':'';}
  if(Number(d.missing_stock_cost_products||0)||Number(d.missing_cost_orders||0)){
   cards.innerHTML+='<div style="grid-column:1/-1;background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:10px;color:#9a3412"><b>হিসাব যাচাই প্রয়োজন</b><br>'+
    (Number(d.missing_stock_cost_products||0)?Number(d.missing_stock_cost_products)+'টি স্টক পণ্যের ক্রয়মূল্য দেওয়া নেই। ':'')+
