@@ -59,11 +59,46 @@ body.kd-menu-active{overflow:hidden}
 @media(max-width:760px){.kd-footer-grid{grid-template-columns:1fr 1fr;gap:24px 18px}.kd-footer{padding-top:28px}}
 @media(max-width:480px){.kd-footer-grid{grid-template-columns:1fr 1fr;gap:20px 12px}.kd-footer-brand{font-size:20px}.kd-footer h3{font-size:13px}.kd-footer-links a,.kd-footer-contact{font-size:12px}.kd-footer-bottom{font-size:11px}.kd-menu-open{width:38px;height:38px;flex-basis:38px}}
 
+
+/* Tyzo-style compact centered header and fixed bottom shortcuts */
+.head,.site-head{position:relative;display:flex;align-items:center;gap:10px;flex-wrap:nowrap;min-height:66px}
+.logo,.site-logo{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);margin:0;z-index:1;font-size:23px;font-weight:900;letter-spacing:-.7px;color:#b42332;white-space:nowrap}
+.logo span,.site-logo span{color:#262626}
+.kd-menu-open{z-index:2;border:1px solid #e5e3df;border-radius:5px;background:#fff}
+.kd-menu-open span{background:#292929}
+.search,.site-search{order:0;flex:1 1 auto;min-width:90px;max-width:420px;margin-left:auto;margin-right:0;z-index:2}
+.search input,.site-search input{border:1px solid #e5e3df;background:#f8f8f7;border-radius:5px 0 0 5px}
+.search button,.site-search button{background:#b42332;border-radius:0 5px 5px 0}
+.head-actions,.site-actions{z-index:2;margin-left:0;display:flex;align-items:center;flex:0 0 auto}
+.pillbtn.cart-icon-only,.site-actions .cart-icon-only{width:43px;height:40px;display:grid;place-items:center;position:relative;padding:0;border:1px solid #e5e3df;border-radius:5px;background:#fff;color:#262626;font-size:20px;line-height:1}
+.cart-icon-only strong{position:absolute;top:-7px;right:-7px;margin:0;padding:2px 5px;font-size:10px;line-height:1.2;background:#b42332;color:#fff;border-radius:20px}
+.site-actions .cart-icon-only{font-size:20px}
+.kd-bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:80;display:grid;grid-template-columns:repeat(4,1fr);padding:7px 5px calc(7px + env(safe-area-inset-bottom));background:#242424;border-top:2px solid #b42332;box-shadow:0 -5px 20px rgba(0,0,0,.12)}
+.kd-bottom-item{min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#fff;text-decoration:none;font-size:18px;line-height:1.2;padding:3px 2px}
+.kd-bottom-item small{font-size:11px;font-weight:750;color:#f5f5f5;letter-spacing:.1px}
+.kd-bottom-item:hover,.kd-bottom-item:focus{color:#fff;background:#3b3030;border-radius:5px}
+.kd-bottom-item.kd-login-item,.kd-bottom-item.kd-login-item small{color:#fff}
+body{padding-bottom:72px}
+.kd-footer{padding-bottom:16px}
+@media(max-width:640px){
+ .head,.site-head{min-height:58px;gap:6px;flex-wrap:nowrap;padding:7px 0}
+ .logo,.site-logo{font-size:17px;max-width:38vw;overflow:hidden;text-overflow:ellipsis}
+ .kd-menu-open{width:36px;height:36px;flex:0 0 36px;padding:7px}
+ .search,.site-search{flex:1 1 auto;min-width:65px;max-width:none;margin-left:auto}
+ .search input,.site-search input{padding:8px 7px;font-size:11px}
+ .search button,.site-search button{padding:8px 7px;font-size:10px}
+ .head-actions,.site-actions{margin-left:0}
+ .pillbtn.cart-icon-only,.site-actions .cart-icon-only{width:37px;height:36px;font-size:18px}
+ .kd-bottom-item{font-size:17px}
+ .kd-bottom-item small{font-size:10px}
+ body{padding-bottom:68px}
+}
+@media(min-width:641px){.kd-bottom-nav{max-width:620px;left:50%;right:auto;width:100%;transform:translateX(-50%);border-radius:8px 8px 0 0}}
 </style></head><body><div class="announcement">🎉 Kine Dekhi-তে স্বাগতম — পছন্দের পণ্য অর্ডার করুন ঘরে বসেই</div>
 <header class="site-header"><div class="site-head"><button type="button" class="kd-menu-open" id="kdMenuOpen" aria-label="মেনু খুলুন" aria-expanded="false"><span></span><span></span><span></span></button>
-<a class="site-logo" href="./index.html" aria-label="Kine Dekhi হোম">🛍️ Kine <span>Dekhi</span></a>
+<a class="site-logo" href="./index.html" aria-label="Kine Dekhi হোম">Kine Dekhi</a>
 <form class="site-search" action="./index.html" method="get"><input name="q" type="search" placeholder="পণ্যের নাম লিখুন..." aria-label="পণ্য খুঁজুন"><button type="submit">খুঁজুন</button></form>
-<nav class="site-actions"><a href="./track-order.html">📦 ট্র্যাক</a><a href="./index.html#cartSection">🛒 কার্ট</a><a href="./account.html">👤 লগইন</a></nav>
+<nav class="site-actions"><a class="cart-icon-only" href="./index.html#cartSection" aria-label="কার্ট">🛒</a></nav>
 </div></header><div class="kd-menu-overlay" id="kdMenuOverlay" hidden></div>
 <aside class="kd-drawer" id="kdDrawer" aria-hidden="true" aria-label="প্রধান মেনু">
   <div class="kd-drawer-head"><a href="./index.html" class="kd-drawer-brand">🛍️ Kine Dekhi</a><button type="button" class="kd-menu-close" id="kdMenuClose" aria-label="মেনু বন্ধ করুন">×</button></div>
@@ -93,4 +128,10 @@ const KEY_HISTORY="kinedekhi_product_interest_v1";let history=[];try{const saved
  </div></footer><script>
 (()=>{const open=document.getElementById("kdMenuOpen"),close=document.getElementById("kdMenuClose"),drawer=document.getElementById("kdDrawer"),overlay=document.getElementById("kdMenuOverlay");if(!open||!drawer||!overlay)return;const hide=()=>{drawer.classList.remove("is-open");overlay.hidden=true;drawer.setAttribute("aria-hidden","true");document.body.classList.remove("kd-menu-active");open.setAttribute("aria-expanded","false")};open.addEventListener("click",()=>{drawer.classList.add("is-open");overlay.hidden=false;drawer.setAttribute("aria-hidden","false");document.body.classList.add("kd-menu-active");open.setAttribute("aria-expanded","true")});close?.addEventListener("click",hide);overlay.addEventListener("click",hide);drawer.querySelectorAll("a").forEach(a=>a.addEventListener("click",hide));document.addEventListener("keydown",e=>{if(e.key==="Escape")hide()})})();
 </script>
-<script src="./language.js?v=20261029-6"></script></body></html>
+<script src="./language.js?v=20261029-6"></script><nav class="kd-bottom-nav" aria-label="দ্রুত নেভিগেশন">
+<a href="./index.html" class="kd-bottom-item"><span>🏠</span><small>Home</small></a>
+<a href="tel:01706147994" class="kd-bottom-item"><span>📞</span><small>Call</small></a>
+<a href="./index.html#bestDiscountSection" class="kd-bottom-item"><span>🏷️</span><small>Offers</small></a>
+<a href="./account.html" class="kd-bottom-item kd-login-item"><span>👤</span><small>Login</small></a>
+</nav>
+</body></html>
