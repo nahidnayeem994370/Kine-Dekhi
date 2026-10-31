@@ -142,7 +142,7 @@ async function loadBusinessDashboard(){
  dashboardCard('নতুন / অপেক্ষমাণ অর্ডার',pending+'টি')+
  '<div style="background:#f8fbff;border:1px solid #dce8e4;border-radius:12px;padding:12px"><small>অর্ডারের সব স্ট্যাটাস</small>'+statusHtml+'</div>'+
  dashboardCard('ডেলিভারি সম্পন্ন অর্ডার',Number(d.delivered_orders||0)+'টি')+
- dashboardCard('মোট বিক্রয় (ছাড় বাদে)',moneyBD(d.sales))+
+ dashboardCard('মোট বিক্রয় + ক্রেতার ডেলিভারি (ছাড় বাদে)',moneyBD(d.sales))+
  dashboardCard('বিক্রি হওয়া পণ্যের ক্রয়মূল্য',moneyBD(d.product_cost))+
  dashboardCard('বিজ্ঞাপন খরচ',moneyBD(d.advertising))+
  dashboardCard('বেতন',moneyBD(d.salary))+
