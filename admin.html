@@ -61,13 +61,15 @@ a:hover{text-decoration:underline}
 </style></head><body><main class="wrap"><section class="card"><h1>🛍️ Kine dekhi Admin</h1><p>ডেলিভারি চার্জ সেটিংস</p>
 <div id="login"><p>অ্যাডমিন ইমেইল ও পাসওয়ার্ড দিয়ে লগইন করুন।</p><label for="email">অ্যাডমিন ইমেইল</label><input id="email" type="email" autocomplete="username" required><label for="password">পাসওয়ার্ড</label><input id="password" type="password" autocomplete="current-password" required><button id="loginBtn">লগইন</button></div>
 <div id="panel"><p>প্রয়োজনীয় সেটিংস খুলে পরিবর্তন করুন।</p><section class="admin-section" id="businessDashboard" style="grid-column:1/-1;border:2px solid #b8ded6;background:#fbfffe">
-<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:14px 0">
-<div><h2 style="margin:0;font-size:21px">📊 ব্যবসার ড্যাশবোর্ড <span id="dashboardAlertDot" role="status" aria-label="নতুন বা অপেক্ষমাণ অর্ডার আছে"></span></h2><small id="dashboardUpdated">হিসাব লোড হচ্ছে…</small></div>
-<button type="button" id="dashboardRefresh" class="secondary" style="margin:0">↻ রিফ্রেশ</button></div>
+<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:nowrap;padding:14px 0">
+<div style="min-width:0;flex:1"><h2 style="margin:0;font-size:21px">📊 ব্যবসার ড্যাশবোর্ড <span id="dashboardAlertDot" role="status" aria-label="নতুন বা অপেক্ষমাণ অর্ডার আছে"></span></h2><small id="dashboardUpdated">হিসাব লোড হচ্ছে…</small></div>
+<button type="button" id="dashboardRefresh" class="secondary" style="margin:0 0 0 auto;width:auto;flex:0 0 auto;white-space:nowrap">↻ রিফ্রেশ</button></div>
 <div id="dashboardCards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:9px">
 <div class="hint">হিসাব লোড হচ্ছে…</div></div>
-<div style="margin-top:16px;padding:12px;border:1px solid #dce8e4;border-radius:12px">
-<h3 style="margin:0 0 8px">📑 বিজ্ঞাপন খরচ ও বেতনের হিসাব</h3>
+<button type="button" id="showExpensePanel" class="secondary" style="display:none;width:auto;margin:12px 0 0">＋ বিজ্ঞাপন খরচ ও বেতনের হিসাব খুলুন</button>
+<div id="expensePanel" style="position:relative;margin-top:16px;padding:12px;border:1px solid #dce8e4;border-radius:12px">
+<button type="button" id="closeExpensePanel" aria-label="খরচের হিসাব বন্ধ করুন" title="বন্ধ করুন" style="position:absolute;top:8px;right:8px;width:34px;height:34px;margin:0;padding:0;background:#feeceb;color:#b42318;font-size:23px;line-height:1">×</button>
+<h3 style="margin:0 42px 8px 0">📑 বিজ্ঞাপন খরচ ও বেতনের হিসাব</h3>
 <div id="expenseEntry" hidden>
 <label for="expenseType">খরচের ধরন</label><select id="expenseType"><option value="advertising">বিজ্ঞাপন খরচ</option><option value="salary">বেতন</option></select>
 <label for="expenseAmount">পরিমাণ (৳)</label><input id="expenseAmount" type="number" min="0.01" step="0.01" placeholder="খরচের পরিমাণ">
@@ -162,6 +164,8 @@ async function loadBusinessDashboard(){
 }
 function startDashboardRefresh(){if(dashboardTimer)clearInterval(dashboardTimer);loadBusinessDashboard();dashboardTimer=setInterval(loadBusinessDashboard,15*60*1000);if(orderRealtimeChannel)db.removeChannel(orderRealtimeChannel);orderRealtimeChannel=db.channel('admin-dashboard-orders-live').on('postgres_changes',{event:'*',schema:'public',table:'orders'},()=>{clearTimeout(orderRefreshDebounce);orderRefreshDebounce=setTimeout(()=>{if(currentAdminSession)loadBusinessDashboard();},500)}).subscribe((state)=>{if(state==='CHANNEL_ERROR'||state==='TIMED_OUT')$('dashboardUpdated').textContent='লাইভ আপডেট সংযোগ বিচ্ছিন্ন · প্রতি ১৫ মিনিটে স্বয়ংক্রিয় আপডেট চালু আছে';});}
 $('dashboardRefresh').onclick=loadBusinessDashboard;
+$('closeExpensePanel').onclick=()=>{$('expensePanel').hidden=true;$('showExpensePanel').style.display='block';};
+$('showExpensePanel').onclick=()=>{$('expensePanel').hidden=false;$('showExpensePanel').style.display='none';};
 $('saveExpenseBtn').onclick=async()=>{
  if(currentAdminSession?.user?.email?.toLowerCase()!==MAIN_ADMIN_EMAIL){$('expenseStatus').textContent='শুধু মেইন অ্যাডমিন এই কাজ করতে পারবেন।';return}
  const btn=$('saveExpenseBtn'),amount=Number($('expenseAmount').value),date=$('expenseDate').value;
