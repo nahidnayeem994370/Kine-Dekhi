@@ -57,12 +57,12 @@ a:hover{text-decoration:underline}
 @media(max-width:420px){.wrap{padding:8px}.card{padding:12px;border-radius:16px}h1{font-size:23px}.admin-section{padding-left:11px;padding-right:11px}.admin-section>summary{font-size:14px}.admin-section button,#login button{width:100%}.offer-card .offer-actions button{width:auto}.product-summary{gap:9px;padding:9px}.product-summary img{width:50px;height:50px;flex-basis:50px}.admin-section input,.admin-section select,.admin-section textarea{font-size:16px}#status{font-size:13px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
 
-#dashboardCards>div{background:#fff;border:1px solid #dce8e4;border-radius:12px;padding:12px;min-width:0}#dashboardCards small{display:block;color:#60746f;font-size:12px;line-height:1.4}#dashboardCards strong{display:block;font-size:20px;margin-top:5px;overflow-wrap:anywhere}#expenseHistory table{width:100%;border-collapse:collapse;font-size:13px}#expenseHistory th,#expenseHistory td{padding:8px 5px;border-bottom:1px solid #e5ecef;text-align:left;vertical-align:top}#expenseHistory button{min-height:32px;padding:5px 8px;margin:2px;font-size:12px}
+#dashboardAlertDot{display:none;width:9px;height:9px;flex:0 0 9px;border-radius:50%;background:#dc2626;box-shadow:0 0 0 3px #fee2e2;vertical-align:middle;margin-left:7px}#dashboardAlertDot.active{display:inline-block}#dashboardCards>div{background:#fff;border:1px solid #dce8e4;border-radius:12px;padding:12px;min-width:0}#dashboardCards small{display:block;color:#60746f;font-size:12px;line-height:1.4}#dashboardCards strong{display:block;font-size:20px;margin-top:5px;overflow-wrap:anywhere}#expenseHistory table{width:100%;border-collapse:collapse;font-size:13px}#expenseHistory th,#expenseHistory td{padding:8px 5px;border-bottom:1px solid #e5ecef;text-align:left;vertical-align:top}#expenseHistory button{min-height:32px;padding:5px 8px;margin:2px;font-size:12px}
 </style></head><body><main class="wrap"><section class="card"><h1>🛍️ Kine dekhi Admin</h1><p>ডেলিভারি চার্জ সেটিংস</p>
 <div id="login"><p>অ্যাডমিন ইমেইল ও পাসওয়ার্ড দিয়ে লগইন করুন।</p><label for="email">অ্যাডমিন ইমেইল</label><input id="email" type="email" autocomplete="username" required><label for="password">পাসওয়ার্ড</label><input id="password" type="password" autocomplete="current-password" required><button id="loginBtn">লগইন</button></div>
 <div id="panel"><p>প্রয়োজনীয় সেটিংস খুলে পরিবর্তন করুন।</p><section class="admin-section" id="businessDashboard" style="grid-column:1/-1;border:2px solid #b8ded6;background:#fbfffe">
 <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:14px 0">
-<div><h2 style="margin:0;font-size:21px">📊 ব্যবসার ড্যাশবোর্ড</h2><small id="dashboardUpdated">হিসাব লোড হচ্ছে…</small></div>
+<div><h2 style="margin:0;font-size:21px">📊 ব্যবসার ড্যাশবোর্ড <span id="dashboardAlertDot" role="status" aria-label="নতুন বা অপেক্ষমাণ অর্ডার আছে"></span></h2><small id="dashboardUpdated">হিসাব লোড হচ্ছে…</small></div>
 <button type="button" id="dashboardRefresh" class="secondary" style="margin:0">↻ রিফ্রেশ</button></div>
 <div id="dashboardCards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:9px">
 <div class="hint">হিসাব লোড হচ্ছে…</div></div>
@@ -104,13 +104,13 @@ const db=createClient(URL,KEY);
 window.__kineAdminDb=db;window.__kineAdminKey=KEY;
 const $=id=>document.getElementById(id);
 function status(t){$('status').textContent=t}
-function show(session){currentAdminSession=session;$('login').style.display=session?'none':'block';$('panel').style.display=session?'block':'none';$('expenseEntry').hidden=!session||String(session.user?.email||'').toLowerCase()!==MAIN_ADMIN_EMAIL;if(session)startDashboardRefresh();else if(dashboardTimer)clearInterval(dashboardTimer)}
+function show(session){currentAdminSession=session;$('login').style.display=session?'none':'block';$('panel').style.display=session?'block':'none';$('expenseEntry').hidden=!session||String(session.user?.email||'').toLowerCase()!==MAIN_ADMIN_EMAIL;if(session)startDashboardRefresh();else{if(dashboardTimer)clearInterval(dashboardTimer);if(orderRealtimeChannel){db.removeChannel(orderRealtimeChannel);orderRealtimeChannel=null;}}}
 async function load(){
  loadProductProfitOptions();status('Supabase লগইন সেশন যাচাই হচ্ছে…');let sessionTimer;const sessionResult=await Promise.race([db.auth.getSession(),new Promise((_,reject)=>{sessionTimer=setTimeout(()=>reject(new Error('১২ সেকেন্ডেও Supabase উত্তর দেয়নি। Supabase Dashboard-এর Project Status/Network এবং ব্রাউজারের নেটওয়ার্ক পরীক্ষা করুন।')),12000)})]).finally(()=>clearTimeout(sessionTimer));const {data:{session},error:sessionError}=sessionResult;if(sessionError)throw sessionError;show(session);if(session){const {data,error}=await db.from('store_settings').select('delivery_fee').eq('id',1).maybeSingle();if(error)status('সেটিংস লোড হয়নি। আগে SQL migration চালান।');else $('fee').value=data?.delivery_fee??'';await loadDivisionFees();await loadCategories();await loadOffers();}}
 
 
 const MAIN_ADMIN_EMAIL='mstgolenurbegum89@gmail.com';
-let currentAdminSession=null,dashboardTimer=null;
+let currentAdminSession=null,dashboardTimer=null,orderRealtimeChannel=null,orderRefreshDebounce=null;
 const moneyBD=n=>'৳'+Number(n||0).toLocaleString('bn-BD',{maximumFractionDigits:2});
 function dashboardCard(label,value){return '<div><small>'+label+'</small><strong>'+value+'</strong></div>'}
 async function loadBusinessDashboard(){
@@ -124,7 +124,7 @@ async function loadBusinessDashboard(){
  const err=[ordersR,itemsR,returnsR,expensesR].find(x=>x.error);
  if(err){cards.innerHTML='<div class="hint">ড্যাশবোর্ড লোড হয়নি: '+esc(err.error.message)+'</div>';history.textContent='খরচের তালিকা লোড হয়নি।';return}
  const orders=ordersR.data||[],items=itemsR.data||[],returns=returnsR.data||[],expenses=expensesR.data||[];
- const delivered=orders.filter(o=>o.order_status==='delivered'),newOrders=orders.filter(o=>o.order_status==='pending');
+ const delivered=orders.filter(o=>o.order_status==='delivered'),newOrders=orders.filter(o=>o.order_status==='pending');$('dashboardAlertDot').classList.toggle('active',newOrders.length>0);$('dashboardAlertDot').title=newOrders.length?newOrders.length+'টি নতুন/অপেক্ষমাণ অর্ডার আছে':'';
  const statusLabels={pending:'অপেক্ষমাণ',confirmed:'কনফার্ম',processing:'প্রসেসিং',shipped:'কুরিয়ারে পাঠানো',delivered:'ডেলিভারি সম্পন্ন',returned:'রিটার্ন',cancelled:'বাতিল'};
  const statusHtml=Object.entries(statusLabels).map(([k,v])=>'<div style="display:flex;justify-content:space-between;gap:8px;padding:3px 0"><span>'+v+'</span><b>'+orders.filter(o=>o.order_status===k).length+'</b></div>').join('');
  const deliveredIds=new Set(delivered.map(o=>Number(o.id)));
@@ -150,7 +150,7 @@ async function loadBusinessDashboard(){
  }
  $('dashboardUpdated').textContent='সর্বশেষ আপডেট: '+new Date().toLocaleString('bn-BD')+' · প্রতি ১৫ মিনিটে স্বয়ংক্রিয় আপডেট';
 }
-function startDashboardRefresh(){if(dashboardTimer)clearInterval(dashboardTimer);loadBusinessDashboard();dashboardTimer=setInterval(loadBusinessDashboard,15*60*1000)}
+function startDashboardRefresh(){if(dashboardTimer)clearInterval(dashboardTimer);loadBusinessDashboard();dashboardTimer=setInterval(loadBusinessDashboard,15*60*1000);if(orderRealtimeChannel)db.removeChannel(orderRealtimeChannel);orderRealtimeChannel=db.channel('admin-dashboard-orders-live').on('postgres_changes',{event:'*',schema:'public',table:'orders'},()=>{clearTimeout(orderRefreshDebounce);orderRefreshDebounce=setTimeout(()=>{if(currentAdminSession)loadBusinessDashboard();},500)}).subscribe((state)=>{if(state==='CHANNEL_ERROR'||state==='TIMED_OUT')$('dashboardUpdated').textContent='লাইভ আপডেট সংযোগ বিচ্ছিন্ন · প্রতি ১৫ মিনিটে স্বয়ংক্রিয় আপডেট চালু আছে';});}
 $('dashboardRefresh').onclick=loadBusinessDashboard;
 $('saveExpenseBtn').onclick=async()=>{
  if(currentAdminSession?.user?.email?.toLowerCase()!==MAIN_ADMIN_EMAIL){$('expenseStatus').textContent='শুধু মেইন অ্যাডমিন এই কাজ করতে পারবেন।';return}
