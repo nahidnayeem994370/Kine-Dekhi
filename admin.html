@@ -66,15 +66,17 @@ a:hover{text-decoration:underline}
 <button type="button" id="dashboardRefresh" class="secondary" style="margin:0 0 0 auto;width:auto;flex:0 0 auto;white-space:nowrap">↻ রিফ্রেশ</button></div>
 <div id="dashboardCards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:9px">
 <div class="hint">হিসাব লোড হচ্ছে…</div></div>
-<div id="dashboardProductProfit" style="margin-top:16px;padding:12px;border:1px solid #dce8e4;border-radius:12px">
-<h3 style="margin:0 0 8px;font-size:17px">📦 পণ্যভিত্তিক লাভ-ক্ষতি</h3>
+<button type="button" id="showProductProfitPanel" class="secondary" style="width:auto;margin:12px 0 0">＋ পণ্যভিত্তিক লাভ-ক্ষতি খুলুন</button>
+<div id="dashboardProductProfit" hidden style="position:relative;margin-top:12px;padding:34px 12px 12px;border:1px solid #dce8e4;border-radius:12px">
+<button type="button" id="closeProductProfitPanel" aria-label="পণ্যভিত্তিক লাভ-ক্ষতি বন্ধ করুন" title="বন্ধ করুন" style="position:absolute;top:8px;right:8px;width:34px;height:32px;padding:0;margin:0;font-size:25px;line-height:1;border-radius:8px;background:#feeceb;color:#b42318">×</button>
+<h3 style="margin:0 42px 8px 0;font-size:17px">📦 পণ্যভিত্তিক লাভ-ক্ষতি</h3>
 <p style="margin:0 0 8px">পণ্য বেছে নিলে সেই পণ্যের বিক্রয়, ক্রয়মূল্য, রিটার্ন ও বর্তমান স্টকের হিসাব দেখাবে।</p>
 <label for="productProfitSelect">পণ্য নির্বাচন করুন</label>
 <select id="productProfitSelect" style="width:100%;max-width:280px;display:block"><option value="">পণ্য লোড হচ্ছে…</option></select>
 <div id="productProfitReport"></div>
 </div>
-<button type="button" id="showExpensePanel" class="secondary" style="display:none;width:auto;margin:12px 0 0">＋ বিজ্ঞাপন খরচ ও বেতনের হিসাব খুলুন</button>
-<div id="expensePanel" style="position:relative;margin-top:16px;padding:12px;border:1px solid #dce8e4;border-radius:12px">
+<button type="button" id="showExpensePanel" class="secondary" style="width:auto;margin:12px 0 0">＋ বিজ্ঞাপন খরচ ও বেতনের হিসাব খুলুন</button>
+<div id="expensePanel" hidden style="position:relative;margin-top:16px;padding:12px;border:1px solid #dce8e4;border-radius:12px">
 <button type="button" id="closeExpensePanel" aria-label="খরচের হিসাব বন্ধ করুন" title="বন্ধ করুন" style="position:absolute;top:8px;right:8px;width:34px;height:34px;margin:0;padding:0;background:#feeceb;color:#b42318;font-size:23px;line-height:1">×</button>
 <h3 style="margin:0 42px 8px 0">📑 বিজ্ঞাপন খরচ ও বেতনের হিসাব</h3>
 <div id="expenseEntry" hidden>
@@ -142,7 +144,7 @@ async function loadBusinessDashboard(){
  dashboardCard('নতুন / অপেক্ষমাণ অর্ডার',pending+'টি')+
  '<div style="background:#f8fbff;border:1px solid #dce8e4;border-radius:12px;padding:12px"><small>অর্ডারের সব স্ট্যাটাস</small>'+statusHtml+'</div>'+
  dashboardCard('ডেলিভারি সম্পন্ন অর্ডার',Number(d.delivered_orders||0)+'টি')+
- dashboardCard('মোট বিক্রয় + ক্রেতার ডেলিভারি (ছাড় বাদে)',moneyBD(d.sales))+
+ dashboardCard('মোট বিক্রয় (ছাড় বাদে)',moneyBD(d.sales))+
  dashboardCard('বিক্রি হওয়া পণ্যের ক্রয়মূল্য',moneyBD(d.product_cost))+
  dashboardCard('বিজ্ঞাপন খরচ',moneyBD(d.advertising))+
  dashboardCard('বেতন',moneyBD(d.salary))+
@@ -171,6 +173,8 @@ async function loadBusinessDashboard(){
 }
 function startDashboardRefresh(){if(dashboardTimer)clearInterval(dashboardTimer);loadBusinessDashboard();dashboardTimer=setInterval(loadBusinessDashboard,15*60*1000);if(orderRealtimeChannel)db.removeChannel(orderRealtimeChannel);orderRealtimeChannel=db.channel('admin-dashboard-orders-live').on('postgres_changes',{event:'*',schema:'public',table:'orders'},()=>{clearTimeout(orderRefreshDebounce);orderRefreshDebounce=setTimeout(()=>{if(currentAdminSession)loadBusinessDashboard();},500)}).subscribe((state)=>{if(state==='CHANNEL_ERROR'||state==='TIMED_OUT')$('dashboardUpdated').textContent='লাইভ আপডেট সংযোগ বিচ্ছিন্ন · প্রতি ১৫ মিনিটে স্বয়ংক্রিয় আপডেট চালু আছে';});}
 $('dashboardRefresh').onclick=loadBusinessDashboard;
+$('closeProductProfitPanel').onclick=()=>{$('dashboardProductProfit').hidden=true;$('showProductProfitPanel').style.display='block';$('productProfitSelect').value='';$('productProfitReport').innerHTML='';};
+$('showProductProfitPanel').onclick=()=>{$('dashboardProductProfit').hidden=false;$('showProductProfitPanel').style.display='none';};
 $('closeExpensePanel').onclick=()=>{$('expensePanel').hidden=true;$('showExpensePanel').style.display='block';};
 $('showExpensePanel').onclick=()=>{$('expensePanel').hidden=false;$('showExpensePanel').style.display='none';};
 $('saveExpenseBtn').onclick=async()=>{
@@ -368,7 +372,7 @@ function addReportCloseButton(host,resetProduct=false){
  close.onclick=()=>{host.innerHTML='';host.style.paddingTop='0';if(resetProduct){$('productProfitSelect').value='';}};
  host.prepend(close);
 }
-$('loadProfitReportBtn').onclick=async()=>{const host=$('profitReport');host.textContent='রিপোর্ট হিসাব হচ্ছে…';const {data,error}=await db.rpc('admin_profit_report',{p_period:$('reportPeriod').value});if(error){host.textContent='রিপোর্ট তৈরি হয়নি: '+error.message;return}const money=n=>'৳'+Number(n||0).toLocaleString('bn-BD',{maximumFractionDigits:2});host.innerHTML='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px">'+[['ডেলিভারি অর্ডার',data.delivered_orders],['মোট বিক্রয় (ছাড়ের পর + ক্রেতার ডেলিভারি)',money(data.sales)],['পণ্যের ক্রয়মূল্য',money(data.product_cost)],['বিজ্ঞাপন খরচ',money(data.advertising)],['বেতন',money(data.salary)],['কুরিয়ার খরচ',money(data.courier_cost)],['রিটার্ন রিফান্ড',money(data.refunds)],['ফ্রি ডেলিভারি রিটার্ন ক্ষতি',money(data.free_delivery_loss)],['বর্তমান স্টকের ক্রয়মূল্য',money(data.current_stock_purchase_cost)],['ড্যামেজ রিটার্ন (তথ্য)',money(data.damage_loss)],['আনুমানিক লাভ / ক্ষতি',money(data.profit)],['ক্রয়মূল্য অনুপস্থিত অর্ডার',Number(data.missing_cost_orders||0)+'টি']].map(x=>'<div style="border:1px solid #dce8e4;border-radius:10px;padding:12px"><small>'+x[0]+'</small><div style="font-size:18px;font-weight:800;margin-top:5px">'+x[1]+'</div></div>').join('')+'</div><p class="hint">ড্যাশবোর্ড ও এই রিপোর্ট একই হিসাবের সূত্র ব্যবহার করে। লাভ = (পণ্যের বিক্রয় − ছাড় + ক্রেতার ডেলিভারি) − পণ্যের ক্রয়মূল্য − বিজ্ঞাপন − বেতন − কুরিয়ার − রিফান্ড − ফ্রি-ডেলিভারি রিটার্ন ক্ষতি। ড্যামেজ রিটার্ন আলাদা তথ্য হিসেবে দেখানো হয়; একই পণ্যের ক্রয়মূল্য আবার বাদ না দিতে এটি লাভ থেকে দ্বিতীয়বার বাদ হয় না। রিপোর্টের সময়কাল নির্বাচন করলে সেই সময়ের অর্ডার ও খরচ দেখাবে।</p>';addReportCloseButton(host);};
+$('loadProfitReportBtn').onclick=async()=>{const host=$('profitReport');host.textContent='রিপোর্ট হিসাব হচ্ছে…';const {data,error}=await db.rpc('admin_profit_report',{p_period:$('reportPeriod').value});if(error){host.textContent='রিপোর্ট তৈরি হয়নি: '+error.message;return}const money=n=>'৳'+Number(n||0).toLocaleString('bn-BD',{maximumFractionDigits:2});host.innerHTML='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px">'+[['ডেলিভারি অর্ডার',data.delivered_orders],['মোট বিক্রয় (ছাড়ের পর)',money(data.sales)],['পণ্যের ক্রয়মূল্য',money(data.product_cost)],['বিজ্ঞাপন খরচ',money(data.advertising)],['বেতন',money(data.salary)],['কুরিয়ার খরচ',money(data.courier_cost)],['রিটার্ন রিফান্ড',money(data.refunds)],['ফ্রি ডেলিভারি রিটার্ন ক্ষতি',money(data.free_delivery_loss)],['বর্তমান স্টকের ক্রয়মূল্য',money(data.current_stock_purchase_cost)],['ড্যামেজ রিটার্ন (তথ্য)',money(data.damage_loss)],['আনুমানিক লাভ / ক্ষতি',money(data.profit)],['ক্রয়মূল্য অনুপস্থিত অর্ডার',Number(data.missing_cost_orders||0)+'টি']].map(x=>'<div style="border:1px solid #dce8e4;border-radius:10px;padding:12px"><small>'+x[0]+'</small><div style="font-size:18px;font-weight:800;margin-top:5px">'+x[1]+'</div></div>').join('')+'</div><p class="hint">ড্যাশবোর্ড ও এই রিপোর্ট একই হিসাবের সূত্র ব্যবহার করে। লাভ = (পণ্যের বিক্রয় − ছাড়) − পণ্যের ক্রয়মূল্য − বিজ্ঞাপন − বেতন − কুরিয়ার − রিফান্ড − ফ্রি-ডেলিভারি রিটার্ন ক্ষতি। ড্যামেজ রিটার্ন আলাদা তথ্য হিসেবে দেখানো হয়; একই পণ্যের ক্রয়মূল্য আবার বাদ না দিতে এটি লাভ থেকে দ্বিতীয়বার বাদ হয় না। রিপোর্টের সময়কাল নির্বাচন করলে সেই সময়ের অর্ডার ও খরচ দেখাবে।</p>';addReportCloseButton(host);};
 async function loadProductProfitOptions(){
  const select=$('productProfitSelect');select.innerHTML='<option value="">পণ্য নির্বাচন করুন</option>';
  const {data,error}=await db.from('products').select('id,name').order('name');
