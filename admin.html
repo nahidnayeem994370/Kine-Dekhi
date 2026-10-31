@@ -62,7 +62,7 @@ a:hover{text-decoration:underline}
 <div id="login"><p>অ্যাডমিন ইমেইল ও পাসওয়ার্ড দিয়ে লগইন করুন।</p><label for="email">অ্যাডমিন ইমেইল</label><input id="email" type="email" autocomplete="username" required><label for="password">পাসওয়ার্ড</label><input id="password" type="password" autocomplete="current-password" required><button id="loginBtn">লগইন</button></div>
 <div id="panel"><p>প্রয়োজনীয় সেটিংস খুলে পরিবর্তন করুন।</p><section class="admin-section" id="businessDashboard" style="grid-column:1/-1;border:2px solid #b8ded6;background:#fbfffe">
 <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:nowrap;padding:14px 0">
-<div style="min-width:0;flex:1"><h2 style="margin:0;font-size:21px">📊 ব্যবসার ড্যাশবোর্ড <span id="dashboardAlertDot" role="status" aria-label="নতুন বা অপেক্ষমাণ অর্ডার আছে"></span></h2><small id="dashboardUpdated">হিসাব লোড হচ্ছে…</small></div>
+<div style="min-width:0;flex:1"><h2 style="margin:0;font-size:21px">📊 ব্যবসার ড্যাশবোর্ড</h2><small id="dashboardUpdated">হিসাব লোড হচ্ছে…</small></div>
 <button type="button" id="dashboardRefresh" class="secondary" style="margin:0 0 0 auto;width:auto;flex:0 0 auto;white-space:nowrap">↻ রিফ্রেশ</button></div>
 <div style="display:flex;align-items:center;gap:6px;justify-content:flex-end;margin:0 0 8px"><label for="dashboardPeriod" style="margin:0;font-size:12px;white-space:nowrap">সময়</label><select id="dashboardPeriod" aria-label="ড্যাশবোর্ডের হিসাবের সময়" style="width:auto;min-width:105px;padding:6px 8px;margin:0;font-size:13px"><option value="day" selected>আজ</option><option value="7days">৭ দিন</option><option value="month">১ মাস</option><option value="year">১ বছর</option><option value="all">সব সময়</option></select></div>
 <div id="dashboardCards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:9px">
@@ -145,7 +145,7 @@ async function loadBusinessDashboard(){
  const statusHtml=Object.entries(statusLabels).map(([k,v])=>'<button type="button" data-dashboard-order-status="'+k+'" style="display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;margin:4px 0;padding:7px 9px;background:#fff;border:1px solid #dce8e4;color:#17312d;text-align:left;font-size:13px"><span>'+v+' <small style="display:inline;color:#0f766e">অর্ডার দেখুন →</small></span><b>'+Number(d.status_counts?.[k]||0)+'</b></button>').join('');
  cards.onclick=e=>{const b=e.target.closest('[data-dashboard-order-status]');if(!b)return;const section=$('ordersSection');if(section)section.open=true;loadOrders(b.dataset.dashboardOrderStatus).then(()=>{section?.scrollIntoView({behavior:'smooth',block:'start'});});};
  cards.innerHTML=dashboardCard('মোট অর্ডার',Number(d.total_orders||0)+'টি')+
- dashboardCard('নতুন / অপেক্ষমাণ অর্ডার',pending+'টি')+
+ '<div style="background:#fff;border:1px solid #dce8e4;border-radius:12px;padding:12px;min-width:0"><small style="display:flex;align-items:center">নতুন / অপেক্ষমাণ অর্ডার <span id="dashboardAlertDot" role="status" aria-label="নতুন বা অপেক্ষমাণ অর্ডার আছে"></span></small><strong>'+pending.toLocaleString('bn-BD')+'টি</strong></div>'+
  '<div style="background:#f8fbff;border:1px solid #dce8e4;border-radius:12px;padding:12px"><small>অর্ডারের সব স্ট্যাটাস</small>'+statusHtml+'</div>'+
  dashboardCard('ডেলিভারি সম্পন্ন অর্ডার',Number(d.delivered_orders||0)+'টি')+
  dashboardCard('মোট বিক্রয় (ছাড় বাদে)',moneyBD(d.sales))+
