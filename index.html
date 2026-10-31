@@ -459,15 +459,52 @@ body{background:#f7f7f5;color:#242424;font-family:system-ui,-apple-system,"Noto 
  #cartList .cart-row{padding:8px;border-radius:4px}
 }
 
+
+/* Kine Dekhi left navigation + grouped footer */
+.kd-menu-open{width:42px;height:42px;flex:0 0 42px;display:grid;place-content:center;gap:5px;border:1px solid #e7e2dc;border-radius:6px;background:#fff;cursor:pointer;padding:9px}
+.kd-menu-open span{display:block;width:21px;height:2px;border-radius:2px;background:#262626}
+.head{gap:12px}.kd-menu-open{margin-right:1px}
+.kd-menu-overlay{position:fixed;inset:0;z-index:90;background:rgba(18,16,20,.48);backdrop-filter:blur(2px)}
+.kd-drawer{position:fixed;z-index:91;inset:0 auto 0 0;width:min(330px,86vw);background:#fff;box-shadow:12px 0 35px #0002;padding:18px 16px;transform:translateX(-105%);transition:transform .24s ease;overflow-y:auto;display:flex;flex-direction:column;gap:5px}
+.kd-drawer.is-open{transform:translateX(0)}
+.kd-drawer-head{display:flex;align-items:center;justify-content:space-between;padding:5px 2px 17px;margin-bottom:7px;border-bottom:1px solid #eee8e2}
+.kd-drawer-brand{font-size:20px;font-weight:900;color:#b42332}
+.kd-menu-close{width:36px;height:36px;border:0;border-radius:5px;background:#f4f1ee;font-size:26px;line-height:1;color:#333}
+.kd-drawer>a{display:block;padding:12px 11px;border-radius:5px;color:#38332f;font-weight:700;font-size:14px}
+.kd-drawer>a:hover{background:#f8f1ed;color:#a51f2d}
+.kd-drawer-divider{height:1px;background:#eee8e2;margin:8px 0}
+body.kd-menu-active{overflow:hidden}
+.kd-footer{margin-top:42px;background:#222;color:#fff;padding:38px 0 0}
+.kd-footer-grid{display:grid;grid-template-columns:1.35fr 1fr 1fr 1.1fr;gap:30px;padding-bottom:28px}
+.kd-footer-brand{font-size:24px;font-weight:950;color:#fff;letter-spacing:-.5px}
+.kd-footer p{margin:10px 0 0;color:#c9c5c1;font-size:13px;line-height:1.8}
+.kd-footer h3{font-size:15px;margin:3px 0 13px;color:#fff}
+.kd-footer-links{display:grid;gap:10px}
+.kd-footer-links a{font-size:13px;color:#d7d2ce;text-decoration:none}
+.kd-footer-links a:hover{color:#fff;text-decoration:underline}
+.kd-footer-contact{font-size:13px;line-height:2;color:#d7d2ce}
+.kd-footer-bottom{border-top:1px solid #ffffff22;padding:15px 0;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:#bdb8b4;font-size:12px}
+.kd-footer-bottom a{color:#d7d2ce;text-decoration:none}
+.kd-footer-bottom .kd-legal{display:flex;gap:14px;flex-wrap:wrap}
+@media(max-width:760px){.kd-footer-grid{grid-template-columns:1fr 1fr;gap:24px 18px}.kd-footer{padding-top:28px}}
+@media(max-width:480px){.kd-footer-grid{grid-template-columns:1fr 1fr;gap:20px 12px}.kd-footer-brand{font-size:20px}.kd-footer h3{font-size:13px}.kd-footer-links a,.kd-footer-contact{font-size:12px}.kd-footer-bottom{font-size:11px}.kd-menu-open{width:38px;height:38px;flex-basis:38px}}
+
 </style>
 </head>
 <body>
 
-<header class="header"><div class="wrap head">
+<header class="header"><div class="wrap head"><button type="button" class="kd-menu-open" id="kdMenuOpen" aria-label="মেনু খুলুন" aria-expanded="false"><span></span><span></span><span></span></button>
 <a class="logo" href="#" aria-label="Kine Dekhi হোম">🛍️ Kine <span>Dekhi</span></a>
 <form class="search" id="searchForm" autocomplete="off"><input id="searchInput" type="search" placeholder="পণ্যের নাম লিখুন..." aria-label="পণ্য খুঁজুন" aria-autocomplete="list" aria-controls="searchSuggestions"><button type="submit">খুঁজুন</button><div class="search-suggestions" id="searchSuggestions" role="listbox" hidden></div></form>
 <div class="head-actions"><a class="pillbtn" href="track-order.html">📦 অর্ডার ট্র্যাক</a><button class="pillbtn" type="button" id="cartJump">🛒 কার্ট <strong id="cartCount">0</strong></button><a class="pillbtn account-link" href="account.html" aria-label="ক্রেতা লগইন বা অ্যাকাউন্ট">👤 লগইন</a></div>
 </div></header>
+<div class="kd-menu-overlay" id="kdMenuOverlay" hidden></div>
+<aside class="kd-drawer" id="kdDrawer" aria-hidden="true" aria-label="প্রধান মেনু">
+  <div class="kd-drawer-head"><a href="./index.html" class="kd-drawer-brand">🛍️ Kine Dekhi</a><button type="button" class="kd-menu-close" id="kdMenuClose" aria-label="মেনু বন্ধ করুন">×</button></div>
+  <a href="./index.html">🏠 হোম</a><a href="./index.html#categoryShowcaseSection">🗂️ ক্যাটাগরি</a><a href="./index.html#products">🛍️ সকল পণ্য</a><a href="./index.html#bestSellingSection">🔥 Best Selling</a><a href="./index.html#bestDiscountSection">🏷️ অফার ও ছাড়</a>
+  <div class="kd-drawer-divider"></div>
+  <a href="./track-order.html">📦 অর্ডার ট্র্যাক</a><a href="./account.html">👤 আমার অ্যাকাউন্ট</a><a href="./about.html">ℹ️ আমাদের সম্পর্কে</a><a href="./contact.html">☎️ যোগাযোগ</a><a href="./privacy.html">🔒 গোপনীয়তা নীতি</a>
+</aside>
 <main class="wrap">
 <section class="hero hero-vivid"><div class="hero-copy"><span class="eyebrow">✨ আপনার প্রিয় অনলাইন শপিং স্পট</span><h1>🎉 Kine Dekhi-তে স্বাগতম — পছন্দের পণ্য অর্ডার করুন ঘরে বসেই</h1><p>ফ্যাশন থেকে দৈনন্দিন প্রয়োজন—পছন্দের সবকিছু এখন এক জায়গায়। সহজ অর্ডার, দারুণ কালেকশন আর আনন্দের কেনাকাটা।</p><div class="hero-perks"><span>🚚 দ্রুত ডেলিভারি</span><span>💜 দারুণ কালেকশন</span><span>⭐ সেরা অফার</span></div><a class="primary hero-cta" href="#products">🛍️ এখনই পণ্য দেখুন <b>→</b></a></div><div class="hero-art hero-showcase" aria-label="শপিং পণ্যের ইলাস্ট্রেশন"><div class="hero-orbit"></div><div class="hero-bubble bubble-one">সেরা<br>অফার! ✨</div><div class="hero-bubble bubble-two">💖 নতুন কালেকশন</div><div class="hero-product product-bag">🛍️</div><div class="hero-product product-phone">📱</div><div class="hero-product product-box">🎁</div><div class="hero-product product-fashion">👟</div><div class="hero-spark spark-one">✦</div><div class="hero-spark spark-two">✧</div></div></section>
 
@@ -491,7 +528,15 @@ body{background:#f7f7f5;color:#242424;font-family:system-ui,-apple-system,"Noto 
 <button class="submit" id="submitOrder" type="submit">অর্ডার নিশ্চিত করুন</button><div id="orderCompleteMessage" class="status success" role="status" aria-live="polite" style="display:none"></div><small style="color:var(--muted);line-height:1.6">bKash/Nagad-এর স্বয়ংক্রিয় পেমেন্ট এখনো সংযুক্ত নয়। আপাতত COD বেছে নেওয়াই ভালো।</small>
 </form></div></div></div></section>
 </main>
-<section class="benefits" aria-label="আমাদের সুবিধা"><div class="benefit"><span class="ico">🚚</span><div><b>সুবিধাজনক ডেলিভারি</b><small>আপনার ঠিকানায় পণ্য পৌঁছে দেওয়ার ব্যবস্থা</small></div></div><div class="benefit"><span class="ico">💵</span><div><b>ক্যাশ অন ডেলিভারি</b><small>পণ্য পাওয়ার সময় টাকা দেওয়ার সুযোগ</small></div></div><div class="benefit"><span class="ico">🔒</span><div><b>নিরাপদ অর্ডার</b><small>সার্ভার থেকে পণ্য ও স্টক যাচাই</small></div></div></section><footer class="footer"><div class="wrap foot"><div><a class="logo" style="color:#fff" href="#">🛍️ Kine Dekhi</a><p>সহজ ও সুবিধাজনক অনলাইন কেনাকাটা।</p></div><div><b>গ্রাহক সহায়তা</b><p><a href="track-order.html">অর্ডার ট্র্যাক করুন</a><br><a href="admin.html">অ্যাডমিন প্যানেল</a></p></div><div><div class="legal-links" style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:12px 0;font-size:13px"><a href="./about.html">আমাদের সম্পর্কে</a><a href="./contact.html">যোগাযোগ</a><a href="./privacy.html">গোপনীয়তা নীতি</a><a href="./copyright.html">কপিরাইট</a></div><small>© <span id="year"></span> Kine Dekhi. সর্বস্বত্ব সংরক্ষিত।</small></div></div></footer>
+<section class="benefits" aria-label="আমাদের সুবিধা"><div class="benefit"><span class="ico">🚚</span><div><b>সুবিধাজনক ডেলিভারি</b><small>আপনার ঠিকানায় পণ্য পৌঁছে দেওয়ার ব্যবস্থা</small></div></div><div class="benefit"><span class="ico">💵</span><div><b>ক্যাশ অন ডেলিভারি</b><small>পণ্য পাওয়ার সময় টাকা দেওয়ার সুযোগ</small></div></div><div class="benefit"><span class="ico">🔒</span><div><b>নিরাপদ অর্ডার</b><small>সার্ভার থেকে পণ্য ও স্টক যাচাই</small></div></div></section><footer class="kd-footer"><div class="wrap">
+ <div class="kd-footer-grid">
+  <section><a class="kd-footer-brand" href="./index.html">🛍️ Kine Dekhi</a><p>বিশ্বস্ততার সাথে সহজ ও সুবিধাজনক অনলাইন কেনাকাটা। পছন্দের পণ্য অর্ডার করুন ঘরে বসেই।</p></section>
+  <section><h3>দ্রুত লিংক</h3><nav class="kd-footer-links"><a href="./index.html">হোম</a><a href="./index.html#categoryShowcaseSection">ক্যাটাগরি</a><a href="./index.html#products">সকল পণ্য</a><a href="./about.html">আমাদের সম্পর্কে</a></nav></section>
+  <section><h3>কাস্টমার সার্ভিস</h3><nav class="kd-footer-links"><a href="./track-order.html">অর্ডার ট্র্যাক</a><a href="./contact.html">যোগাযোগ করুন</a><a href="./privacy.html">গোপনীয়তা নীতি</a><a href="./copyright.html">কপিরাইট নীতি</a></nav></section>
+  <section><h3>যোগাযোগ</h3><div class="kd-footer-contact">পরিচালক: মোঃ নাহিদ হাসান নাঈম<br>মোবাইল: <a href="tel:01706147994" style="color:#fff">01706147994</a><br>ওয়েবসাইট: <a href="https://www.kinedekhi.com" style="color:#fff">kinedekhi.com</a></div></section>
+ </div>
+ <div class="kd-footer-bottom"><span>© <span id="year"></span> Kine Dekhi. সর্বস্বত্ব সংরক্ষিত।</span><nav class="kd-legal"><a href="./privacy.html">Privacy</a><a href="./copyright.html">Copyright</a><a href="./contact.html">Contact</a></nav></div>
+ </div></footer>
 <script>
 "use strict";
 const SUPABASE_URL="https://jyrzdtitmdsxzxtxhecu.supabase.co";
@@ -554,6 +599,9 @@ $("cartList").addEventListener("change",e=>{const sel=e.target.closest("[data-va
 $("cartJump").addEventListener("click",()=>{document.body.classList.add("checkout-visible");$("cartSection").scrollIntoView({behavior:"smooth",block:"start"});});$("divisionSelect").addEventListener("change",renderCart);$("acceptOfferGift").addEventListener("change",()=>{if($("acceptOfferGift").checked)$("declineOfferGift").checked=false;else $("declineOfferGift").checked=true});$("declineOfferGift").addEventListener("change",()=>{if($("declineOfferGift").checked)$("acceptOfferGift").checked=false;else $("acceptOfferGift").checked=true});
 $("checkoutForm").addEventListener("submit",async e=>{e.preventDefault();const form=e.currentTarget;if(submitting)return;if(!cart.length){status("আগে কার্টে পণ্য যোগ করুন।","error");return}if(!productsLoaded){status("পণ্য ডেটাবেস থেকে লোড হয়নি; নিরাপদভাবে অর্ডার পাঠানো যাচ্ছে না। পেজ রিফ্রেশ করে আবার চেষ্টা করুন।","error");return}const missingVariant=cart.find(i=>{const p=products.find(x=>String(x.id)===String(i.id));return p&&((Array.isArray(p.size_options)&&p.size_options.length&&!i.size)||(Array.isArray(p.color_options)&&p.color_options.length&&!i.color))});if(missingVariant){status("অর্ডার দেওয়ার আগে প্রতিটি পণ্যের সাইজ ও কালার নির্বাচন করুন।","error");const row=$("cartList").querySelectorAll(".cart-row")[cart.indexOf(missingVariant)];row?.scrollIntoView({behavior:"smooth",block:"center"});return}const fd=new FormData(e.currentTarget);const division=$("divisionSelect").value;const district=$("districtSelect").value;const upazila=$("upazilaSelect").value;const addressDetails=$("addressDetails").value.trim();const fullAddress=[division+" বিভাগ",district+" জেলা",upazila+" উপজেলা",addressDetails].filter(Boolean).join(", ");const payload={customer_name:String(fd.get("customer_name")||"").trim(),customer_email:String(fd.get("customer_email")||"").trim().toLowerCase(),phone:String(fd.get("phone")||"").trim(),address:fullAddress,division_name:division,district_name:district,upazila_name:upazila,payment_method:String(fd.get("payment_method")||"cod"),items:cart.map((i,index)=>({product_id:i.id,quantity:i.qty,size:i.size||null,color:i.color||null,...(index===0?{accept_offer_gift:$("acceptOfferGift").checked}: {})}))};const submit=$("submitOrder");submitting=true;submit.disabled=true;submit.textContent="অর্ডার পাঠানো হচ্ছে…";status("সার্ভারে অর্ডার যাচাই করা হচ্ছে…","info");try{const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),20000);let response;try{response=await fetch(CREATE_ORDER_URL,{method:"POST",headers:{"Content-Type":"application/json","apikey":SUPABASE_PUBLISHABLE_KEY},body:JSON.stringify(payload),signal:controller.signal})}finally{clearTimeout(timer)}const result=await response.json().catch(()=>({}));if(!response.ok)throw new Error(result.error||"অর্ডার জমা হয়নি (HTTP "+response.status+")");const number=result.order_number||result.order_id||result.id||"";cart=[];renderCart();form.reset();submit.textContent="অর্ডার সম্পূর্ণ হয়েছে";submit.classList.add("order-complete");submit.disabled=true;const completeMessage=$("orderCompleteMessage");completeMessage.textContent="অর্ডার সম্পূর্ণ হয়েছে!"+(number?" অর্ডার নম্বর: "+number:"")+"। COD অর্ডার নিশ্চিত করতে আমাদের প্রতিনিধির মাধ্যমে যোগাযোগ করা হবে।";completeMessage.style.display="block";status(completeMessage.textContent,"success")}catch(err){status(err.name==="AbortError"?"সার্ভার থেকে উত্তর আসতে ২০ সেকেন্ডের বেশি সময় লেগেছে। Supabase Edge Function Logs পরীক্ষা করুন।":"অর্ডার জমা হয়নি: "+err.message,"error")}finally{submitting=false;if(!submit.classList.contains("order-complete")){submit.disabled=false;submit.textContent="অর্ডার নিশ্চিত করুন"}}});
 $("year").textContent=new Date().getFullYear();renderCart();loadGeoData();loadFees();loadProducts();loadOfferMarquee();
+</script>
+<script>
+(()=>{const open=document.getElementById("kdMenuOpen"),close=document.getElementById("kdMenuClose"),drawer=document.getElementById("kdDrawer"),overlay=document.getElementById("kdMenuOverlay");if(!open||!drawer||!overlay)return;const hide=()=>{drawer.classList.remove("is-open");overlay.hidden=true;drawer.setAttribute("aria-hidden","true");document.body.classList.remove("kd-menu-active");open.setAttribute("aria-expanded","false")};open.addEventListener("click",()=>{drawer.classList.add("is-open");overlay.hidden=false;drawer.setAttribute("aria-hidden","false");document.body.classList.add("kd-menu-active");open.setAttribute("aria-expanded","true")});close?.addEventListener("click",hide);overlay.addEventListener("click",hide);drawer.querySelectorAll("a").forEach(a=>a.addEventListener("click",hide));document.addEventListener("keydown",e=>{if(e.key==="Escape")hide()})})();
 </script>
 <script src="./language.js?v=20261029-6"></script>
 <script type="module" src="./chat-widget.js?v=20261029-4"></script>
